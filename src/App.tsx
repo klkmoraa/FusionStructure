@@ -1,6 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { LoaderCircle } from 'lucide-react';
-import { BrandMark } from './features/topbar/BrandMark';
 import { WelcomeScreen, type HomeView } from './features/welcome/WelcomeScreen';
 import { ProjectProvider } from './store/ProjectContext';
 import { useProject } from './store/ProjectContext';
@@ -13,6 +12,7 @@ import { safeProjectFilename } from './utils/export';
 import { decodeProjectFragment } from './utils/shareLink';
 import './styles.css';
 import './design-system/material.css';
+import './minimal.css';
 
 const loadWorkspaceShell = () => import('./features/workspace/WorkspaceShell');
 const WorkspaceShell = lazy(loadWorkspaceShell);
@@ -126,7 +126,7 @@ const AppShell = () => {
     // Space 3D no se envuelve en ClassroomSessionProvider: su modelo no es el
     // proyecto 2D y el Modo Aula no lo evalúa.
     return <>
-      <Suspense fallback={<div className="workspace-loading" role="status" aria-label={t('space3d.loading')}><BrandMark size={42} /><LoaderCircle className="spin" size={22} /></div>}>
+      <Suspense fallback={<div className="workspace-loading" role="status" aria-label={t('space3d.loading')}><strong>FusionStructure</strong><LoaderCircle className="spin" size={22} /></div>}>
         <Space3DWorkspace
           language={project.settings.language}
           sourceProject={space3dOrigin === 'workspace' ? project : undefined}
@@ -138,7 +138,7 @@ const AppShell = () => {
   }
 
   return <ClassroomSessionProvider projectId={project.id} analysisAvailable={analysis?.success === true}>
-    <Suspense fallback={<div className="workspace-loading" role="status" aria-label={t('workspace.loading')}><BrandMark size={42} /><LoaderCircle className="spin" size={22} /></div>}>
+    <Suspense fallback={<div className="workspace-loading" role="status" aria-label={t('workspace.loading')}><strong>FusionStructure</strong><LoaderCircle className="spin" size={22} /></div>}>
       <WorkspaceShell projectId={project.id} onOpenHome={() => navigate('welcome')} onOpenSpace3D={() => requestSpace3D('workspace')} />
     </Suspense>{space3DEntry}{launchedImport}
   </ClassroomSessionProvider>;
