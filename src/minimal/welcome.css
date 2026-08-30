@@ -1,0 +1,254 @@
+/* Welcome --------------------------------------------------------------- */
+
+.sc-home {
+  grid-template-columns: 196px minmax(0, 1fr);
+}
+
+.sc-home-sidebar {
+  gap: 22px;
+  padding: 22px 14px 16px;
+}
+
+.sc-home-wordmark {
+  min-height: 32px;
+  padding-inline: 9px;
+}
+
+.sc-home-wordmark strong {
+  font-size: 16px;
+  font-weight: 720;
+  letter-spacing: -.03em;
+}
+
+.sc-home-nav {
+  gap: 2px;
+}
+
+.sc-home-nav button,
+.sc-home-settings {
+  min-height: 40px;
+  border-radius: 6px !important;
+  font-size: 12px;
+  font-weight: 560;
+}
+
+.sc-home-nav button.is-active {
+  border-color: var(--border-soft) !important;
+  background: #f1f5f9 !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+
+.sc-home-topline {
+  min-height: 58px;
+}
+
+.sc-home-content {
+  padding: clamp(24px, 3vw, 44px);
+  gap: 34px;
+}
+
+.sc-home-hero {
+  min-height: 390px;
+  overflow: visible;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.sc-home-primary-actions {
+  padding: clamp(26px, 3.5vw, 52px) clamp(0px, 2vw, 28px) clamp(26px, 3.5vw, 52px) 0;
+}
+
+.sc-home-primary-actions > p,
+.sc-home-view > header > p,
+.sc-home-focused > header > p {
+  color: var(--muted) !important;
+  letter-spacing: .08em;
+}
+
+.sc-home-primary-actions h2 {
+  font-size: clamp(38px, 4.2vw, 62px);
+  font-weight: 620;
+  line-height: 1;
+}
+
+.sc-home-primary-buttons {
+  gap: 8px;
+}
+
+.sc-home-continue,
+.sc-home-new {
+  min-height: 46px;
+  border-radius: 6px !important;
+  font-weight: 650;
+}
+
+.sc-home-hero-asset {
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.sc-home-card,
+.sc-home-project-card,
+.sc-home-template-card,
+.sc-home-feature-card,
+.sc-home-quick-card {
+  border-color: var(--border-soft) !important;
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Flat home surfaces -----------------------------------------------------
+   The legacy home composition is still used by projects, classroom, import,
+   library and Space 3D entry views. Keep those routes on the same restrained
+   system as the default dashboard instead of letting old elevated fallbacks
+   leak back in. Artwork remains untouched; only its container is flattened. */
+
+.sc-home :where(
+  .sc-home-hero,
+  .sc-home-focused,
+  .sc-home-space,
+  .sc-home-classroom-hero,
+  .sc-home-settings-panel,
+  .sc-home-template-grid > button,
+  .sc-home-quick-row > button,
+  .sc-home-import-grid > button,
+  .sc-home-classroom-cases button,
+  .sc-home-recents .project-hub__row,
+  .welcome-resume-card,
+  .welcome-portal,
+  .welcome-launcher-card,
+  .personal-library,
+  .personal-library__creator,
+  .personal-library__item,
+  .section-builder__editor,
+  .section-builder__list > li
+) {
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.sc-home :where(
+  .sc-home-search,
+  .sc-home-topline select,
+  .sc-home-topline > button,
+  .sc-home-mobile-header > button,
+  .sc-home-settings-field select,
+  .sc-home-settings-field button,
+  .sc-home-settings-metrics,
+  .sc-home-settings-metrics button,
+  .sc-home-space__return,
+  .personal-library button,
+  .personal-library input,
+  .personal-library select,
+  .section-builder button,
+  .section-builder input,
+  .section-builder select
+) {
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+
+.sc-home :where(
+  .sc-home-hero,
+  .sc-home-focused,
+  .sc-home-space,
+  .sc-home-classroom-hero,
+  .sc-home-settings-panel,
+  .sc-home-template-grid > button,
+  .sc-home-quick-row > button,
+  .sc-home-import-grid > button,
+  .sc-home-classroom-cases button,
+  .sc-home-recents .project-hub__row,
+  .welcome-resume-card,
+  .welcome-portal,
+  .welcome-launcher-card,
+  .personal-library,
+  .personal-library__creator,
+  .personal-library__item,
+  .section-builder__editor,
+  .section-builder__list > li
+) :is(svg, img) {
+  filter: none !important;
+}
+
+.sc-home :where(
+  .sc-home-space__asset,
+  .sc-home-hero-asset,
+  .sc-home-classroom-hero > svg,
+  .sc-home-classroom-hero > img
+) {
+  background: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+.sc-home :where(
+  .sc-home-continue,
+  .sc-home-new,
+  .sc-home-space__return,
+  .sc-home-section-heading > button,
+  .sc-home-quick-row > button,
+  .sc-home-import-grid > button,
+  .sc-home-template-grid > button,
+  .sc-home-classroom-cases button
+) {
+  transform: none !important;
+}
+
+.sc-home :where(.sc-home-continue, .new-exercise-submit) {
+  border-color: #111827 !important;
+  background: #111827 !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.sc-home :where(.sc-home-continue, .new-exercise-submit):is(:hover, :focus-visible):not(:disabled) {
+  border-color: #000000 !important;
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+.sc-home :where(.sc-home-new, .sc-home-space__return) {
+  border-color: #d1d5db !important;
+  background: #ffffff !important;
+  color: #111827 !important;
+}
+
+.sc-home :where(.sc-home-new, .sc-home-space__return):is(:hover, :focus-visible):not(:disabled) {
+  border-color: #9ca3af !important;
+  background: #f8fafc !important;
+  color: #111827 !important;
+}
+
+.new-exercise-backdrop,
+.import-center-backdrop {
+  backdrop-filter: none !important;
+}
+
+.new-exercise-dialog {
+  border-radius: 8px !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.new-exercise-dialog :where(
+  .new-exercise-header,
+  .new-exercise-template,
+  .new-exercise-template-art,
+  .new-exercise-settings,
+  .new-exercise-preview,
+  .new-exercise-input-wrap
+) {
+  border-radius: 6px !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}

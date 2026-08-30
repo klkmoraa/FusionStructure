@@ -1,0 +1,115 @@
+/* Open grouping, restrained cards -------------------------------------- */
+
+.sc-surface,
+[data-level],
+.inspector-summary,
+.inspector-property-group,
+.selection-card,
+.effect-card,
+.combination-card,
+.method-card,
+.template-card,
+.project-card,
+.recent-card,
+.summary-card,
+.result-card,
+.library-card,
+.support-tile,
+.support-detail,
+.support-library__card,
+.import-confirm-card,
+.import-format-grid article,
+.import-file-summary,
+.import-stat-grid > div,
+.import-mode-options > button,
+.import-save-option {
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.selection-card,
+.effect-card,
+.combination-card,
+.method-card,
+.template-card,
+.project-card,
+.recent-card,
+.summary-card,
+.result-card,
+.library-card,
+.support-tile,
+.support-detail,
+.support-library__card,
+.import-confirm-card,
+.import-format-grid article,
+.import-file-summary,
+.import-stat-grid > div,
+.import-mode-options > button,
+.import-save-option {
+  border: 1px solid var(--border-soft) !important;
+  border-radius: var(--sc-radius-card) !important;
+  background: #ffffff !important;
+}
+
+.inspector-summary,
+.inspector-property-group {
+  border-width: 0 0 1px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.inspector-property-group__header,
+.inspector-property-group__body {
+  padding-inline: 14px;
+}
+
+.sc-accordion__item,
+.sc-tabs__list,
+.sc-segmented,
+.compact-toggle-grid,
+.checkbox-grid {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.sc-tabs__list,
+.sc-segmented {
+  border-color: var(--border-soft) !important;
+  border-radius: var(--sc-radius-control) !important;
+}
+
+.sc-tabs__list button[aria-selected='true'],
+.sc-segmented button[aria-checked='true'],
+.sc-layer-toggle[aria-pressed='true'],
+.sc-tool-button[aria-pressed='true'],
+.toolbar button[aria-pressed='true'] {
+  border-color: var(--border) !important;
+  background: #f1f5f9 !important;
+  color: var(--text) !important;
+  box-shadow: none !important;
+}
+
+/* Floating elements are the sole elevated surfaces. */
+.popover,
+.sc-popover__content,
+.sc-modal-surface,
+.sc-toast-card,
+.mobile-tool-palette,
+.import-center-dialog,
+.new-exercise-dialog,
+.sc-home-settings-panel {
+  border: 1px solid var(--border-soft) !important;
+  border-radius: var(--sc-radius-panel) !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: var(--sc-shadow-floating) !important;
+}
+
+.sc-overlay,
+.import-center-backdrop,
+.new-exercise-backdrop,
+.mobile-inspector-backdrop {
+  background: rgb(17 24 39 / .28) !important;
+  backdrop-filter: none !important;
+}
+

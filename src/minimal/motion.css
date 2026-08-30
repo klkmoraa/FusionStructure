@@ -1,0 +1,62 @@
+/* Motion ---------------------------------------------------------------- */
+
+.popover,
+.sc-popover__content {
+  animation: minimal-popover-in var(--sc-motion-standard) var(--sc-ease-enter) both;
+}
+
+.sc-modal-surface,
+.import-center-dialog,
+.new-exercise-dialog,
+.sc-home-settings-panel {
+  animation: minimal-dialog-in var(--sc-motion-slow) var(--sc-ease-enter) both;
+}
+
+.selection-card,
+.effect-card,
+.method-card,
+.support-tile,
+.project-card,
+.template-card {
+  transition:
+    border-color var(--sc-motion-control) var(--sc-ease-standard),
+    background-color var(--sc-motion-control) var(--sc-ease-standard),
+    transform var(--sc-motion-control) var(--sc-ease-standard);
+}
+
+.selection-card:hover,
+.effect-card:hover,
+.method-card:hover,
+.support-tile:hover,
+.project-card:hover,
+.template-card:hover {
+  border-color: var(--border) !important;
+  background: #f8fafc !important;
+}
+
+@keyframes minimal-popover-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes minimal-dialog-in {
+  from { opacity: 0; transform: translateY(8px) scale(.995); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 1023px) {
+  .sc-home { grid-template-columns: 1fr; }
+  .sc-home-mobile-header { background:#fff !important; border-color:var(--border-soft) !important; box-shadow:none !important; }
+  .sc-home-hero { grid-template-columns: 1fr; }
+  .sc-home-primary-actions { padding-inline: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popover,
+  .sc-popover__content,
+  .sc-modal-surface,
+  .import-center-dialog,
+  .new-exercise-dialog,
+  .sc-home-settings-panel { animation: none !important; }
+}
+

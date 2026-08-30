@@ -1,0 +1,139 @@
+/* Controls -------------------------------------------------------------- */
+
+button,
+input,
+select,
+textarea,
+summary,
+[role='button'],
+[role='tab'] {
+  transition:
+    background-color var(--sc-motion-control) var(--sc-ease-standard),
+    border-color var(--sc-motion-control) var(--sc-ease-standard),
+    color var(--sc-motion-control) var(--sc-ease-standard),
+    opacity var(--sc-motion-control) var(--sc-ease-standard),
+    transform var(--sc-motion-control) var(--sc-ease-standard);
+}
+
+button {
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+button:not(:disabled):active,
+[role='button']:not([aria-disabled='true']):active {
+  transform: translateY(1px) !important;
+}
+
+.sc-button,
+.sc-icon-button,
+.sc-tool-button,
+.sc-layer-toggle,
+.topbar-command-button,
+.topbar-project-trigger,
+.toolbar button,
+.mini-button,
+.icon-danger-button,
+.danger-button,
+.canvas-controls button,
+.sc-home button,
+.sc-home select {
+  border-radius: var(--sc-radius-control) !important;
+  box-shadow: none !important;
+}
+
+.sc-button--primary,
+.sc-icon-button--primary,
+.topbar-analysis-trigger,
+.results-launcher.is-active,
+.sc-home .sc-home-continue,
+.import-button-primary,
+.import-dropzone button {
+  border-color: #111827 !important;
+  background: #111827 !important;
+  color: #ffffff !important;
+}
+
+.sc-button--primary:not(:disabled):hover,
+.sc-icon-button--primary:not(:disabled):hover,
+.topbar-analysis-trigger:not(:disabled):hover,
+.sc-home .sc-home-continue:hover,
+.import-button-primary:hover,
+.import-dropzone button:hover {
+  background: #000000 !important;
+}
+
+.sc-button--secondary,
+.sc-icon-button--secondary,
+.sc-tool-button,
+.sc-layer-toggle,
+.topbar-command-button,
+.topbar-project-trigger,
+.toolbar button,
+.mini-button,
+.sc-home-new {
+  border-color: var(--border-soft) !important;
+  background: #ffffff !important;
+  color: var(--text) !important;
+}
+
+.sc-button--secondary:not(:disabled):hover,
+.sc-icon-button--secondary:not(:disabled):hover,
+.sc-tool-button:not(:disabled):hover,
+.sc-layer-toggle:not(:disabled):hover,
+.topbar-command-button:not(:disabled):hover,
+.topbar-project-trigger:not(:disabled):hover,
+.toolbar button:not(:disabled):hover,
+.mini-button:not(:disabled):hover,
+.sc-home-new:hover,
+.sc-home-nav button:hover,
+.sc-home-settings:hover {
+  border-color: var(--border) !important;
+  background: #f8fafc !important;
+  color: var(--text) !important;
+  transform: none !important;
+}
+
+.sc-button--ghost,
+.sc-icon-button--ghost {
+  background: transparent !important;
+  color: var(--muted) !important;
+}
+
+.sc-button--ghost:not(:disabled):hover,
+.sc-icon-button--ghost:not(:disabled):hover {
+  background: #f8fafc !important;
+  color: var(--text) !important;
+}
+
+.sc-field__control,
+.sc-unit-field__control,
+.inspector-numeric-field__control,
+.number-control,
+.select-field select,
+input:not([type='checkbox']):not([type='radio']),
+select,
+textarea {
+  border-color: var(--border) !important;
+  border-radius: var(--sc-radius-control) !important;
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.sc-field__control:focus-within,
+.sc-unit-field__control:focus-within,
+.inspector-numeric-field__control:focus-within,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  border-color: var(--focus) !important;
+  outline: 2px solid color-mix(in srgb, var(--focus) 18%, transparent) !important;
+  outline-offset: 1px !important;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  accent-color: #111827;
+}
+
