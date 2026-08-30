@@ -27,6 +27,14 @@ nada.
 `public/assets/structural/` venían horneados con el marfil y la menta de
 StructureCo. Regenerados, y con `npm run assets:render` para rehacerlos.
 
+**Hay integración continua.** `.github/workflows/ci.yml` ejecuta `npm run
+check` en cada push y PR.
+
+**Hay reglas persistentes.** [`AGENTS.md`](../AGENTS.md) documenta qué manda,
+por qué este repositorio no hereda la política de fronteras de código
+protegidas de StructureCo/Copia-web, y el flujo de trabajo spec → plan →
+ejecutar → verificar → reporte de las skills `superpowers:*`.
+
 ## Lo que falta
 
 Ordenado por lo que más riesgo quita.
@@ -73,28 +81,18 @@ Fuera de alcance por ahora, y por qué:
 - **Space 3D** — dominio separado y todavía experimental, mismo argumento que
   el solver 2D.
 
-### 2 · Integración continua
+### 2 · Scripts de QA y el resto de la integración continua
 
-No hay ningún workflow. Los dos repositorios de origen traen tres cada uno
-(`ci.yml`, publicación de páginas y QA de release). Hasta que exista un
-`ci.yml` que ejecute `npm run check`, nada impide que un cambio rompa la
-compilación o la identidad visual sin que se note.
-
-### 3 · Documentación de agentes
-
-No hay `AGENTS.md`. Ambos orígenes lo tienen, y sin él cada sesión de trabajo
-—humana o no— redescubre las convenciones del repositorio desde cero.
-
-### 4 · Scripts de QA
-
-FusionStructure tiene 9 scripts; StructureCo 48 y Copia-web 40. Falta en
+`ci.yml` ejecuta la puerta de calidad, pero los dos repositorios de origen
+traen además publicación de páginas y QA de release — eso sigue sin existir
+aquí. FusionStructure tiene 9 scripts; StructureCo 48 y Copia-web 40. Falta en
 particular el arnés `qa.mjs` que ambos usan para recorrer la aplicación real
 con un navegador. La receta de esta fusión demostró que ese tipo de
 comprobación encuentra cosas que ninguna prueba unitaria ve: los colores
 heredados que quedaban vivos se localizaron midiendo estilos computados sobre
 la aplicación en marcha, no leyendo CSS.
 
-### 5 · Rematar el minimalismo pantalla por pantalla
+### 3 · Rematar el minimalismo pantalla por pantalla
 
 La fundación ya es correcta en todas partes, pero algunas superficies siguen
 con la densidad y la retórica de los productos de origen:
@@ -107,7 +105,7 @@ con la densidad y la retórica de los productos de origen:
 - **Copys** — hay textos de ayuda heredados que hoy sobran; la interfaz ya no
   necesita explicarse tanto.
 
-### 6 · Deuda de nombres
+### 4 · Deuda de nombres
 
 Quedan rastros del origen en identificadores que el usuario no ve pero que
 confunden a quien lee el código: la extensión de expediente sigue siendo
