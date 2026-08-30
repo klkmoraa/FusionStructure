@@ -31,34 +31,47 @@ StructureCo. Regenerados, y con `npm run assets:render` para rehacerlos.
 
 Ordenado por lo que más riesgo quita.
 
-### 1 · Pruebas — el hueco más grande
+### 1 · Pruebas — cobertura mínima de las fronteras de datos
 
 | Repositorio | Ficheros de prueba |
 |---|---|
 | StructureCo | 303 |
 | Copia-web | 318 |
-| FusionStructure | **1** |
+| FusionStructure | **8** (41 pruebas) |
 
-La fusión trajo el código de producto y dejó atrás la práctica totalidad de la
-suite. Ahora mismo lo único que cubre el repositorio es la guarda del sistema
-visual (14 pruebas). El motor de análisis, el solver, las migraciones de
-proyecto, el `ProjectCommand`, la importación DXF, el PDF y Space 3D **no
-tienen ninguna prueba**, y son justamente las partes donde un error es
-silencioso y caro.
+`src/engine/**` (el solver) queda deliberadamente sin cubrir: es la pieza que
+más va a cambiar mientras el dominio siga siendo experimental, y una suite
+numérica extensa sobre un motor que aún se mueve es coste que se vuelve a
+pagar en cada rediseño. Cuando el solver se estabilice, es el primer candidato
+para una suite propia.
 
-La infraestructura ya está puesta (`vitest`, `jsdom`, `@testing-library/react`,
-`npm run test` dentro de `npm run check`), así que portar suites es trabajo
-mecánico. Orden sugerido por riesgo:
+Lo que sí se cubrió — con pruebas mínimas, no con la suite completa de los
+repos de origen — son las seis fronteras por las que puede perderse o
+corromperse el proyecto del usuario sin que la aplicación lo note:
 
-1. `src/engine/**` — solver, diagramas, envolventes, unidades. Es numérico y
-   verificable, y un fallo aquí invalida todo lo que la aplicación muestra.
-2. `src/data/migrate.ts` y `src/data/projectStorage.ts` — una migración rota
-   pierde proyectos del usuario.
-3. `src/commands/projectCommand.ts` — el contrato de patches reversibles que
-   sostiene el historial y el undo/redo.
-4. `src/utils/pdf/**` y `src/utils/portable*` — el expediente y la memoria de
-   cálculo son el entregable del usuario.
-5. `src/import/dxf/**` — ya trae sus propios fixtures en el árbol.
+| Módulo | Qué protege | Pruebas |
+|---|---|---|
+| `data/migrate.ts` | Que un archivo, enlace o respaldo ajeno no entre corrupto ni se acepte de un esquema futuro desconocido. | 4 |
+| `data/projectStorage.ts` | Que un primario dañado en `localStorage` recupere desde el respaldo en vez de perder el proyecto en silencio. | 4 |
+| `commands/projectCommand.ts` | El contrato de deshacer/rehacer: aplicar un patch y su inverso reproduce el proyecto exacto. | 2 |
+| `data/modelOperations.ts` | Que fusionar nudos y dividir miembros no deje ninguna referencia (`i`/`j`, cargas) apuntando a un nudo eliminado. | 5 |
+| `import/dxf/dxfParser.ts` | Que la única geometría ajena que entra a la aplicación produzca un comando reversible como cualquier otro. | 4 |
+| `utils/shareLink.ts` | Que un enlace compartido roto se rechace en vez de reemplazar el proyecto activo con datos parciales. | 4 |
+| `utils/portablePayload.ts` | Que el checksum del expediente detecte manipulación, no sólo la declare. | 4 |
+
+La infraestructura está en `vite.config.ts` (`vitest` + `jsdom` +
+`@testing-library/react`, `npm run test` dentro de `npm run check`), así que
+ampliar cualquiera de estas suites o añadir una nueva es trabajo mecánico.
+
+Fuera de alcance por ahora, y por qué:
+
+- **`utils/pdf/**`** — genera un documento visual; una prueba unitaria de sus
+  ~20 archivos verificaría estructura de bytes, no que el PDF se vea bien.
+  Cuando haga falta cubrirlo, un smoke test de `createCalculationReport` que
+  compruebe que produce un PDF válido y no lanza es más valioso que asertar
+  contenido.
+- **Space 3D** — dominio separado y todavía experimental, mismo argumento que
+  el solver 2D.
 
 ### 2 · Integración continua
 
