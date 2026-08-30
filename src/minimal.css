@@ -72,18 +72,24 @@
   --sc-radius-sheet: 10px;
   --sc-radius-hero: 10px;
 
+  /* A flat product surface is intentional: no clay-like depth, halos or
+     inset bevels. Elevation is communicated by spacing and a 1px edge. */
+  --sc-shadow-raised: none;
+  --sc-shadow-lifted: none;
   --sc-shadow-xs: none;
   --sc-shadow-sm: none;
   --sc-shadow-md: none;
   --sc-shadow-lg: none;
-  --sc-shadow-floating: 0 12px 32px rgb(15 23 42 / .12);
+  --sc-shadow-floating: none;
+  --sc-shadow-popover: none;
+  --sc-shadow-drop: none;
   --sc-shadow-inset: none;
   --sc-shadow-pressed: none;
   --sc-shadow-action: none;
   --sc-shadow-action-hover: none;
   --sc-shadow-action-pressed: none;
-  --sc-shadow-sheet: 0 -12px 32px rgb(15 23 42 / .08);
-  --sc-shadow-modal: 0 18px 48px rgb(15 23 42 / .16);
+  --sc-shadow-sheet: none;
+  --sc-shadow-modal: none;
   --sc-surface-edge: 1px solid var(--sc-color-border-soft);
   --sc-surface-fill: var(--sc-color-surface-1);
   --sc-surface-fill-action: var(--sc-color-action-primary);
