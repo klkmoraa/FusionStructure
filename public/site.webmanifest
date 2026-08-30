@@ -1,0 +1,33 @@
+{
+  "name": "FusionStructure · Análisis estructural",
+  "short_name": "FusionStructure",
+  "description": "Modelado, análisis y aprendizaje interactivo de estructuras planas 2D.",
+  "lang": "es",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F7F4EE",
+  "theme_color": "#468C09",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "file_handlers": [
+    {
+      "action": "./",
+      "accept": {
+        "application/x-structureco": [
+          ".structureco"
+        ],
+        "application/json": [
+          ".structureco.json"
+        ]
+      }
+    }
+  ]
+}
