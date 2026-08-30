@@ -55,9 +55,8 @@ está descrita en [`docs/sistema-visual.md`](docs/sistema-visual.md).
 
 ## Documentación
 
-- [Reglas persistentes](AGENTS.md) — qué manda, por qué no hay fronteras de código
-  protegidas en este repositorio y el flujo de trabajo (spec → plan → ejecutar →
-  verificar → reporte).
+- [Reglas persistentes](AGENTS.md) — qué manda y por qué no hay fronteras de
+  código protegidas en este repositorio.
 - [Índice de documentación](docs/README.md)
 - [Sistema visual](docs/sistema-visual.md) — la fundación, sus cuatro reglas y cómo se extiende.
 - [Estado de la fusión](docs/estado-de-la-fusion.md) — qué se trajo, qué falta y en qué orden conviene abordarlo.

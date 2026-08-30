@@ -30,10 +30,9 @@ StructureCo. Regenerados, y con `npm run assets:render` para rehacerlos.
 **Hay integración continua.** `.github/workflows/ci.yml` ejecuta `npm run
 check` en cada push y PR.
 
-**Hay reglas persistentes.** [`AGENTS.md`](../AGENTS.md) documenta qué manda,
+**Hay reglas persistentes.** [`AGENTS.md`](../AGENTS.md) documenta qué manda y
 por qué este repositorio no hereda la política de fronteras de código
-protegidas de StructureCo/Copia-web, y el flujo de trabajo spec → plan →
-ejecutar → verificar → reporte de las skills `superpowers:*`.
+protegidas de StructureCo/Copia-web.
 
 ## Lo que falta
 
