@@ -1,0 +1,85 @@
+/* Flat application frame ------------------------------------------------ */
+
+.topbar,
+.toolbar,
+.inspector-panel,
+.results-panel,
+.welcome-header,
+.sc-home-sidebar,
+.sc-home-topline,
+.professional-note {
+  background: #ffffff !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border-color: var(--border-soft) !important;
+}
+
+.topbar {
+  min-height: var(--topbar-h);
+  border-width: 0 0 1px !important;
+}
+
+.toolbar {
+  padding: 8px 7px;
+  border-width: 0 1px 0 0 !important;
+  border-radius: 0 !important;
+}
+
+.inspector-panel {
+  border-width: 0 0 0 1px !important;
+  border-radius: 0 !important;
+}
+
+.results-panel {
+  border-width: 1px 0 0 !important;
+  border-radius: 0 !important;
+}
+
+.center-stage,
+.canvas-shell,
+.structural-canvas,
+.canvas-viewport {
+  background-color: #ffffff !important;
+}
+
+.brand-home-button {
+  width: auto !important;
+  min-width: 0;
+  padding: 0 12px !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.topbar-wordmark {
+  color: #111827;
+  font-size: 14px;
+  font-weight: 720;
+  letter-spacing: -.025em;
+  white-space: nowrap;
+}
+
+.space3d-wordmark {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 11px;
+  letter-spacing: -.02em;
+}
+
+.space3d-badge,
+.support-library__flag {
+  border: 1px solid var(--border-soft) !important;
+  border-radius: 4px !important;
+  background: #f8fafc !important;
+  color: var(--muted) !important;
+}
+
+.support-library__rule {
+  border-color: var(--border-soft) !important;
+  background: #f8fafc !important;
+}
+
