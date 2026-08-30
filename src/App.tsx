@@ -12,7 +12,6 @@ import { safeProjectFilename } from './utils/export';
 import { decodeProjectFragment } from './utils/shareLink';
 import './styles.css';
 import './design-system/material.css';
-import './minimal.css';
 
 const loadWorkspaceShell = () => import('./features/workspace/WorkspaceShell');
 const WorkspaceShell = lazy(loadWorkspaceShell);
