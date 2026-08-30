@@ -83,6 +83,7 @@ const AppShell = () => {
 
   const navigate = (next: AppScreen, view: HomeView = 'home') => {
     if (next === 'welcome') setWelcomeInitialView(view);
+    else setDirectResumeAvailable(false);
     setScreen(next);
   };
   const requestSpace3D = (origin: Space3DEntryOrigin) => setSpace3DEntryOrigin(origin);
