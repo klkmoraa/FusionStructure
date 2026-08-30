@@ -1,0 +1,3 @@
+# FusionStructure
+
+Unified structural workspace.
