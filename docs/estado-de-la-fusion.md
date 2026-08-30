@@ -30,9 +30,11 @@ StructureCo. Regenerados, y con `npm run assets:render` para rehacerlos.
 **Hay integración continua.** `.github/workflows/ci.yml` ejecuta `npm run
 check` en cada push y PR.
 
-**Hay reglas persistentes.** [`AGENTS.md`](../AGENTS.md) documenta qué manda y
+**Hay reglas persistentes.** [`AGENTS.md`](../AGENTS.md) documenta qué manda,
 por qué este repositorio no hereda la política de fronteras de código
-protegidas de StructureCo/Copia-web.
+protegidas de StructureCo/Copia-web, y el flujo de trabajo de
+[Superpowers](https://github.com/obra/superpowers) para cuando el plugin
+esté disponible en la sesión.
 
 ## Lo que falta
 
