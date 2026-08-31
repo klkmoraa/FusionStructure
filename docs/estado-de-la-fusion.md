@@ -93,18 +93,15 @@ comprobación encuentra cosas que ninguna prueba unitaria ve: los colores
 heredados que quedaban vivos se localizaron midiendo estilos computados sobre
 la aplicación en marcha, no leyendo CSS.
 
-### 3 · Rematar el minimalismo pantalla por pantalla
+### 3 · Rematar el minimalismo pantalla por pantalla — hecho
 
-La fundación ya es correcta en todas partes, pero algunas superficies siguen
-con la densidad y la retórica de los productos de origen:
-
-- **Inicio** (`totalHome.css`, ~850 líneas) — la escala tipográfica y los
-  radios ya bajaron, pero el héroe sigue siendo una tarjeta grande con mucho
-  aire y varias secciones podrían ser una sola lista densa.
-- **Inspector y Resultados** — todavía escriben descripciones largas donde la
-  regla 4 pide una cifra.
-- **Copys** — hay textos de ayuda heredados que hoy sobran; la interfaz ya no
-  necesita explicarse tanto.
+El cromo permanente es ahora Console + Instrument: se retiraron la TopBar y el
+dock flotante, junto con sus rutas duplicadas. Inicio dejó su barra lateral;
+Inspector y Resultados ya no muestran descripciones por defecto ni guías de
+pasos. Las salvedades de cálculo se conservan detrás de `?`, donde siguen
+disponibles sin ocupar el lienzo. La composición de superficies usa un único
+dueño: al abrir detalle, configuración, vista o resultados se sustituye la
+superficie contextual anterior.
 
 ### 4 · Deuda de nombres
 

@@ -58,9 +58,32 @@ sola dirección, sin luz interior y sin tinte.
 
 **4 · Menos superficie, menos texto.** Radios cortos (3 / 4 / 6 / 8px),
 tarjetas pequeñas, filas densas, etiquetas breves. Lo que se puede decir con
-una cifra no lleva una frase. La barra superior, por ejemplo, escribe
-exactamente dos cosas: el nombre del proyecto y la acción primaria; todo lo
-demás es icono con `aria-label`.
+una cifra no lleva una frase. La consola deja visibles sólo proyecto, acción y
+estado; el resto es icono con `aria-label` o una divulgación `?` cuando es una
+salvedad real de cálculo.
+
+## Planta de la aplicación
+
+El editor tiene dos piezas de cromo permanentes, no tres superficies que
+compitan entre sí:
+
+```
+Console (52px)  ← navegación, herramientas y acciones del proyecto
+Canvas          ← trabajo y una única superficie contextual activa
+Instrument (24px) ← estado, guardado, coordenadas, escala y conteos
+```
+
+En escritorio la `Console` ocupa la columna izquierda y se expande sólo al
+interactuar; en K0 es una banda inferior deslizable. `Instrument` siempre se
+queda en el borde inferior. Inicio usa la misma idea como una franja compacta
+de destinos: no existe una barra lateral permanente. Las superficies de detalle,
+configuración, vista y resultados comparten un único hueco contextual, de modo
+que abrir una sustituye a la anterior.
+
+Tres registros tipográficos mantienen la jerarquía: interfaz (`Instrument
+Sans`) para controles y nombres; mono para datos, coordenadas y unidades; y
+el registro de pantalla sólo para el nombre activo del proyecto. Ninguno se
+usa para convertir una explicación en decoración.
 
 ## Cómo está montado
 
