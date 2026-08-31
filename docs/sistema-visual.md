@@ -75,7 +75,9 @@ Instrument (24px) ← estado, guardado, coordenadas, escala y conteos
 
 En escritorio la `Console` ocupa la columna izquierda y se expande sólo al
 interactuar; en K0 es una banda inferior deslizable. `Instrument` siempre se
-queda en el borde inferior. Inicio usa la misma idea como una franja compacta
+queda en el borde inferior y lee coordenadas/escala directamente del lienzo:
+el canvas no repite esas lecturas ni el modo activo mientras no haya una
+colocación que cancelar. Inicio usa la misma idea como una franja compacta
 de destinos: no existe una barra lateral permanente. Las superficies de detalle,
 configuración, vista y resultados comparten un único hueco contextual, de modo
 que abrir una sustituye a la anterior.
