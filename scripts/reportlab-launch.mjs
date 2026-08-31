@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 
 const script = new URL('./reportlab_pdf_service.py', import.meta.url);
 const scriptPath = fileURLToPath(script);
-const configured = process.env.STRUCTURECO_PYTHON;
+const configured = process.env.FUSIONSTRUCTURE_PYTHON;
 const bundled = process.platform === 'win32'
   ? join(homedir(), '.cache', 'codex-runtimes', 'codex-primary-runtime', 'dependencies', 'python', 'python.exe')
   : '';
@@ -36,7 +36,7 @@ for (const candidate of candidates) {
 }
 
 if (!child?.pid) {
-  console.error('No se encontro Python. Defina STRUCTURECO_PYTHON con la ruta de python.exe.');
+  console.error('No se encontro Python. Defina FUSIONSTRUCTURE_PYTHON con la ruta de python.exe.');
   process.exit(1);
 }
 

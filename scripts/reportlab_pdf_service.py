@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""ReportLab companion for StructureCo calculation reports.
+"""ReportLab companion for FusionStructure calculation reports.
 
 The browser remains authoritative for calculations and for the complete report copied from
-Copia-web. This process receives that PDF plus its signed portable payload, builds a vector
+The browser application receives that PDF plus its signed portable payload, builds a vector
 diagram appendix with ReportLab, and merges both documents without recalculating the model.
 
 Run as a local HTTP companion:
     python scripts/reportlab_pdf_service.py --serve 127.0.0.1:8765
 
-Or enhance an existing native StructureCo PDF:
+Or enhance an existing native FusionStructure PDF:
     python scripts/reportlab_pdf_service.py input.pdf output.pdf
 """
 
@@ -34,7 +34,7 @@ from reportlab.pdfgen import canvas
 PAGE_W, PAGE_H = A4
 MARGIN = 42.0
 
-# Canonical StructureCo instrument palette. The appendix deliberately uses the same
+# Canonical FusionStructure instrument palette. The appendix deliberately uses the same
 # warm, matte language as the app rather than a generic technical-report theme.
 APP = HexColor("#F3EEE4")
 CANVAS = HexColor("#FBF8F2")
@@ -207,7 +207,7 @@ class Document:
         self.c.line(MARGIN, 40, PAGE_W - MARGIN, 40)
         self.c.setFillColor(MUTED)
         self.c.setFont("Helvetica", 7)
-        self.c.drawString(MARGIN, 28, "StructureCo / expediente calculado / vectorial")
+        self.c.drawString(MARGIN, 28, "FusionStructure / expediente calculado / vectorial")
         self.c.setFont("Helvetica-Bold", 7.5)
         self.c.drawRightString(PAGE_W - MARGIN, 28, f"{self.page:02d}")
 
@@ -776,19 +776,19 @@ def draw_system_diagrams_page(doc: Document, payload: dict[str, Any]) -> None:
 def build_appendix(payload: dict[str, Any], scenario_factors: dict[str, Any] | None = None) -> bytes:
     project = payload.get("project") or {}
     analysis = payload.get("analysis") or {}
-    if payload.get("format") != "structureco-portable" or not project or not analysis:
-        raise ValueError("El payload no es un expediente StructureCo compatible.")
+    if payload.get("format") not in {"fusionstructure-portable", "structureco-portable"} or not project or not analysis:
+        raise ValueError("El payload no es un expediente FusionStructure compatible.")
     factors = scenario_factors or {
         str(case.get("id")): 1.0 for case in project.get("loadCases", []) if case.get("active", True)
     }
     stream = BytesIO()
     c = canvas.Canvas(stream, pagesize=A4, pageCompression=1)
-    doc = Document(c=c, project_name=str(project.get("name", "StructureCo")))
+    doc = Document(c=c, project_name=str(project.get("name", "FusionStructure")))
 
     doc.new_page("Anexo ReportLab", bare=True)
     c.setFillColor(ACCENT)
     c.setFont("Helvetica-Bold", 8.5)
-    c.drawString(MARGIN, PAGE_H - 61, "STRUCTURECO / EXPEDIENTE DE CALCULO")
+    c.drawString(MARGIN, PAGE_H - 61, "FUSIONSTRUCTURE / EXPEDIENTE DE CALCULO")
     c.setStrokeColor(ACCENT)
     c.setLineWidth(1.6)
     c.line(MARGIN, PAGE_H - 70, PAGE_W - MARGIN, PAGE_H - 70)
@@ -858,7 +858,7 @@ def build_appendix(payload: dict[str, Any], scenario_factors: dict[str, Any] | N
         c.drawString(MARGIN + 16, 159 - index * 17, row)
     c.setFillColor(MUTED)
     c.setFont("Helvetica", 8)
-    c.drawString(MARGIN, 71, "ReportLab compone la geometria; StructureCo conserva la autoridad numerica.")
+    c.drawString(MARGIN, 71, "ReportLab compone la geometria; FusionStructure conserva la autoridad numerica.")
 
     draw_global_model(doc, payload, factors)
     draw_system_diagrams_page(doc, payload)
@@ -884,8 +884,8 @@ def merge_report(base_pdf: bytes, payload: dict[str, Any], scenario_factors: dic
     writer.append(appendix_reader, import_outline=False)
     writer.add_outline_item("Anexo vectorial ReportLab", appendix_start)
     metadata = dict(base_reader.metadata or {})
-    metadata["/Producer"] = "StructureCo + ReportLab 4"
-    metadata["/StructureCoReportEngine"] = "Copia-web renderer + ReportLab vector appendix"
+    metadata["/Producer"] = "FusionStructure + ReportLab 4"
+    metadata["/FusionStructureReportEngine"] = "Browser renderer + ReportLab vector appendix"
     writer.add_metadata({str(key): str(value) for key, value in metadata.items() if value is not None and str(value) != "/null"})
     output = BytesIO()
     writer.write(output)
@@ -895,16 +895,16 @@ def merge_report(base_pdf: bytes, payload: dict[str, Any], scenario_factors: dic
 def payload_from_pdf(pdf_bytes: bytes) -> dict[str, Any]:
     reader = PdfReader(BytesIO(pdf_bytes))
     attachments = getattr(reader, "attachments", {}) or {}
-    candidates = attachments.get("structureco-payload.json") or []
+    candidates = attachments.get("fusionstructure-payload.json") or attachments.get("structureco-payload.json") or []
     if isinstance(candidates, (bytes, bytearray)):
         candidates = [candidates]
     if not candidates:
-        raise ValueError("El PDF no contiene structureco-payload.json.")
+        raise ValueError("El PDF no contiene fusionstructure-payload.json.")
     return json.loads(bytes(candidates[0]).decode("utf-8"))
 
 
 class Handler(BaseHTTPRequestHandler):
-    server_version = "StructureCoReportLab/1.0"
+    server_version = "FusionStructureReportLab/1.0"
 
     def _headers(self, status: int, content_type: str = "application/json", length: int = 0) -> None:
         self.send_response(status)
@@ -958,18 +958,18 @@ def parse_address(value: str) -> tuple[str, int]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Enhance StructureCo PDFs with ReportLab diagrams.")
+    parser = argparse.ArgumentParser(description="Enhance FusionStructure PDFs with ReportLab diagrams.")
     parser.add_argument("input", nargs="?", type=Path)
     parser.add_argument("output", nargs="?", type=Path)
     parser.add_argument("--serve", type=parse_address, metavar="HOST:PORT")
     args = parser.parse_args()
     if args.serve:
         server = ThreadingHTTPServer(args.serve, Handler)
-        print(f"StructureCo ReportLab listening at http://{args.serve[0]}:{args.serve[1]}")
+        print(f"FusionStructure ReportLab listening at http://{args.serve[0]}:{args.serve[1]}")
         try:
             server.serve_forever()
         except KeyboardInterrupt:
-            print("StructureCo ReportLab stopped.")
+            print("FusionStructure ReportLab stopped.")
         finally:
             server.server_close()
         return

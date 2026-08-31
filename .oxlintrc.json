@@ -4,15 +4,15 @@
   "ignorePatterns": [
     "dist/**",
     "output/**",
-    "structureCo/**",
-    "structureCo-backup-*/**",
-    "structureCo-worktrees/**",
-    "structureco-sites/**",
-    "structureco-sites-worktrees/**",
-    "structureco-design-review/**",
-    "structureco-palette-lab/**",
-    "structureCo-contexto-*/**",
-    "structureCo-documentacion-integral-*/**"
+    "FusionStructure/**",
+    "FusionStructure-backup-*/**",
+    "FusionStructure-worktrees/**",
+    "fusionstructure-sites/**",
+    "fusionstructure-sites-worktrees/**",
+    "fusionstructure-design-review/**",
+    "fusionstructure-palette-lab/**",
+    "FusionStructure-contexto-*/**",
+    "FusionStructure-documentacion-integral-*/**"
   ],
   "rules": {
     "react/rules-of-hooks": "error",
