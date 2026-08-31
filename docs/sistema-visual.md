@@ -1,54 +1,64 @@
 # Sistema visual
 
-FusionStructure es **minimalismo puro**. La dirección completa vive en un solo
-archivo —`src/design-system/tokens.css`— y este documento explica por qué es
-así y cómo extenderla sin romperla.
+Este documento registra el sistema visual que ya existe en la aplicación. La visión todo-en-uno no autoriza por sí sola un rediseño: la interfaz actual queda fuera del alcance de esta actualización.
 
-## De dónde venimos
+## Dirección actual
 
-Los dos productos de origen traían direcciones visuales incompatibles:
+FusionStructure usa un minimalismo técnico acromático:
 
-| | StructureCo | Copia-web |
+- fondos, superficies, texto y controles trabajan con valores neutros;
+- el contraste y el espacio comunican jerarquía;
+- el color se reserva para significados del dominio;
+- la profundidad se expresa con filetes y niveles, no con volumen decorativo;
+- la densidad debe favorecer lectura, edición y revisión técnica.
+
+## Colores de dominio
+
+| Color | Uso |
+|---|---|
+| Rojo | cargas puntuales, cargas distribuidas y momentos aplicados |
+| Azul | axial y deformada |
+| Verde | cortante y reacciones |
+| Amarillo | cotas y geometría de referencia |
+| Rosa | momento flector |
+
+Estos colores conservan su significado entre Día y Noche. No deben utilizarse como relleno ornamental de paneles ni como estados ambiguos.
+
+## Materia y jerarquía
+
+La interfaz usa niveles explícitos:
+
+| Nivel | Uso | Regla |
 |---|---|---|
-| Fondo | Marfil cálido `#f3eee4` | Gris acromático |
-| Marca | Menta `#007d61` | Azul de sistema |
-| Profundidad | Claymorphism: sombra abajo-derecha + luz arriba-izquierda + dos capas `inset` por pieza | Material translúcido y filete de medio píxel |
-| Radios | 10 / 18 / 24 / 28px | Cortos |
+| Plano | rejilla, tablas y filas técnicas | filete suave, sin sombra |
+| Interior | cavidad de interacción | separación contenida |
+| Elevado | paneles y barras | superficie definida, sin volumen exagerado |
+| Flotante | menús, popovers y toasts | filete y sombra de contacto |
+| Hoja | superficies que nacen de un borde | separación clara del contenido |
+| Modal | interrupciones | velo y prioridad visual |
 
-La primera versión de la fusión adoptó la base de StructureCo entera y le puso
-encima una capa de reconciliación (`src/minimal/`, ocho archivos y unas 700
-líneas de `!important`) que la pintaba de blanco. El claymorphism seguía
-enviándose en el CSS; sólo estaba tapado. El resultado no era una aplicación
-nueva sino StructureCo blanqueada, con sus radios y los grises de Copia-web —y,
-de paso, con el tema oscuro apagado a la fuerza.
+Una superficie no debe apilar tarjetas innecesariamente. Un componente debe comunicar su nivel por posición, espacio y filete antes que por decoración.
 
-FusionStructure sustituye la fundación en lugar de taparla. No hay capa de
-parches, no hay `!important` de reconciliación y no hay una segunda verdad.
+## Implementación
 
-## Las cuatro reglas
+- `src/design-system/tokens.css` declara valores y roles;
+- `src/design-system/material.css` asigna materia por nivel;
+- `src/design-system/components/ui.css` contiene componentes compartidos;
+- `src/styles.css` contiene la fundación general;
+- `src/features/**/*.css` contiene layout y detalle de cada superficie;
+- `src/design-system/designSystem.test.ts` comprueba invariantes visuales.
 
-**1 · La interfaz no tiene color.** Fondos, superficies, filetes, texto,
-acciones y estados de control son acromáticos: los tres canales RGB coinciden.
-El acento de marca es la tinta misma. En Día la acción primaria es un plano
-negro con etiqueta blanca; en Noche se invierte exactamente. Es la decisión que
-más separa a FusionStructure de sus dos orígenes — ni menta ni azul de sistema,
-sencillamente el contraste máximo disponible.
+Las hojas de feature deben consumir roles del sistema. No deben crear otra raíz de tokens, introducir colores literales sin decisión o usar `!important` como capa de reconciliación.
 
-**2 · El color es del dominio.** Sólo cinco hues entran en la aplicación, y
-sólo para significar algo que el modelo o el solver dicen:
+## Reglas de extensión
 
-| Hue | | Significa |
-|---|---|---|
-| Rojo | `#e5484d` | Lo que se aplica a la estructura: cargas puntuales, repartidas y momentos aplicados. |
-| Azul | `#3b82f6` | Axial (N) y deformada — desplazamiento. |
-| Verde | `#22a06b` | Cortante (V) y reacciones — la respuesta del apoyo. |
-| Amarillo | `#d4a017` | Cotas y geometría de referencia. |
-| Rosa | `#d9469b` | Momento flector (M). |
+- Si falta un rol, revisar primero si existe uno equivalente.
+- Si una diferencia es de dominio, usar un color de dominio; si es de jerarquía, usar tamaño, espacio, peso o inversión.
+- Mantener radios y filetes consistentes con la función del componente.
+- No agregar claymorphism, glassmorphism o volumen por defecto sin una decisión específica de producto y una revisión visual independiente.
+- Cualquier cambio importante debe acompañarse de capturas comparables, revisión de accesibilidad y comprobación en Día y Noche.
 
-Se usan como **trazo**, no como relleno de superficie: un panel nunca se tiñe,
-una línea sí. Y se declaran una sola vez en `:root`: un momento flector no
-cambia de significado al apagar la luz, así que el bloque de tema oscuro no
-puede redefinirlos.
+## Alcance de esta actualización
 
 **3 · La profundidad es el filete.** Un borde de 1px y el espacio separan las
 cosas. La escala de sombras resuelve a `none` salvo un único escalón de

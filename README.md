@@ -1,86 +1,108 @@
 # FusionStructure
 
-Espacio de trabajo estructural local-first para modelar, analizar, revisar y
-documentar estructuras planas 2D y espaciales. Corre entero en el navegador
-—React, TypeScript y Vite— sin backend obligatorio y sin enviar el proyecto a
-ningún sitio.
+> Del concepto al expediente, del cálculo a la obra.
 
-FusionStructure nace de fusionar StructureCo y Copia-web, pero **no es ninguno
-de los dos ni su promedio**. Toma de cada uno lo que estaba resuelto —el motor
-de análisis, el dominio espacial, la memoria de cálculo, el expediente
-portable— y reconstruye encima una aplicación con identidad propia.
+FusionStructure es una aplicación experimental para concentrar en un mismo proyecto la información que acompaña a un activo construido: contexto, diseño, geometría, ingeniería, análisis, documentación, cantidades, planeación, obra y aprendizaje.
+
+La visión es una plataforma todo-en-uno para arquitectura, ingeniería civil, ingeniería estructural y construcción. No significa amontonar herramientas independientes en una sola pantalla. Significa que todas las áreas trabajan sobre un mismo proyecto, un mismo modelo de información y una misma historia de cambios.
+
+## Estado actual
+
+El núcleo disponible está centrado en el modelado y análisis estructural 2D, con superficies experimentales para 3D, aprendizaje, documentación técnica e interoperabilidad. La visión integral es más amplia que lo que hoy está implementado; este repositorio no presenta como terminado lo que aún es una dirección de producto.
+
+En este momento hay código para:
+
+- modelado 2D de nudos, miembros, apoyos, cargas, casos y combinaciones;
+- edición interactiva, selección, snapping, operaciones topológicas y deshacer/rehacer;
+- análisis lineal, P-Delta, diagramas N-V-M, deformada, envolventes, líneas de influencia, pandeo y estudios modales;
+- auditoría de cargas, indicadores de calidad numérica y trazabilidad educativa;
+- memorias de cálculo PDF, expediente portable, exportaciones SVG/PNG/CSV y lista de materiales;
+- importación DXF de un subconjunto, enlaces compartibles, versiones locales y shell PWA;
+- un dominio Space 3D separado, todavía experimental.
+
+La presencia de una pantalla, un tipo o un archivo no equivale a una capacidad profesional completa. La clasificación verificable está en [docs/alcance-funcional.md](docs/alcance-funcional.md).
+
+## La idea de producto
+
+FusionStructure debe permitir que una persona pase de una pregunta a una decisión técnica sin perder el contexto:
+
+1. definir el proyecto y su contexto;
+2. representar la geometría y los elementos constructivos;
+3. asignar propiedades, acciones, criterios y supuestos;
+4. analizar, revisar y explicar los resultados;
+5. coordinar disciplinas y detectar conflictos;
+6. producir planos, memorias, cantidades y entregables;
+7. planear y documentar la ejecución;
+8. conservar el expediente y alimentar el aprendizaje o la operación posterior.
+
+El proyecto es la unidad central. Los módulos son superficies de trabajo especializadas que leen y escriben información común, con permisos, validaciones, versiones y procedencia explícitas.
+
+## Principios
+
+- **Una fuente de verdad:** geometría, propiedades, hipótesis, resultados y documentos deben poder relacionarse.
+- **El cálculo se explica:** cada resultado importante debe mostrar unidades, supuestos, método, calidad y límites.
+- **Interoperabilidad desde el inicio:** el proyecto no debe quedar encerrado en un formato privado.
+- **Local-first y portable:** trabajar sin conexión debe ser una capacidad base; la colaboración remota se incorpora sin destruir el flujo local.
+- **Profundidad progresiva:** una persona nueva puede empezar con una tarea sencilla y una especialista puede abrir el detalle completo.
+- **Modularidad real:** arquitectura, estructuras, civil, instalaciones, documentación, costos, planeación y obra deben poder evolucionar sin convertir el producto en un monolito frágil.
+- **Honestidad experimental:** una función incompleta se marca como experimental, no como certificada.
+
+## Límites importantes
+
+FusionStructure no sustituye el criterio de una persona responsable, una revisión independiente, la normativa aplicable ni la autorización profesional correspondiente. Un resultado numérico puede ser incorrecto por un modelo, una unidad, una hipótesis, una propiedad o una implementación mal elegida.
+
+El estado experimental implica, entre otras cosas:
+
+- no se promete cumplimiento normativo automático;
+- no se promete exactitud para una obra real sin verificación independiente;
+- no se promete que el dominio 3D, los estudios avanzados o los módulos futuros estén listos;
+- no se deben interpretar los entregables como planos sellados, memoria certificada o instrucción de construcción.
+
+## Declaración de etapa y propiedad
+
+FusionStructure es experimental, no una tecnología terminada ni una promesa de exclusividad. Este repositorio no afirma que el concepto, sus módulos o su arquitectura estén patentados, certificados o protegidos como una solución profesional lista para obra. Las capacidades futuras son hipótesis de producto hasta que tengan implementación, pruebas, límites y validación independiente.
+
+El código se distribuye bajo la licencia MIT indicada en [LICENSE](LICENSE). Esa licencia permite reutilizar el código dentro de sus condiciones; no equivale a una certificación, garantía de resultados ni ausencia de derechos de autor o licencias de terceros.
+
+## Sin áreas de código protegidas
+
+Todo el código de este repositorio es experimental y puede rediseñarse, moverse, sustituirse o eliminarse si existe una razón técnica y se actualizan sus dependencias, pruebas y documentación. No hay una lista de archivos intocables ni un checksum que convierta una parte del producto en una frontera especial.
+
+Esto describe el proceso técnico, no elimina los derechos de autor, la licencia MIT ni las obligaciones de licencias de terceros. La calidad se sostiene con pruebas, revisión, trazabilidad y comunicación clara de lo que todavía no está validado.
+
+## Arranque
 
 ```bash
 npm install
 npm run dev
 ```
 
-`npm run build` genera la aplicación estática desplegable. `npm run check`
-ejecuta la puerta de calidad completa: `lint`, `typecheck`, `test` y `build`.
+Puertas de calidad:
 
-## Qué hace
+```bash
+npm run check        # lint, typecheck, pruebas y build
+npm run build        # aplicación estática desplegable
+npm run test         # pruebas automatizadas
+```
 
-| Área | Alcance |
-|---|---|
-| Modelado 2D | Nudos, barras, apoyos, cargas, casos y combinaciones; marcos, vigas y armaduras, con edición interactiva sobre el lienzo. |
-| Análisis | Lineal y P-Delta, líneas de influencia, pandeo, modal, envolventes, diagramas y deformada. |
-| Resultados | Desplazamientos, reacciones, acciones internas, extremos, fiabilidad numérica, auditoría de cargas y explicaciones trazables. |
-| Space 3D | Marco espacial elástico lineal con 6 GDL por nudo, en un dominio separado del 2D. Experimental. |
-| Aula | Ejercicios, recorrido guiado, predicciones y progreso local por proyecto. |
-| Documentación | Memoria de cálculo PDF reimportable, expediente `.structureco`, SVG, PNG, CSV y lista de materiales. |
-| Interoperación | Importación DXF ASCII de un subconjunto, enlaces compartibles y centro de importación con revisión previa. |
-| Plataforma | PWA con shell offline, almacenamiento local y aviso de actualización controlado. |
-
-## Límites declarados
-
-- Es una herramienta de modelado y cálculo de apoyo. No sustituye revisión,
-  criterio ni certificación profesional.
-- Space 3D sigue siendo experimental: no incluye cargas en barra, liberaciones,
-  muelles, asentamientos, deformación por cortante, dinámica ni no linealidad.
-- El puente 2D → 3D es explícito y de una sola dirección: no inventa
-  propiedades espaciales ausentes.
-- La importación DXF admite sólo un subconjunto ASCII y muestra diagnósticos
-  antes de crear geometría.
-
-## Identidad visual
-
-FusionStructure es **minimalismo puro**: la interfaz es acromática y la marca
-es la tinta —negro sobre blanco en Día, blanco sobre negro en Noche—. El único
-color de la aplicación son cinco hues del dominio (rojo, azul, verde, amarillo
-y rosa) usados como trazo fino para decir algo que el modelo o el solver dicen.
-La profundidad la comunica un filete de 1px, no una sombra.
-
-Toda esa dirección vive en un solo archivo, `src/design-system/tokens.css`, y
-está descrita en [`docs/sistema-visual.md`](docs/sistema-visual.md).
-
-## Documentación
-
-- [Reglas persistentes](AGENTS.md) — qué manda, por qué no hay fronteras de
-  código protegidas en este repositorio y el flujo de Superpowers cuando esté
-  disponible.
-- [Índice de documentación](docs/README.md)
-- [Sistema visual](docs/sistema-visual.md) — la fundación, sus cuatro reglas y cómo se extiende.
-- [Estado de la fusión](docs/estado-de-la-fusion.md) — qué se trajo, qué falta y en qué orden conviene abordarlo.
-
-## Compañero opcional de PDF
-
-Para apéndices vectoriales enriquecidos:
+El servicio opcional de ReportLab se puede levantar con:
 
 ```bash
 python -m pip install -r requirements-reportlab.txt
 npm run pdf:reportlab-service
 ```
 
-La aplicación web es plenamente utilizable sin este compañero local.
+## Documentación
 
-## Ilustraciones
+- [Visión de producto](docs/vision-producto.md) — qué debe llegar a ser la aplicación.
+- [Alcance funcional](docs/alcance-funcional.md) — qué existe, qué es experimental y qué está proyectado.
+- [Estado del producto](docs/estado-del-producto.md) — fotografía verificable del repositorio y sus brechas.
+- [Hoja de ruta](docs/roadmap.md) — fases y criterios de salida, sin fechas inventadas.
+- [Investigación del ecosistema](docs/investigacion-ecosistema.md) — aprendizajes de herramientas y estándares AEC.
+- [Sistema visual](docs/sistema-visual.md) — documentación del diseño actual; su rediseño es un trabajo separado.
+- [Índice de documentación](docs/README.md) — autoridad, estructura y mantenimiento.
+- [Reglas persistentes](AGENTS.md) — prácticas del repositorio y puerta de cierre.
 
-Las ilustraciones estructurales de `public/assets/structural/` son PNG
-pre-renderizados desde las escenas Three.js de `src/features/structural-assets/`.
-Si cambia la paleta o la geometría hay que rehacerlas, porque un PNG no se
-retematiza con CSS:
+## Licencia
 
-```bash
-npm run dev                                   # en una terminal
-npm run assets:render -- --base http://localhost:5173
-```
+MIT. Consulta [LICENSE](LICENSE).

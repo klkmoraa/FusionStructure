@@ -45,7 +45,7 @@
  * releases anteriores —que hay que borrar— de cualquier otra caché del origen,
  * que no es nuestra y no se toca.
  */
-export const CACHE_PREFIX = 'structureco-shell-';
+export const CACHE_PREFIX = 'fusionstructure-shell-';
 
 export const cacheNameFor = (release) => `${CACHE_PREFIX}${release}`;
 
@@ -88,7 +88,7 @@ self.addEventListener('install',event=>event.waitUntil(
 // rollback to a PRE-stamp release runs a worker that cannot stamp, so that cache
 // stays unstamped while a newer one outranks it. Unstamped caches therefore keep
 // one slot of their own until none are left.
-const ACTIVATED_AT='./__structureco-activated__';
+const ACTIVATED_AT='./__fusionstructure-activated__';
 self.addEventListener('activate',event=>event.waitUntil(
   caches.keys()
     .then(names=>{

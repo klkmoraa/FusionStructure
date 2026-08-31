@@ -70,7 +70,7 @@ const AppShell = () => {
       if (!decoded.ok) return;
       // El enlace no sustituye el proyecto: se convierte en un archivo temporal
       // y entra al mismo importador con revisión y confirmación explícita.
-      const name = `${safeProjectFilename(decoded.project.name)}.structureco.json`;
+      const name = `${safeProjectFilename(decoded.project.name)}.fusionstructure.json`;
       setLaunchedFile(new File([JSON.stringify(decoded.project)], name, { type: 'application/json' }));
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
       setScreen('workspace');
