@@ -1,3 +1,5 @@
+import './styles.css';
+import './design-system/material.css';
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { LoaderCircle } from 'lucide-react';
 import { WelcomeScreen, type HomeView } from './features/welcome/WelcomeScreen';
@@ -10,8 +12,6 @@ import { Space3DEntryDialog, type Space3DEntryOrigin } from './features/space3d/
 import { onLaunchedFile } from './platform/launchedFile';
 import { safeProjectFilename } from './utils/export';
 import { decodeProjectFragment } from './utils/shareLink';
-import './styles.css';
-import './design-system/material.css';
 
 const loadWorkspaceShell = () => import('./features/workspace/WorkspaceShell');
 const WorkspaceShell = lazy(loadWorkspaceShell);
