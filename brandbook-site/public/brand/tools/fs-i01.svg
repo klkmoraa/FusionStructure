@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="FusionStructure fs-i01">
+  <rect x="1" y="1" width="62" height="62" rx="15" fill="#F7F6F1" stroke="#6A57C8" stroke-opacity="0.35" />
+  <g transform="translate(8 8)">
+  <g fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6 15h13v18H6z" stroke="#6A57C8" />
+    <path d="M29 15h13v18H29z" stroke="#6A57C8" />
+    <path d="M19 21h10M29 27H19" stroke="#14171A" />
+    <path d="m26 18 3 3-3 3M22 24l-3 3 3 3" stroke="#14171A" />
+    <path d="M24 33v4" stroke="#6A57C8" opacity=".6" />
+    <circle cx="24" cy="40" r="4" stroke="#6A57C8" />
+    <path d="m22 40 1.5 1.5L27 38" stroke="#14171A" />
+  </g>
+  </g>
+</svg>

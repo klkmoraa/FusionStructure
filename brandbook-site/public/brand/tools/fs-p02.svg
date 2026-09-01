@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-label="FusionStructure fs-p02">
+  <rect x="1" y="1" width="62" height="62" rx="15" fill="#F7F6F1" stroke="#8A6110" stroke-opacity="0.35" />
+  <g transform="translate(8 8)">
+  <g fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M7 11h34v26H7z" stroke="#8A6110" />
+    <path d="M7 19h34M20 11v26" stroke="#8A6110" opacity=".5" />
+    <path d="M24 24h13M24 31h9" stroke="#14171A" stroke-width="4" stroke-linecap="butt" />
+    <path d="M11 24h5M11 31h5" stroke="#8A6110" opacity=".6" />
+    <path d="M14 41h20" stroke="#14171A" />
+  </g>
+  </g>
+</svg>

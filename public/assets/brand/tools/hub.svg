@@ -1,5 +1,0 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fusion Hub">
-  <rect x="1" y="1" width="62" height="62" rx="14" fill="#F6F5F0" stroke="#A7B1A9"/>
-  <path fill="#63C5FF" d="M7 7h18v8h-9v10H7zM39 7h18v18h-9V15h-9zM7 39h9v10h9v8H7zM39 49h9V39h9v18H39z"/>
-  <g fill="none" stroke="#171A1C" stroke-width="2.4" stroke-linecap="round"><circle cx="32" cy="32" r="4" fill="#171A1C"/><path d="M32 20v8m0 8v8M20 32h8m8 0h8"/><circle cx="32" cy="18" r="2"/><circle cx="32" cy="46" r="2"/><circle cx="18" cy="32" r="2"/><circle cx="46" cy="32" r="2"/></g>
-</svg>
