@@ -214,13 +214,13 @@ export const TOOLS: readonly Tool[] = [
   {
     id: 'fs-a01',
     code: 'FS-A01',
-    name: 'Solver 2D',
+    name: 'FStructure',
     family: 'analisis',
     glyph: 'solver2d',
     status: 'disponible',
-    role: 'marcos, armaduras y vigas',
+    role: 'Solver 2D · marcos, armaduras y vigas',
     summary:
-      'El núcleo disponible: modelar, analizar y leer resultados con el procedimiento a la vista, en el navegador.',
+      'El núcleo disponible: modelar, analizar y leer resultados con el procedimiento a la vista, en el navegador. FStructure es el nombre del módulo; Solver 2D es su rol en la familia.',
     today:
       'Nudos, miembros, apoyos, propiedades, cargas, casos y combinaciones; análisis lineal y P-Delta; reacciones, deformada, N-V-M, envolventes, influencia, pandeo y estudios modales.',
     next: 'Suite numérica independiente, más casos patológicos, contratos de signos y unidades, y oráculos externos.',

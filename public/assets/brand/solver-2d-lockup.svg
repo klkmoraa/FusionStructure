@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="56" viewBox="0 0 300 56" role="img" aria-label="FStructure">
+  <g transform="translate(0 4)">
+  <path fill="#14171A" d="M8 5h9v38H8z M17 5h24v5.5L17 14z" />
+  <path fill="#63C5FF" d="M17 21h17v5L17 30z" />
+  </g>
+  <text x="60" y="35" font-family="'Space Grotesk','Inter',system-ui,sans-serif" font-size="26" font-weight="600" letter-spacing="-0.4" fill="#14171A">FStructure</text>
+  <text x="61" y="49" font-family="'IBM Plex Mono',ui-monospace,monospace" font-size="9.5" letter-spacing="1.6" fill="#5C6A6F">SOLVER 2D · FUSIONSTRUCTURE</text>
+</svg>

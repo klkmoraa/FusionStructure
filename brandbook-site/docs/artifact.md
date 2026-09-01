@@ -70,6 +70,14 @@ Seis duraciones (`90 / 140 / 200 / 280 / 520 / 1400 ms`) y tres curvas. Seis men
 
 Veinticinco glifos en retícula de 48u, trazo 2.6, extremos redondos, dos tintas y un punto por nudo. Cada glifo dibuja el objeto real de su dominio y debe distinguirse en tinta, a 20 px y sin etiqueta. Se generan desde `scripts/glyph-library.mjs` con `npm run brand:assets`.
 
+## Módulos con nombre propio
+
+El solver 2D se llama **FStructure**; `Solver 2D` es su rol dentro del catálogo
+(`FS-A01`). Un módulo con nombre propio no repite la ménsula dentro de su
+glifo: usa el contenedor de familia con su color y su figura funcional, y la
+marca madre lo acompaña en la firma. FStructure nunca aparece solo cuando el
+contexto es la plataforma completa.
+
 ## Voz
 
 Cuatro principios: primero el estado, el límite es parte del dato, una frase una acción, y la persona decide. El brandbook incluye ocho reescrituras que muestran qué queda de una frase cuando se le quita la promesa, además de microcopy de botones, estados vacíos y avisos, y un glosario de seis términos.

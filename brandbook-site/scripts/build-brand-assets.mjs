@@ -202,6 +202,49 @@ const run = async () => {
     ),
   );
 
+  // Marca de módulo de FStructure (el solver 2D): el glifo del módulo dentro
+  // del contenedor de familia. Un módulo no repite la marca madre.
+  const solverGlyph = [
+    '  <g fill="none" stroke-linecap="round" stroke-linejoin="round">',
+    `    <path d="M13 19h22" stroke="{{INK}}" stroke-width="2" opacity="0.34" />`,
+    `    <path d="M13 19c6.5 0 8 13 11 13s4.5-13 11-13" stroke="{{INK}}" stroke-width="2.6" />`,
+    '  </g>',
+    `  <circle cx="13" cy="19" r="2.1" fill="{{INK}}" />`,
+    `  <circle cx="35" cy="19" r="2.1" fill="{{INK}}" />`,
+  ].join('\n');
+  const solverMark = (ink) =>
+    [
+      `  <rect x="2" y="2" width="44" height="44" rx="11" fill="none" stroke="${FAMILY_COLORS.analisis.day}" stroke-width="2" stroke-opacity="0.55" />`,
+      solverGlyph.replaceAll('{{INK}}', ink),
+    ].join('\n');
+
+  written.push(
+    await write(
+      '../public/assets/brand/solver-2d-mark.svg',
+      svgDocument(solverMark(INK), { label: 'FStructure' }),
+    ),
+  );
+  written.push(
+    await write(
+      '../public/assets/brand/solver-2d-mark-inverse.svg',
+      svgDocument(solverMark(CHALK), { label: 'FStructure inverso' }),
+    ),
+  );
+  written.push(
+    await write(
+      '../public/assets/brand/solver-2d-lockup.svg',
+      [
+        '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="56" viewBox="0 0 300 56" role="img" aria-label="FStructure">',
+        '  <g transform="translate(0 4)">',
+        markGroup(INK, SIGNAL),
+        '  </g>',
+        `  <text x="60" y="35" font-family="'Space Grotesk','Inter',system-ui,sans-serif" font-size="26" font-weight="600" letter-spacing="-0.4" fill="${INK}">FStructure</text>`,
+        `  <text x="61" y="49" font-family="'IBM Plex Mono',ui-monospace,monospace" font-size="9.5" letter-spacing="1.6" fill="#5C6A6F">SOLVER 2D · FUSIONSTRUCTURE</text>`,
+        '</svg>',
+      ].join('\n'),
+    ),
+  );
+
   const lockup = [
     `  <g transform="translate(0 4)">`,
     markGroup(INK, SIGNAL),
