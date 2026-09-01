@@ -12,17 +12,20 @@ FusionStructure usa un minimalismo técnico acromático:
 - la profundidad se expresa con filetes y niveles, no con volumen decorativo;
 - la densidad debe favorecer lectura, edición y revisión técnica.
 
-La landing aplica esta fundación en una escala editorial: titulares grandes, superficies abiertas, una sola acción primaria y color restringido a las trazas de dominio presentes en las imágenes y los iconos de familia. Las seis familias (`Análisis`, `Modelo`, `Civil`, `Proyecto`, `Conexiones` y `Aprendizaje`) deben conservar iconografía lineal, etiquetas breves y una imagen seleccionable; no se convierten en un catálogo de tarjetas ni en una promesa de implementación.
+La landing aplica esta fundación en una escala editorial: titulares grandes, superficies abiertas, una sola acción primaria y color restringido a las trazas de dominio presentes en las imágenes y los iconos de familia. Las seis familias (`Análisis`, `Modelo`, `Civil`, `Proyecto`, `Conexiones` y `Aprendizaje`) usan los glifos funcionales de la identidad de producto, con etiquetas breves y una imagen seleccionable; no se convierten en un catálogo de tarjetas ni en una promesa de implementación.
+
+La fuente de los activos de marca es `brandbook-site/public/brand/`. La marca madre conserva un núcleo abierto; los glifos de herramienta identifican cada familia incluso sin color. La landing mantiene esta aplicación acotada a la superficie editorial y no declara capacidades que aún estén en evolución.
 
 ## Colores de dominio
 
 | Color | Uso |
 |---|---|
-| Rojo | cargas puntuales, cargas distribuidas y momentos aplicados |
-| Azul | axial y deformada |
-| Verde | cortante y reacciones |
-| Amarillo | cotas y geometría de referencia |
-| Rosa | momento flector |
+| Azul axial `#63C5FF` | axial y tensión/compresión |
+| Coral momento `#FF6F66` | flexión y giros |
+| Verde cortante `#55C990` | cortante y transferencia |
+| Amarillo alerta `#F3C553` | atención y geometría de referencia |
+| Morado deformada `#9B87FF` | desplazamiento y deformada |
+| Rosa fluencia `#EF7AB9` | plastificación y estados límite locales |
 
 Estos colores conservan su significado entre Día y Noche. No deben utilizarse como relleno ornamental de paneles ni como estados ambiguos.
 

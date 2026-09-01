@@ -1,0 +1,7 @@
+<svg width="360" height="72" viewBox="0 0 360 72" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FusionStructure">
+  <g transform="translate(8 12)" fill="#171A1C">
+    <path d="M4 5h15v7h-7v7H4zM29 5h15v14h-8v-7h-7zM4 29h8v7h7v8H4zM29 36h7v-7h8v15H29z"/>
+    <circle cx="39" cy="10" r="2.25" fill="#63C5FF"/>
+  </g>
+  <text x="76" y="44" fill="#171A1C" font-family="Inter, Arial, sans-serif" font-size="29" font-weight="700" letter-spacing="-1.4">FusionStructure</text>
+</svg>

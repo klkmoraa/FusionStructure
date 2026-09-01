@@ -9,6 +9,7 @@
     "FusionStructure-worktrees/**",
     "fusionstructure-sites/**",
     "fusionstructure-sites-worktrees/**",
+    "brandbook-site/**",
     "fusionstructure-design-review/**",
     "fusionstructure-palette-lab/**",
     "FusionStructure-contexto-*/**",

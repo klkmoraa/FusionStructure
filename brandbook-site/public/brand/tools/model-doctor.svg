@@ -1,0 +1,5 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Model Doctor">
+  <rect x="1" y="1" width="62" height="62" rx="14" fill="#F6F5F0" stroke="#A7B1A9"/>
+  <path fill="#F3C553" d="M7 7h18v8h-9v10H7zM39 7h18v18h-9V15h-9zM7 39h9v10h9v8H7zM39 49h9V39h9v18H39z"/>
+  <g fill="none" stroke="#171A1C" stroke-width="2.3" stroke-linecap="round"><path d="M24 21v8a8 8 0 0 0 16 0v-8m-19 0h6m10 0h6M32 37v3a6 6 0 0 0 6 6h1"/><circle cx="42" cy="46" r="3"/></g>
+</svg>
