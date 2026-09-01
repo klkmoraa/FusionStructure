@@ -17,7 +17,10 @@ Fecha de consulta: 2026-08-31.
 | Revisión documental | La revisión de PDF, medición, comentarios y trazabilidad son un flujo central, no un exportador secundario. | El expediente y la coordinación deben existir aunque el modelo aún no sea BIM completo. |
 | Planeación | Costos, recursos, riesgos, actividades, programa y avance se gestionan como información relacionada, no como una sola gráfica. | El futuro módulo de planeación necesita relaciones con elementos y revisiones, no otra hoja aislada. |
 | Estándares abiertos | IFC describe información del entorno construido; BCF facilita incidencias y coordinación; IDS permite especificar y comprobar requisitos de información. | Interoperabilidad, validación y requisitos deben diseñarse desde el esquema, no añadirse al final. |
+| APIs y conectores | Los proveedores ofrecen varias vías: complementos locales, APIs cloud, derivados para visualización y formatos abiertos. Ninguna vía conserva por sí sola toda la semántica ni resuelve conflictos. | Diseñar `FS-I01` como una cadena de adaptadores con snapshot, mapeo, diff, confirmación y checkpoint; elegir la vía por flujo, no por marca. |
 | Gestión de información | ISO 19650 pone énfasis en intercambiar, registrar, versionar y organizar información durante el ciclo de vida. | El proyecto necesita estados, revisiones, responsabilidades, procedencia y reglas de entrega. |
+| Software abierto | Los mejores candidatos no forman una suite única: hay motores permisivos, bibliotecas LGPL/CDDL, aplicaciones GPL/AGPL y productos de investigación con licencias propias. | La adopción se decide por componente y frontera; “está en GitHub” no significa que pueda copiarse al cliente MIT. |
+| Educación e investigación | FTOOL, Edubeam e IndeterminateBeam enseñan por interacción; Jupyter/Quarto/DVC cubren ejecución, publicación y artefactos reproducibles. | Aula, protocolo, laboratorio y tutoría deben ser capas del proyecto, no otro silo ni un LMS genérico. |
 
 ## Conclusiones
 
@@ -62,13 +65,22 @@ Explicar métodos, supuestos y resultados no es solo una función para estudiant
 - investigar openBIM antes de diseñar un formato cerrado;
 - mantener los cálculos avanzados experimentales hasta contar con oráculos;
 - diseñar módulos para offline antes de añadir colaboración remota;
-- no modificar el sistema visual actual como consecuencia de esta investigación.
+- conservar la fundación acromática del sistema visual y usar la landing para hacer visibles estados, familias y límites sin fingir capacidades.
+- mantener una matriz viva de licencia, actividad, versión, rol y decisión para cada repositorio evaluado;
+- priorizar `FS-A04` como separación entre demanda, sección/material y regla normativa;
+- reconocer `FS-L01` como disponible y reservar `FS-L02/L03/L04` para investigación, reproducibilidad y trayectoria.
+
+La matriz completa y sus recomendaciones están en [Referentes, repositorios y fronteras](referentes-open-source.md). La aplicación a las materias identificadas está en [Ruta académica](ruta-academica.md).
 
 ## Fuentes oficiales consultadas
 
 - [Autodesk AEC Collection](https://www.autodesk.com/collections/architecture-engineering-construction/included-products)
 - [Autodesk Revit](https://www.autodesk.com/products/revit/overview)
+- [Autodesk AutoCAD](https://www.autodesk.com/products/autocad/overview)
 - [Autodesk Civil 3D](https://www.autodesk.com/products/civil-3d/overview)
+- [Autodesk Platform Services: Automation APIs](https://aps.autodesk.com/automation-apis)
+- [Autodesk Platform Services: Data Exchange API](https://aps.autodesk.com/developer/overview/data-exchange-api)
+- [Autodesk Platform Services: Model Derivative API](https://aps.autodesk.com/apis-and-services/model-derivative-api)
 - [Graphisoft Archicad](https://www.graphisoft.com/)
 - [Tekla Structures](https://www.tekla.com/products/tekla-structures)
 - [Bluebeam: markups and data](https://www.bluebeam.com/product/markups-and-data/)
@@ -76,6 +88,7 @@ Explicar métodos, supuestos y resultados no es solo una función para estudiant
 - [buildingSMART: IFC](https://www.buildingsmart.org/standards/bsi-standards/industry-foundation-classes/)
 - [buildingSMART: openBIM](https://www.buildingsmart.org/about/openbim/)
 - [buildingSMART: IDS](https://www.buildingsmart.org/standards/bsi-standards/information-delivery-specification-ids/)
+- [buildingSMART: BCF](https://www.buildingsmart.org/standards/bsi-standards/bim-collaboration-format/)
 - [ISO: BIM e ISO 19650](https://www.iso.org/sectors/building-construction/building-information-modelling)
 - [ISO 19650-1](https://www.iso.org/standard/68078.html)
 

@@ -22,12 +22,30 @@ Este documento separa el estado verificable del código de la dirección de prod
 | Análisis estructural | Disponible | solución lineal, P-Delta, diagramas N-V-M, deformada, reacciones, envolventes, líneas de influencia, pandeo y estudios modales |
 | Calidad del resultado | Disponible | auditoría de cargas, diagnósticos, certificado numérico limitado, fiabilidad y trazabilidad del resultado |
 | Métodos educativos | Disponible | métodos seleccionables, ejercicios, guías, progreso y traza educativa bajo demanda |
+| Diseño por materiales | Experimental | un único componente inconcluso de fluencia de sección total para acero en tensión axial; no cubre diseño integral de acero ni concreto |
 | Documentación técnica | Disponible | memoria PDF, anexos, diagramas, procedimiento, materiales, expediente portable y vista previa |
 | Interoperabilidad actual | Disponible | JSON de proyecto, SVG, PNG, CSV, enlaces compartibles e importación DXF ASCII de un subconjunto |
 | Biblioteca personal | Disponible | secciones, vistas, favoritos y preferencias locales |
 | PWA y trabajo offline | Disponible | shell PWA, almacenamiento local y aviso controlado de actualización |
 | Space 3D | Experimental | marco espacial elástico lineal separado, con limitaciones explícitas frente al dominio 2D |
 | Asistencia local | Experimental | propuestas de comandos locales; no debe ocultar ni ejecutar acciones ambiguas sin confirmación |
+
+## Mapa de superficies
+
+La nomenclatura propuesta evita usar nombres de proveedores como si fueran módulos propios:
+
+- `FS-A01 Solver 2D` — Disponible;
+- `FS-A02 Solver 3D` — Experimental y separado;
+- `FS-A03 Elementos finitos` — Planeado;
+- `FS-A04 Diseño por materiales` — Experimental; sólo existe un check parcial de acero y el resto permanece planeado;
+- `FS-M01 Dibujo CAD`, `FS-M02 Modelo BIM`, `FS-M03 Detallado` — Planeados;
+- `FS-C01 Terreno`, `FS-C02 Geotecnia`, `FS-C03 Agua y drenaje` — Planeados;
+- `FS-P01 Documentos`, `FS-P02 Cantidades y costos`, `FS-P03 Programa y campo` — Planeados;
+- `FS-I01 Conectores` — Planeado; los formatos actuales son una base, no conectores completos de Revit o AutoCAD.
+- `FS-L01 Aula estructural` — Disponible;
+- `FS-L02 Taller de investigación`, `FS-L03 Laboratorio reproducible` y `FS-L04 Tutoría y trayectoria` — Planeados.
+
+El detalle de capacidades y mejoras está en [Catálogo de herramientas](catalogo-herramientas.md).
 
 ## Capacidades que deben crecer desde el núcleo
 
@@ -78,6 +96,20 @@ Criterio: móvil y offline desde el diseño del módulo, con sincronización exp
 **Planeado:** entrega de activos, inventario, garantías, mantenimiento, inspecciones, historial de cambios y conexión entre activo construido y documentación vigente.
 
 Criterio: esta fase depende de que la identidad y las revisiones del proyecto sean confiables desde el inicio.
+
+### Conectores y aplicaciones externas
+
+**Planeado:** adaptadores de Revit, AutoCAD, IFC/BCF/IDS y otras aplicaciones con snapshot, mapeo, unidades, coordenadas, validación, vista previa de diferencias, confirmación, procedencia y checkpoint reversible.
+
+Criterio: un conector nunca modifica el proyecto silenciosamente ni presenta compatibilidad bidireccional antes de probar identidad, pérdida de datos, idempotencia y versiones soportadas. Véase [Arquitectura de conectores](arquitectura-conectores.md).
+
+### Aprendizaje e investigación
+
+**Disponible:** Aula estructural sobre el mismo modelo y análisis 2D, con ejercicios guiados, predicción, procedimiento, comparación y conclusión.
+
+**Planeado:** protocolo de investigación, laboratorio reproducible, datasets y ejecuciones versionadas, referencias, tutorías, acuerdos, hitos y evidencias vinculadas al proyecto.
+
+Criterio: la herramienta debe hacer visible el razonamiento y la reproducción; no resolver silenciosamente la tarea, inventar fuentes ni convertir progreso decorativo en evidencia. Véase [Ruta académica](ruta-academica.md).
 
 ## No comprometido todavía
 

@@ -14,6 +14,9 @@ Entregables:
 - comandos reversibles y migraciones explícitas;
 - puerta `lint + typecheck + test + build`;
 - primeras pruebas de navegador y registro de decisiones.
+- landing de plataforma, catálogo versionado de superficies y estados visibles.
+- contrato de navegación por herramienta: portada general -> bienvenida propia -> espacio de trabajo; el shell de proyectos, importación, aula y ejemplos pertenece al Solver 2D.
+- matriz de referentes/licencias y ruta académica vinculada a capacidades reales.
 
 **Salida:** cualquier persona que lea el repositorio puede distinguir producto actual, experimento y visión futura sin consultar conversaciones externas.
 
@@ -29,6 +32,8 @@ Entregables:
 - invalidación correcta de resultados después de cada cambio;
 - exportación de entradas, procedimiento, resultados y procedencia;
 - criterios de aplicabilidad visibles para cada estudio.
+- contrato separado `AnalysisResult → respuesta de sección → DesignResult` y primeros oráculos de diseño por materiales;
+- biblioteca de ejercicios de Aula que reutilice fixtures y oráculos del núcleo.
 
 **Salida:** el núcleo puede demostrar qué calcula, bajo qué hipótesis y cuándo debe rechazar o limitar una respuesta.
 
@@ -59,6 +64,8 @@ Entregables:
 - vistas de planta, corte, elevación y 3D;
 - reglas de interferencia y coordinación;
 - importación y exportación abierta inicial.
+- SDK interno de adaptadores, snapshot, mapeo, validación, diff y checkpoint reversible;
+- primera lectura IFC y prototipos de sólo lectura para Revit/AutoCAD antes de cualquier escritura bidireccional.
 
 **Salida:** un cambio arquitectónico relevante puede señalar qué elementos, análisis, documentos y cantidades quedaron afectados.
 
@@ -120,6 +127,20 @@ Entregables:
 - asistentes que expliquen sus propuestas y no oculten cambios.
 
 **Salida:** una extensión puede agregarse sin crear una segunda fuente de verdad ni convertir los resultados en una caja negra.
+
+## Línea transversal — Aprendizaje e investigación
+
+Esta línea no espera a una fase final: acompaña el núcleo y reutiliza su evidencia.
+
+Entregables progresivos:
+
+- consolidar `FS-L01 Aula estructural` con casos y oráculos versionados;
+- definir `FS-L02 Taller de investigación` como protocolo, decisiones, fuentes y evidencia;
+- definir `FS-L03 Laboratorio reproducible` con snapshots, datasets, motores, tolerancias y artefactos;
+- definir `FS-L04 Tutoría y trayectoria` mediante acuerdos e hitos basados en evidencia;
+- exportar notebooks y reportes abiertos sin hacer depender el proyecto de un servicio remoto.
+
+**Salida:** una conclusión académica puede rastrearse a la pregunta, los datos, la ejecución, el contraste y sus límites.
 
 ## Dependencias críticas
 

@@ -1,6 +1,6 @@
 # Sistema visual
 
-Este documento registra el sistema visual que ya existe en la aplicación. La visión todo-en-uno no autoriza por sí sola un rediseño: la interfaz actual queda fuera del alcance de esta actualización.
+Este documento registra el sistema visual que ya existe en la aplicación. La landing de plataforma puede expresar la visión completa del producto mediante narrativa, iconos e imágenes conceptuales, sin presentar esa expresión como evidencia de capacidades implementadas.
 
 ## Dirección actual
 
@@ -11,6 +11,8 @@ FusionStructure usa un minimalismo técnico acromático:
 - el color se reserva para significados del dominio;
 - la profundidad se expresa con filetes y niveles, no con volumen decorativo;
 - la densidad debe favorecer lectura, edición y revisión técnica.
+
+La landing aplica esta fundación en una escala editorial: titulares grandes, superficies abiertas, una sola acción primaria y color restringido a las trazas de dominio presentes en las imágenes y los iconos de familia. Las seis familias (`Análisis`, `Modelo`, `Civil`, `Proyecto`, `Conexiones` y `Aprendizaje`) deben conservar iconografía lineal, etiquetas breves y una imagen seleccionable; no se convierten en un catálogo de tarjetas ni en una promesa de implementación.
 
 ## Colores de dominio
 

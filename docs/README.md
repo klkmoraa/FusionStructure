@@ -9,7 +9,11 @@ Esta documentación describe una aplicación experimental que está construyénd
 3. [Estado del producto](estado-del-producto.md)
 4. [Hoja de ruta](roadmap.md)
 5. [Investigación del ecosistema](investigacion-ecosistema.md)
-6. [Sistema visual](sistema-visual.md)
+6. [Catálogo de herramientas](catalogo-herramientas.md)
+7. [Referentes y repositorios](referentes-open-source.md)
+8. [Ruta académica](ruta-academica.md)
+9. [Arquitectura de conectores](arquitectura-conectores.md)
+10. [Sistema visual](sistema-visual.md)
 
 ## Documentos canónicos
 
@@ -20,6 +24,10 @@ Esta documentación describe una aplicación experimental que está construyénd
 | [Estado del producto](estado-del-producto.md) | Registra la fotografía del repositorio, sus riesgos y la siguiente prioridad técnica. |
 | [Hoja de ruta](roadmap.md) | Ordena el crecimiento por dependencias y criterios de salida, no por marketing ni fechas arbitrarias. |
 | [Investigación del ecosistema](investigacion-ecosistema.md) | Resume patrones observados en herramientas AEC y estándares abiertos que deben influir en la arquitectura. |
+| [Catálogo de herramientas](catalogo-herramientas.md) | Asigna códigos, estado, alcance, referentes, familia técnica y puertas de verificación a cada superficie. |
+| [Referentes, repositorios y fronteras](referentes-open-source.md) | Clasifica motores, aplicaciones, licencias y decisiones de integración, conector, oráculo o referencia. |
+| [Ruta académica](ruta-academica.md) | Vincula las materias identificadas con módulos, herramientas, ejercicios y evidencia reproducible. |
+| [Arquitectura de conectores](arquitectura-conectores.md) | Define cómo conectar Revit, AutoCAD, openBIM y futuras aplicaciones sin perder unidades, diferencias ni reversión. |
 | [Sistema visual](sistema-visual.md) | Documenta el sistema visual actual. No se rediseña la interfaz como parte de esta actualización. |
 | [Reglas persistentes](../AGENTS.md) | Define la autoridad, la calidad mínima, la ausencia de áreas protegidas y las reglas de cierre. |
 
@@ -30,4 +38,4 @@ Esta documentación describe una aplicación experimental que está construyénd
 - **Planeado:** forma parte de la dirección aprobada, pero todavía no debe venderse como función.
 - **No comprometido:** una idea útil que requiere investigación o decisión antes de entrar a la hoja de ruta.
 
-Las imágenes de concepto en [assets/](assets/) son material de dirección, no capturas de la aplicación.
+Las imágenes de concepto en [assets/](assets/) y los mockups en [public/assets/tool-mockups/](../public/assets/tool-mockups/) son material de dirección, no capturas ni evidencia de implementación.

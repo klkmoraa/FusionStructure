@@ -4,7 +4,7 @@
 
 - Fecha de revisión: 2026-08-31.
 - Rama revisada: `main`.
-- Commit revisado antes de esta actualización: `c2fe725`.
+- Commit revisado antes de esta actualización: `8aca078`.
 - Versión declarada en `package.json`: `0.8.2`.
 - El repositorio es privado y su código se encuentra en una etapa experimental.
 - No se presenta el concepto ni la implementación como tecnología patentada, certificada, propietaria o lista para obra.
@@ -22,6 +22,7 @@ La estructura actual muestra un producto con un núcleo técnico real, no única
 - `src/workers/`: análisis y estudios fuera del hilo principal;
 - `src/storage/`: repositorio local de proyectos y versiones;
 - `public/assets/structural/`: ilustraciones estructurales prerenderizadas;
+- `public/assets/landing/` y `public/assets/tool-mockups/`: dirección visual de la portada y mockups conceptuales; no son evidencia de implementación;
 - `scripts/`: build, PWA, ReportLab y render de assets;
 - `.github/workflows/ci.yml`: integración continua para la puerta definida por el proyecto.
 
@@ -67,6 +68,15 @@ Esta actualización establece:
 - ausencia deliberada de áreas de código protegidas;
 - estado experimental visible y límites técnicos;
 - imágenes conceptuales como material de alineación, no como especificaciones de interfaz;
+- una landing principal editorial, sin controles internos de los solvers, que presenta las seis familias del producto como una visión integrada y conserva una nota discreta sobre las superficies aún en evolución;
+- una bienvenida propia del Solver 2D con proyecto actual, nuevo proyecto, importación, aula, plantillas y pórticos recientes antes de abrir el canvas;
+- una bienvenida propia y separada del Solver 3D experimental antes de abrir su espacio de trabajo;
+- rutas de superficie persistentes en la URL para que un refresco conserve la portada, la bienvenida o el workspace activo sin forzar el canvas 2D;
+- un atlas provisional de dieciocho superficies (`FS-Axx`, `FS-Mxx`, `FS-Cxx`, `FS-Pxx`, `FS-Ixx`, `FS-Lxx`) con mockups conceptuales y límites visibles;
+- `FS-A04 Diseño por materiales` visible como experimental porque sólo existe un check parcial de acero, sin presentar el concreto planeado como implementado;
+- `FS-L01 Aula estructural` reconocido como disponible y una ruta planeada para investigación reproducible y tutoría basada en evidencia;
+- una matriz de repositorios que separa integración, motor aislado, conector, oráculo y referencia de interfaz según licencia y alcance;
+- el contrato planeado de `FS-I01 Conectores` para Revit, AutoCAD, openBIM y futuros adaptadores, sin afirmar compatibilidad que no existe;
 - se mantiene la fundación del sistema visual; los estilos nuevos permanecen
   en las superficies que los necesitan;
 - las referencias de StructureCo y CopiaWeb se tomaron de clones directos de GitHub,

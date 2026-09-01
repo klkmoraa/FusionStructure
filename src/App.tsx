@@ -1,6 +1,6 @@
 import './styles.css';
 import './design-system/material.css';
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { LoaderCircle } from 'lucide-react';
 import { WelcomeScreen, type HomeView } from './features/welcome/WelcomeScreen';
 import { ProjectProvider } from './store/ProjectContext';
@@ -12,6 +12,7 @@ import { Space3DEntryDialog, type Space3DEntryOrigin } from './features/space3d/
 import { onLaunchedFile } from './platform/launchedFile';
 import { safeProjectFilename } from './utils/export';
 import { decodeProjectFragment } from './utils/shareLink';
+import { readAppRoute, writeAppRoute, type AppScreen } from './appRoute';
 
 const loadWorkspaceShell = () => import('./features/workspace/WorkspaceShell');
 const WorkspaceShell = lazy(loadWorkspaceShell);
@@ -22,8 +23,6 @@ const Space3DWorkspace = lazy(loadSpace3DWorkspace);
 const PwaUpdateNotice = lazy(() => import('./platform/PwaUpdateNotice').then((module) => ({ default: module.PwaUpdateNotice })));
 const PortableImportCenter = lazy(() => import('./features/import-export/PortableImportCenter').then((module) => ({ default: module.PortableImportCenter })));
 
-type AppScreen = 'welcome' | 'workspace' | 'space3d';
-
 /**
  * De dónde se abrió Space 3D. Desde la mesa 2D se abre el proyecto actual
  * convertido al dominio espacial; desde Inicio, un modelo espacial propio.
@@ -31,17 +30,21 @@ type AppScreen = 'welcome' | 'workspace' | 'space3d';
 type Space3DOrigin = Space3DEntryOrigin;
 
 const AppShell = () => {
-  const [screen, setScreen] = useState<AppScreen>('welcome');
-  const [welcomeInitialView, setWelcomeInitialView] = useState<HomeView>('home');
-  const [space3dOrigin, setSpace3DOrigin] = useState<Space3DOrigin>('standalone');
+  const [initialRoute] = useState(() => readAppRoute(window.location.search));
+  const [screen, setScreen] = useState<AppScreen>(initialRoute.screen);
+  const [welcomeInitialView, setWelcomeInitialView] = useState<HomeView>(initialRoute.welcomeView);
+  const [space3dOrigin, setSpace3DOrigin] = useState<Space3DOrigin>(initialRoute.space3dOrigin);
   const [space3DEntryOrigin, setSpace3DEntryOrigin] = useState<Space3DEntryOrigin | null>(null);
   const [launchedFile, setLaunchedFile] = useState<File | null>(null);
-  // La reanudación directa se permite sólo al abrir la aplicación. Al volver a
-  // Inicio en la misma sesión, el usuario debe poder ver de verdad las rutas
-  // de recuperación, importación y ejemplos.
-  const [directResumeAvailable, setDirectResumeAvailable] = useState(true);
   const { project, analysis, replaceProject } = useProject();
   const { t } = useI18n();
+
+  const navigate = useCallback((next: AppScreen, view: HomeView = 'home', origin: Space3DOrigin = 'standalone') => {
+    if (next === 'welcome') setWelcomeInitialView(view);
+    if (next === 'space3d') setSpace3DOrigin(origin);
+    setScreen(next);
+    writeAppRoute({ screen: next, welcomeView: view, space3dOrigin: origin });
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = project.settings.language;
@@ -61,8 +64,8 @@ const AppShell = () => {
 
   useEffect(() => onLaunchedFile(({ file }) => {
     setLaunchedFile(file);
-    setScreen('workspace');
-  }), []);
+    navigate('workspace');
+  }), [navigate]);
 
   useEffect(() => {
     const receiveSharedProject = () => {
@@ -73,24 +76,18 @@ const AppShell = () => {
       const name = `${safeProjectFilename(decoded.project.name)}.fusionstructure.json`;
       setLaunchedFile(new File([JSON.stringify(decoded.project)], name, { type: 'application/json' }));
       window.history.replaceState(null, '', window.location.pathname + window.location.search);
-      setScreen('workspace');
+      navigate('workspace');
     };
     receiveSharedProject();
     window.addEventListener('hashchange', receiveSharedProject);
     return () => window.removeEventListener('hashchange', receiveSharedProject);
-  }, []);
-
-  const navigate = (next: AppScreen, view: HomeView = 'home') => {
-    if (next === 'welcome') setWelcomeInitialView(view);
-    else setDirectResumeAvailable(false);
-    setScreen(next);
-  };
+  }, [navigate]);
   const requestSpace3D = (origin: Space3DEntryOrigin) => setSpace3DEntryOrigin(origin);
   const proceedToSpace3D = () => {
     if (!space3DEntryOrigin) return;
-    setSpace3DOrigin(space3DEntryOrigin);
+    const origin = space3DEntryOrigin;
     setSpace3DEntryOrigin(null);
-    navigate('space3d');
+    navigate('space3d', 'home', origin);
   };
   const space3DEntry = space3DEntryOrigin ? <Space3DEntryDialog
     language={project.settings.language}
@@ -107,7 +104,7 @@ const AppShell = () => {
     onImported={(outcome) => {
       replaceProject({ ...outcome.project, settings: { ...outcome.project.settings, language: project.settings.language } }, outcome.restoredAnalysis);
       setLaunchedFile(null);
-      setScreen('workspace');
+      navigate('workspace');
     }}
   /></Suspense> : null;
 
@@ -116,8 +113,7 @@ const AppShell = () => {
       onOpenWorkspace={() => navigate('workspace')}
       onOpenSpace3D={() => requestSpace3D('standalone')}
       onPreloadWorkspace={() => { void loadWorkspaceShell(); }}
-      allowDirectResume={directResumeAvailable}
-      onDirectResume={() => setDirectResumeAvailable(false)}
+      onViewChange={(view) => writeAppRoute({ screen: 'welcome', welcomeView: view, space3dOrigin: 'standalone' })}
       initialView={welcomeInitialView}
     /></ClassroomSessionProvider>{space3DEntry}{launchedImport}</>;
   }
@@ -130,8 +126,8 @@ const AppShell = () => {
         <Space3DWorkspace
           language={project.settings.language}
           sourceProject={space3dOrigin === 'workspace' ? project : undefined}
-          onOpenHome={() => navigate('welcome')}
-          onOpen2D={() => navigate('workspace')}
+          onOpenHome={() => navigate('welcome', 'space3d')}
+          onOpen2D={() => navigate('welcome', 'solver2d')}
         />
       </Suspense>{launchedImport}
     </>;
@@ -139,7 +135,7 @@ const AppShell = () => {
 
   return <ClassroomSessionProvider projectId={project.id} analysisAvailable={analysis?.success === true}>
     <Suspense fallback={<div className="workspace-loading" role="status" aria-label={t('workspace.loading')}><strong>FusionStructure</strong><LoaderCircle className="spin" size={22} /></div>}>
-      <WorkspaceShell projectId={project.id} onOpenHome={() => navigate('welcome')} onOpenSpace3D={() => requestSpace3D('workspace')} />
+      <WorkspaceShell projectId={project.id} onOpenHome={() => navigate('welcome', 'solver2d')} onOpenSpace3D={() => requestSpace3D('workspace')} />
     </Suspense>{space3DEntry}{launchedImport}
   </ClassroomSessionProvider>;
 };

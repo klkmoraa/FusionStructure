@@ -99,6 +99,10 @@ npm run pdf:reportlab-service
 - [Estado del producto](docs/estado-del-producto.md) — fotografía verificable del repositorio y sus brechas.
 - [Hoja de ruta](docs/roadmap.md) — fases y criterios de salida, sin fechas inventadas.
 - [Investigación del ecosistema](docs/investigacion-ecosistema.md) — aprendizajes de herramientas y estándares AEC.
+- [Catálogo de herramientas](docs/catalogo-herramientas.md) — códigos, estados, alcance, referentes y puerta de verdad de cada módulo.
+- [Referentes y repositorios](docs/referentes-open-source.md) — qué motores y aplicaciones conviene integrar, aislar, conectar o usar sólo como oráculos.
+- [Ruta académica](docs/ruta-academica.md) — aplicación verificable a análisis avanzado, concreto reforzado, abastecimiento de agua, investigación y tutoría.
+- [Arquitectura de conectores](docs/arquitectura-conectores.md) — propuesta verificable para Revit, AutoCAD, IFC y otros adaptadores.
 - [Sistema visual](docs/sistema-visual.md) — documentación del diseño actual; su rediseño es un trabajo separado.
 - [Índice de documentación](docs/README.md) — autoridad, estructura y mantenimiento.
 - [Reglas persistentes](AGENTS.md) — prácticas del repositorio y puerta de cierre.
