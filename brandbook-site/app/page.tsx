@@ -51,6 +51,7 @@ export default function Brandbook() {
   const [activeSignal, setActiveSignal] = useState<SignalId>('moment');
   const [copiedValue, setCopiedValue] = useState('');
   const [copiedLabel, setCopiedLabel] = useState('');
+  const [copyFailed, setCopyFailed] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [progress, setProgress] = useState(0);
   const copyTimer = useRef<number | undefined>(undefined);
@@ -124,16 +125,28 @@ export default function Brandbook() {
   );
 
   // El aviso muestra una etiqueta corta; el portapapeles se queda con el
-  // contenido completo, que puede ser una hoja de tokens entera.
+  // contenido completo, que puede ser una hoja de tokens entera. Si el
+  // navegador rechaza la escritura, el aviso lo dice en lugar de confirmar
+  // una copia que no ocurrió.
   const copyValue = useCallback((value: string, label?: string) => {
-    void navigator.clipboard?.writeText(value).catch(() => undefined);
-    setCopiedValue(value);
-    setCopiedLabel(label ?? value);
-    if (copyTimer.current) window.clearTimeout(copyTimer.current);
-    copyTimer.current = window.setTimeout(() => {
-      setCopiedValue('');
-      setCopiedLabel('');
-    }, 1900);
+    const announce = (ok: boolean) => {
+      setCopiedValue(ok ? value : '');
+      setCopiedLabel(ok ? (label ?? value) : 'No se pudo copiar');
+      setCopyFailed(!ok);
+      if (copyTimer.current) window.clearTimeout(copyTimer.current);
+      copyTimer.current = window.setTimeout(() => {
+        setCopiedValue('');
+        setCopiedLabel('');
+        setCopyFailed(false);
+      }, 1900);
+    };
+
+    const write = navigator.clipboard?.writeText(value);
+    if (!write) {
+      announce(false);
+      return;
+    }
+    write.then(() => announce(true)).catch(() => announce(false));
   }, []);
 
   const contextValue = useMemo(
@@ -282,10 +295,18 @@ export default function Brandbook() {
         </div>
 
         <output
-          className={`toast ${copiedValue ? 'is-visible' : ''}`}
+          className={`toast ${copiedLabel ? 'is-visible' : ''} ${copyFailed ? 'toast--error' : ''}`}
           aria-live="polite"
         >
-          Copiado <code>{copiedLabel}</code>
+          {copyFailed ? (
+            <span>
+              No se pudo copiar. Selecciona el valor y cópialo a mano.
+            </span>
+          ) : (
+            <span>
+              Copiado <code>{copiedLabel}</code>
+            </span>
+          )}
         </output>
       </div>
     </BrandbookContext.Provider>

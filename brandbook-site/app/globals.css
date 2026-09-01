@@ -1084,6 +1084,30 @@ table {
   opacity: 1;
 }
 
+/* El aviso nunca crece con el contenido copiado. */
+.toast {
+  max-width: min(520px, calc(100vw - 32px));
+}
+
+.toast span {
+  display: inline-flex;
+  gap: 8px;
+  align-items: baseline;
+  overflow: hidden;
+}
+
+.toast code {
+  overflow: hidden;
+  max-width: 280px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toast--error {
+  border-color: color-mix(in srgb, var(--fs-signal-moment) 50%, var(--line));
+  color: var(--fs-signal-moment);
+}
+
 .empty-state {
   padding: 28px;
   border: 1px dashed var(--line-strong);
@@ -3683,6 +3707,15 @@ table {
   background: var(--surface);
 }
 
+/* Los datos no se recortan: si no caben, la tabla se desplaza. */
+.table-demo__scroll {
+  overflow-x: auto;
+}
+
+.table-demo table {
+  min-width: 460px;
+}
+
 .table-demo__head {
   display: flex;
   align-items: center;
@@ -4880,13 +4913,27 @@ table {
 
 .brandbook--calma .board__deformed,
 .brandbook--calma .board__diagram-fill,
-.brandbook--calma .board__station,
-.brandbook--calma .motion-panel--incoming,
-.brandbook--calma .motion-link,
-.brandbook--calma .motion-confirm,
-.brandbook--calma .motion-compare,
-.brandbook--calma .motion-progress {
+.brandbook--calma .board__station {
   opacity: 1;
+  transform: none;
+}
+
+/* Sin animación, cada demostración se queda en su estado final: el de ella,
+   no el de las seis a la vez. */
+.brandbook--calma .motion-screen--llegar .motion-panel--incoming,
+.brandbook--calma .motion-screen--conectar .motion-panel--incoming,
+.brandbook--calma .motion-screen--conectar .motion-link,
+.brandbook--calma .motion-screen--deshacer .motion-panel--incoming,
+.brandbook--calma .motion-screen--confirmar .motion-confirm,
+.brandbook--calma .motion-screen--comparar .motion-compare,
+.brandbook--calma .motion-screen--esperar .motion-progress {
+  opacity: 1;
+  transform: none;
+}
+
+.brandbook--calma .motion-screen--conectar .motion-link path,
+.brandbook--calma .motion-screen--comparar .motion-compare i {
+  stroke-dashoffset: 0;
   transform: none;
 }
 

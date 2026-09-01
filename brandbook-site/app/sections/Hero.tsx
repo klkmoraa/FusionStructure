@@ -213,16 +213,19 @@ const AnalysisBoard = ({ beat }: { beat: number }) => {
 export const Hero = ({ onGoTo }: { onGoTo: (id: SectionId) => void }) => {
   const { motionMode } = useBrandbook();
   const [cycled, setCycled] = useState(0);
+  const [picked, setPicked] = useState<number | null>(null);
   const calm = motionMode === 'calma';
-  const beat = calm ? BEATS.length - 1 : cycled;
+  // Elegir una fase detiene el ciclo; en calma no hay ciclo, pero la elección
+  // manual sigue mandando y sin ella se muestra la fase final.
+  const beat = picked ?? (calm ? BEATS.length - 1 : cycled);
 
   useEffect(() => {
-    if (calm) return;
+    if (calm || picked !== null) return;
     const timer = window.setInterval(() => {
       setCycled((current) => (current + 1) % BEATS.length);
     }, 2600);
     return () => window.clearInterval(timer);
-  }, [calm]);
+  }, [calm, picked]);
 
   return (
     <section id="norte" className="section hero">
@@ -281,7 +284,7 @@ export const Hero = ({ onGoTo }: { onGoTo: (id: SectionId) => void }) => {
         <ol className="hero__beats">
           {BEATS.map((item, index) => (
             <li key={item.id} className={index === beat ? 'is-active' : ''}>
-              <button type="button" onClick={() => setCycled(index)}>
+              <button type="button" onClick={() => setPicked(index)}>
                 <span>{String(index + 1).padStart(2, '0')}</span>
                 <strong>{item.label}</strong>
                 <small>{item.note}</small>

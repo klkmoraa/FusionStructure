@@ -166,52 +166,58 @@ export const Material = () => {
             <span>03 · tablas</span>
             <code>unidad en el encabezado</code>
           </div>
-          <table>
-            <thead>
-              <tr>
-                <th>Miembro</th>
-                <th>
-                  N <span>kN</span>
-                </th>
-                <th>
-                  V <span>kN</span>
-                </th>
-                <th>
-                  M <span>kN·m</span>
-                </th>
-                <th>Resultado</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>B1</td>
-                <td>248.20</td>
-                <td>96.40</td>
-                <td>−148.60</td>
-                <td>
-                  <span className="cell-state cell-state--ok">verificado</span>
-                </td>
-              </tr>
-              <tr>
-                <td>B4</td>
-                <td>112.05</td>
-                <td>44.10</td>
-                <td>−61.30</td>
-                <td>
-                  <span className="cell-state cell-state--warn">revisar</span>
-                </td>
-              </tr>
-              <tr>
-                <td>C2</td>
-                <td>−318.44</td>
-                <td>12.80</td>
-                <td>28.90</td>
-                <td>
-                  <span className="cell-state cell-state--ok">verificado</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="table-demo__scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Miembro</th>
+                  <th>
+                    N <span>kN</span>
+                  </th>
+                  <th>
+                    V <span>kN</span>
+                  </th>
+                  <th>
+                    M <span>kN·m</span>
+                  </th>
+                  <th>Resultado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>B1</td>
+                  <td>248.20</td>
+                  <td>96.40</td>
+                  <td>−148.60</td>
+                  <td>
+                    <span className="cell-state cell-state--ok">
+                      verificado
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>B4</td>
+                  <td>112.05</td>
+                  <td>44.10</td>
+                  <td>−61.30</td>
+                  <td>
+                    <span className="cell-state cell-state--warn">revisar</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>C2</td>
+                  <td>−318.44</td>
+                  <td>12.80</td>
+                  <td>28.90</td>
+                  <td>
+                    <span className="cell-state cell-state--ok">
+                      verificado
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
