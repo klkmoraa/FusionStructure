@@ -1,0 +1,18 @@
+<svg width="340" height="72" viewBox="0 0 340 72" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FusionStructure Plano">
+  <g transform="translate(8 12) scale(1)" >
+    <g fill="#f0564c">
+      <path d="M4 5h15v7h-7v7H4z"/>
+      <path d="M29 5h15v14h-8v-7h-7z"/>
+      <path d="M4 29h8v7h7v8H4z"/>
+      <path d="M29 36h7v-7h8v15H29z"/>
+    </g>
+    <g fill="none" stroke="#171a1c" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M13 19h22" stroke-width="2" opacity=".34"/>
+      <path d="M13 19c6.5 0 8 13 11 13s4.5-13 11-13" stroke-width="2.6"/>
+    </g>
+    <circle cx="13" cy="19" r="2.1" fill="#171a1c"/>
+    <circle cx="35" cy="19" r="2.1" fill="#171a1c"/>
+  </g>
+  <text x="72" y="38" fill="#171a1c" font-family="Instrument Sans, Inter, Arial, sans-serif" font-size="30" font-weight="700" letter-spacing="-1.2">Plano</text>
+  <text x="74" y="55" fill="#73726c" font-family="Geist Mono, ui-monospace, monospace" font-size="11" font-weight="700" letter-spacing="1.1">FUSIONSTRUCTURE · SOLVER 2D</text>
+</svg>
