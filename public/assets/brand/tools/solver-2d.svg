@@ -1,4 +1,4 @@
-<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Plano · Solver 2D">
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="FStructure · Solver 2D">
   <rect x="1" y="1" width="62" height="62" rx="14" fill="#fdfdfb" stroke="#dcdbd3"/>
   <path fill="#f0564c" d="M7 7h18v8h-9v10H7zM39 7h18v18h-9V15h-9zM7 39h9v10h9v8H7zM39 49h9V39h9v18H39z"/>
   <g fill="none" stroke="#171a1c" stroke-linecap="round" stroke-linejoin="round">

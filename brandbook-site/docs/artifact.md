@@ -43,7 +43,7 @@ y el trazo compartido baja un escalón. La implementación verificable está en
 
 - Marca madre: cuatro piezas estructurales abiertas alrededor de un núcleo común.
 - Familia de herramientas: marco compartido, glifo funcional y color de colección; el color nunca identifica por sí solo.
-- Plano: nombre propio del solver 2D. Marco de familia en coral de acción y un glifo que dice lo que hace —una barra recta y su deformada—. `Solver 2D` es su rol; `Plano` es cómo se llama.
+- FStructure: nombre propio del solver 2D. Marco de familia en coral de acción y un glifo que dice lo que hace —una barra recta y su deformada—. `Solver 2D` es su rol; `FStructure` es cómo se llama. El bloque de marca pone el rol antes que la procedencia, porque el nombre se acorta desde el de la plataforma.
 - Botones: primario, secundario, quiet, destructivo, icon-only, cargando y deshabilitado.
 - Iconos: trazo simple, 20 px, esquinas redondeadas, sin relleno decorativo.
 - Diagramas: axial, momento, cortante, deformada y fluencia con el mismo marco gráfico.

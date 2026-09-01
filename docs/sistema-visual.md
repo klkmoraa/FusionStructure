@@ -28,10 +28,17 @@ La fuente de los activos de marca es `brandbook-site/public/brand/`. La marca ma
 
 ## Identidad de módulo
 
-El solver 2D tiene nombre propio: **Plano**. Es una herramienta de la familia de
-FusionStructure, no una función sin cara, y la interfaz lo nombra donde importa
-—consola del editor, cabecera de Inicio, portada del módulo—. `Solver 2D` sigue
-siendo su rol dentro del catálogo (`FS-A01`); `Plano` es cómo se llama.
+El solver 2D tiene nombre propio: **FStructure**. Es una herramienta de la
+familia de FusionStructure, no una función sin cara, y la interfaz lo nombra
+donde importa —consola del editor, cabecera de Inicio, portada del módulo—.
+`Solver 2D` sigue siendo su rol dentro del catálogo (`FS-A01`); `FStructure` es
+cómo se llama.
+
+El nombre se acorta desde el de la plataforma, así que módulo y producto quedan
+cerca. La regla que lo mantiene legible: **FStructure nunca aparece solo cuando
+hay sitio para su rol.** El bloque de marca pone el rol antes que la
+procedencia (`FStructure · Solver 2D · FusionStructure`), y la portada del
+módulo abre con `FusionStructure · Solver 2D` sobre el nombre.
 
 Su marca reutiliza la geometría de la marca madre: el mismo marco de cuatro
 piezas, con el color de la colección —el coral de acción— y un glifo funcional
@@ -42,7 +49,11 @@ y su deformada, que es la respuesta que devuelve.
 |---|---|
 | Componentes de marca | `src/design-system/brand.tsx` (dibujados con `currentColor`, siguen al tema) |
 | Identidad de texto | `src/design-system/moduleIdentity.ts` |
-| Activos estáticos | `public/assets/brand/plano-mark.svg`, `plano-mark-inverse.svg`, `plano-lockup.svg` |
+| Activos estáticos | `public/assets/brand/solver-2d-mark.svg`, `solver-2d-mark-inverse.svg`, `solver-2d-lockup.svg` |
+
+Los identificadores del código nombran el SLOT, no la marca: `SOLVER_2D`,
+`Solver2DMark`, `solver2d-*`. Renombrar el módulo es editar cuatro valores en
+`moduleIdentity.ts`; el resto del código no se entera.
 
 ## Papel y carbón
 
@@ -100,7 +111,7 @@ verdad está procesando, y todo respeta `prefers-reduced-motion`.
 | Pulso | 680 ms | espera y proceso |
 
 Las animaciones del producto son dos y las dos explican una causa: el diagrama
-de portada de Plano, que revela geometría, apoyos, carga, momento y deformada en
+de portada del solver 2D, que revela geometría, apoyos, carga, momento y deformada en
 el orden en que ocurre el trabajo, y la entrada del diagrama en el lienzo, que
 se dibuja cuando llega una corrida nueva. La segunda está encadenada a la
 identidad de la corrida y no al render: un paneo o un zoom no la repiten.
@@ -111,16 +122,12 @@ La interfaz usa niveles explícitos:
 
 | Nivel | Uso | Regla |
 |---|---|---|
-| Base | rejilla, tablas y filas técnicas | filete suave, sin sombra |
+| Plano | rejilla, tablas y filas técnicas | filete suave, sin sombra |
 | Interior | cavidad de interacción | separación contenida |
 | Elevado | paneles y barras | superficie definida, sin volumen exagerado |
 | Flotante | menús, popovers y toasts | filete y sombra de contacto |
 | Hoja | superficies que nacen de un borde | separación clara del contenido |
 | Modal | interrupciones | velo y prioridad visual |
-
-El nivel base se llamaba «Plano». Se renombró a «Base» cuando el solver 2D pasó
-a llamarse Plano: dos cosas distintas no pueden compartir nombre dentro del
-mismo sistema.
 
 Una superficie no debe apilar tarjetas innecesariamente. Un componente debe
 comunicar su nivel por posición, espacio y filete antes que por decoración.

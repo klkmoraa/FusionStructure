@@ -21,7 +21,7 @@ La familia no define un silo. Todos los módulos deberán leer y escribir entida
 
 | Código | Herramienta | Estado | Superficie comparable que se estudió | Diferenciador exigido en FusionStructure |
 |---|---|---|---|---|
-| `FS-A01` | Plano · Solver 2D | Disponible | ETABS, RFEM, OpenSees | cálculo explicable y trazable en el navegador |
+| `FS-A01` | FStructure · Solver 2D | Disponible | ETABS, RFEM, OpenSees | cálculo explicable y trazable en el navegador |
 | `FS-A02` | Solver 3D | Experimental | ETABS, RFEM, OpenSees | dominio separado hasta validar cobertura y oráculos |
 | `FS-A03` | Elementos finitos | Planeado | Ansys Mechanical, SolidWorks Simulation, PLAXIS | convergencia, aplicabilidad y unidades visibles |
 | `FS-A04` | Diseño por materiales | Experimental | ETABS, Osdag, StructuralCodes, concrete-properties | demanda, capacidad, norma y estados límite faltantes separados |
@@ -44,9 +44,9 @@ La familia no define un silo. Todos los módulos deberán leer y escribir entida
 
 ## `FS-Axx` · Análisis
 
-### `FS-A01` · Plano · Solver 2D — Disponible
+### `FS-A01` · FStructure · Solver 2D — Disponible
 
-**Nombre del módulo:** Plano. `Solver 2D` es su rol dentro de la familia; `Plano` es cómo se llama en la interfaz, en la consola del editor y en su pantalla de inicio.
+**Nombre del módulo:** FStructure. `Solver 2D` es su rol dentro de la familia; `FStructure` es cómo se llama en la interfaz, en la consola del editor y en su pantalla de inicio. No confundir con `FS-M01 · Dibujo CAD`, que es el módulo de planos.
 
 **Puede hacer hoy:** modelar nudos y miembros, apoyos, propiedades, cargas, casos y combinaciones; resolver análisis lineal y P-Delta; presentar reacciones, deformada, diagramas N-V-M, envolventes, influencia, pandeo y estudios modales dentro del alcance documentado.
 

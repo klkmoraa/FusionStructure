@@ -1,7 +1,7 @@
 {
   "name": "FusionStructure · Análisis estructural",
   "short_name": "FusionStructure",
-  "description": "Plano, el solver 2D de FusionStructure: modelado, análisis y aprendizaje de estructuras planas.",
+  "description": "FStructure, el solver 2D de FusionStructure: modelado, análisis y aprendizaje de estructuras planas.",
   "lang": "es",
   "start_url": ".",
   "scope": ".",
