@@ -21,12 +21,17 @@ Definir un sistema visual propio para FusionStructure que convierta modelos, res
 
 ## Señales
 
-- Axial: azul claro `#63C5FF`.
-- Momento: coral `#FF6F66`.
-- Cortante: verde `#55C990`.
-- Atención/error recuperable: amarillo `#F3C553`.
-- Deformada: morado `#9B87FF`.
-- Fluencia: rosa `#EF7AB9`.
+Los valores de abajo se dibujaron sobre carbón. Sobre papel se quedan por debajo
+del mínimo gráfico de 3:1, así que en la aplicación viven como la TINTA de Noche
+y el trazo compartido baja un escalón. La implementación verificable está en
+`src/design-system/tokens.css` y en `docs/sistema-visual.md`.
+
+- Axial: azul claro `#63C5FF` (trazo `#2795e0`).
+- Acción aplicada: coral `#FF6F66` (trazo `#f0564c`) — cargas y momentos aplicados.
+- Cortante: verde `#55C990` (trazo `#1ba268`) — cortante y reacciones.
+- Atención/error recuperable: amarillo `#F3C553` (tinta `#8a6208` sobre papel).
+- Deformada: morado `#9B87FF` (trazo `#8a73f5`).
+- Momento flector: rosa `#EF7AB9` (trazo `#de5ca4`).
 
 ## Superficies
 
@@ -38,6 +43,7 @@ Definir un sistema visual propio para FusionStructure que convierta modelos, res
 
 - Marca madre: cuatro piezas estructurales abiertas alrededor de un núcleo común.
 - Familia de herramientas: marco compartido, glifo funcional y color de colección; el color nunca identifica por sí solo.
+- Plano: nombre propio del solver 2D. Marco de familia en coral de acción y un glifo que dice lo que hace —una barra recta y su deformada—. `Solver 2D` es su rol; `Plano` es cómo se llama.
 - Botones: primario, secundario, quiet, destructivo, icon-only, cargando y deshabilitado.
 - Iconos: trazo simple, 20 px, esquinas redondeadas, sin relleno decorativo.
 - Diagramas: axial, momento, cortante, deformada y fluencia con el mismo marco gráfico.

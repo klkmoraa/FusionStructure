@@ -98,7 +98,7 @@ const toolBrands: ReadonlyArray<{
   status: 'Disponible' | 'Experimental' | 'Planeado';
 }> = [
   { id: 'hub', name: 'Fusion Hub', role: 'proyecto común', color: '#63C5FF', Icon: Workflow, status: 'Disponible' },
-  { id: 'solver-2d', name: 'Solver 2D', role: 'marcos y armaduras', color: '#FF6F66', Icon: Ruler, status: 'Disponible' },
+  { id: 'solver-2d', name: 'Plano', role: 'Solver 2D · marcos y armaduras', color: '#FF6F66', Icon: Ruler, status: 'Disponible' },
   { id: 'space-3d', name: 'Space 3D', role: 'espacio estructural', color: '#55C990', Icon: Box, status: 'Experimental' },
   { id: 'doctor', name: 'Model Doctor', role: 'diagnóstico del modelo', color: '#F3C553', Icon: Stethoscope, status: 'Disponible' },
   { id: 'evidence', name: 'Evidence', role: 'documentos y procedencia', color: '#9B87FF', Icon: FileSearch, status: 'Planeado' },

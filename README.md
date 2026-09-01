@@ -8,7 +8,7 @@ La visión es una plataforma todo-en-uno para arquitectura, ingeniería civil, i
 
 ## Estado actual
 
-El núcleo disponible está centrado en el modelado y análisis estructural 2D, con superficies experimentales para 3D, aprendizaje, documentación técnica e interoperabilidad. La visión integral es más amplia que lo que hoy está implementado; este repositorio no presenta como terminado lo que aún es una dirección de producto.
+El núcleo disponible está centrado en **Plano**, el solver 2D de modelado y análisis estructural, con superficies experimentales para 3D, aprendizaje, documentación técnica e interoperabilidad. La visión integral es más amplia que lo que hoy está implementado; este repositorio no presenta como terminado lo que aún es una dirección de producto.
 
 En este momento hay código para:
 
@@ -103,7 +103,7 @@ npm run pdf:reportlab-service
 - [Referentes y repositorios](docs/referentes-open-source.md) — qué motores y aplicaciones conviene integrar, aislar, conectar o usar sólo como oráculos.
 - [Ruta académica](docs/ruta-academica.md) — aplicación verificable a análisis avanzado, concreto reforzado, abastecimiento de agua, investigación y tutoría.
 - [Arquitectura de conectores](docs/arquitectura-conectores.md) — propuesta verificable para Revit, AutoCAD, IFC y otros adaptadores.
-- [Sistema visual](docs/sistema-visual.md) — documentación del diseño actual; su rediseño es un trabajo separado.
+- [Sistema visual](docs/sistema-visual.md) — papel y carbón, las seis señales del dominio, la identidad de Plano y las invariantes que comprueba la guarda.
 - [Índice de documentación](docs/README.md) — autoridad, estructura y mantenimiento.
 - [Reglas persistentes](AGENTS.md) — prácticas del repositorio y puerta de cierre.
 
