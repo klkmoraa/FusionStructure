@@ -1,14 +1,14 @@
 {
   "name": "FusionStructure · Análisis estructural",
   "short_name": "FusionStructure",
-  "description": "Modelado, análisis y aprendizaje interactivo de estructuras planas 2D.",
+  "description": "FStructure, el solver 2D de FusionStructure: modelado, análisis y aprendizaje de estructuras planas.",
   "lang": "es",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#F7F4EE",
-  "theme_color": "#468C09",
+  "background_color": "#f7f6f1",
+  "theme_color": "#171a1c",
   "icons": [
     {
       "src": "favicon.svg",
