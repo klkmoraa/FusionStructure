@@ -81,13 +81,13 @@ export const Handoff = () => {
         index="12"
         eyebrow="Entrega · guardas"
         title="Un sistema se sostiene con guardas, no con buenas intenciones."
-        body="Estos son los valores que la aplicación consume y las comprobaciones que un cambio debe pasar antes de considerarse listo. Si una guarda falla, se reporta el fallo: no se presenta como éxito."
+        body="Estos son los valores que propone el brandbook y las comprobaciones que un cambio debe pasar antes de considerarse listo. La aplicación todavía consume los suyos en src/design-system/tokens.css: alinear ambos es una migración pendiente, no un hecho. Si una guarda falla, se reporta el fallo: no se presenta como éxito."
       />
 
       <div className="handoff__grid">
         <article className="panel handoff__tokens">
           <div className="panel__label">
-            <span>Hoja de tokens</span>
+            <span>Hoja de tokens · propuesta</span>
             <code>css</code>
           </div>
           <pre>
@@ -96,10 +96,15 @@ export const Handoff = () => {
           <button
             type="button"
             className="action action--primary"
-            onClick={() => copyValue(sheet)}
+            onClick={() => copyValue(sheet, 'hoja de tokens')}
           >
             <Download size={15} /> Copiar la hoja completa
           </button>
+          <p className="handoff__tokens-note">
+            Valores propuestos por el brandbook. La aplicación conserva los de{' '}
+            <code>src/design-system/tokens.css</code> hasta que exista una
+            migración con capturas comparables y revisión de accesibilidad.
+          </p>
         </article>
 
         <article className="panel handoff__checks">

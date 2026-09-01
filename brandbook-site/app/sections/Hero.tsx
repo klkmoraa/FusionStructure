@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import { BrandMark } from '../brand/marks';
-import { SIGNALS, type SectionId } from '../brand/system';
+import { SIGNALS, type SectionId, type SignalId } from '../brand/system';
 import { STATUS_COUNTS, STATUS_META } from '../brand/catalog';
 import { Eyebrow, useBrandbook } from '../brand/ui';
 
@@ -27,12 +27,52 @@ const BEATS = [
 ] as const;
 
 /**
+ * Cada señal dibuja su propia geometría sobre el mismo pórtico: el tablero no
+ * puede rotular una lectura axial sobre una curva de momento.
+ */
+const DIAGRAM_GEOMETRY: Record<
+  SignalId,
+  { line: string; fill?: string; marks?: { cx: number; cy: number }[] }
+> = {
+  axial: {
+    line: 'M96 150h288',
+    fill: 'M96 96h288v54H96Z',
+  },
+  moment: {
+    line: 'M96 96c58 0 66 92 144 92s86-92 144-92',
+    fill: 'M96 96c58 0 66 92 144 92s86-92 144-92v0H96Z',
+  },
+  shear: {
+    // Recta que cruza el cero en el centro del claro: positiva en un apoyo,
+    // negativa en el otro.
+    line: 'M96 52 384 140',
+    fill: 'M96 96V52l144 44Zm144 0 144 44V96Z',
+  },
+  deformed: {
+    line: 'M96 96c0 0 44 8 96 40s96 40 96 40 52-4 96-40',
+  },
+  yield: {
+    line: 'M96 96 240 188l144-92',
+    marks: [
+      { cx: 96, cy: 96 },
+      { cx: 240, cy: 188 },
+      { cx: 384, cy: 96 },
+    ],
+  },
+  attention: {
+    line: 'M96 96c58 0 66 92 144 92',
+    marks: [{ cx: 240, cy: 188 }],
+  },
+};
+
+/**
  * Tablero del héroe: el mismo pórtico recorre modelo, análisis, lectura y
  * decisión. Cada fase enciende una capa; ninguna capa aparece sin su rótulo.
  */
 const AnalysisBoard = ({ beat }: { beat: number }) => {
   const { activeSignal } = useBrandbook();
   const signal = SIGNALS.find((item) => item.id === activeSignal) ?? SIGNALS[0];
+  const geometry = DIAGRAM_GEOMETRY[signal.id];
 
   return (
     <div className={`board board--beat-${beat}`} data-signal={activeSignal}>
@@ -108,14 +148,19 @@ const AnalysisBoard = ({ beat }: { beat: number }) => {
         />
 
         <g className="board__diagram">
-          <path
-            className="board__diagram-fill"
-            d="M96 96c58 0 66 92 144 92s86-92 144-92v0H96Z"
-          />
-          <path
-            className="board__diagram-line"
-            d="M96 96c58 0 66 92 144 92s86-92 144-92"
-          />
+          {geometry.fill ? (
+            <path className="board__diagram-fill" d={geometry.fill} />
+          ) : null}
+          <path className="board__diagram-line" d={geometry.line} />
+          {geometry.marks?.map((mark) => (
+            <circle
+              key={mark.cx}
+              className="board__diagram-mark"
+              cx={mark.cx}
+              cy={mark.cy}
+              r="6"
+            />
+          ))}
         </g>
 
         <g className="board__nodes">

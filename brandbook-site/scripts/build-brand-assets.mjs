@@ -265,21 +265,30 @@ const run = async () => {
     const glyph = glyphById.get(glyphId);
     if (!glyph) throw new Error(`Glifo desconocido para ${name}: ${glyphId}`);
     const color = FAMILY_COLORS[family];
-    const inner = [
-      `  <rect x="1" y="1" width="62" height="62" rx="15" fill="none" stroke="${color.day}" stroke-opacity="0.4" />`,
-      '  <g transform="translate(8 8)">',
-      glyphGroup(glyph, color.day, INK, '  '),
-      '  </g>',
-    ].join('\n');
-    written.push(
-      await write(
-        `../public/assets/brand/tools/${name}.svg`,
-        svgDocument(inner, {
-          viewBox: '0 0 64 64',
-          label: `FusionStructure ${name}`,
-        }),
-      ),
-    );
+    // Dos variantes por familia: la aplicación las intercambia por tema, igual
+    // que hace con la marca. El archivo es transparente, así que la tinta debe
+    // cambiar con el papel que queda debajo.
+    const variants = [
+      { suffix: '', stroke: color.day, ink: INK },
+      { suffix: '-inverse', stroke: color.night, ink: CHALK },
+    ];
+    for (const variant of variants) {
+      const inner = [
+        `  <rect x="1" y="1" width="62" height="62" rx="15" fill="none" stroke="${variant.stroke}" stroke-opacity="0.4" />`,
+        '  <g transform="translate(8 8)">',
+        glyphGroup(glyph, variant.stroke, variant.ink, '  '),
+        '  </g>',
+      ].join('\n');
+      written.push(
+        await write(
+          `../public/assets/brand/tools/${name}${variant.suffix}.svg`,
+          svgDocument(inner, {
+            viewBox: '0 0 64 64',
+            label: `FusionStructure ${name}`,
+          }),
+        ),
+      );
+    }
   }
   for (const [tool, glyphId, family] of TOOL_BINDINGS) {
     const glyph = glyphById.get(glyphId);

@@ -9,7 +9,6 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { SURFACE_LEVELS } from '../brand/system';
-import { StatusPill } from '../brand/marks';
 import { RuleStrip, SectionIntro } from '../brand/ui';
 
 export const Material = () => {
@@ -32,7 +31,7 @@ export const Material = () => {
           <div className={`material-card material-card--${level}`}>
             <div className="material-card__head">
               <span>proyecto · noroeste</span>
-              <StatusPill status="disponible" compact />
+              <span className="cell-state cell-state--ok">verificado</span>
             </div>
             <strong>Envolvente de momento</strong>
             <div className="material-card__trace" aria-hidden="true">
@@ -165,16 +164,22 @@ export const Material = () => {
         <div className="table-demo">
           <div className="table-demo__head">
             <span>03 · tablas</span>
-            <code>cifras tabulares</code>
+            <code>unidad en el encabezado</code>
           </div>
           <table>
             <thead>
               <tr>
                 <th>Miembro</th>
-                <th>N</th>
-                <th>V</th>
-                <th>M</th>
-                <th>Estado</th>
+                <th>
+                  N <span>kN</span>
+                </th>
+                <th>
+                  V <span>kN</span>
+                </th>
+                <th>
+                  M <span>kN·m</span>
+                </th>
+                <th>Resultado</th>
               </tr>
             </thead>
             <tbody>
@@ -184,7 +189,7 @@ export const Material = () => {
                 <td>96.40</td>
                 <td>−148.60</td>
                 <td>
-                  <StatusPill status="disponible" compact />
+                  <span className="cell-state cell-state--ok">verificado</span>
                 </td>
               </tr>
               <tr>
@@ -193,7 +198,7 @@ export const Material = () => {
                 <td>44.10</td>
                 <td>−61.30</td>
                 <td>
-                  <span className="cell-warn">revisar</span>
+                  <span className="cell-state cell-state--warn">revisar</span>
                 </td>
               </tr>
               <tr>
@@ -202,13 +207,20 @@ export const Material = () => {
                 <td>12.80</td>
                 <td>28.90</td>
                 <td>
-                  <StatusPill status="disponible" compact />
+                  <span className="cell-state cell-state--ok">verificado</span>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
+
+      <p className="table-demo__note">
+        El equilibrio de un resultado no es el estado de una superficie del
+        producto:
+        <code>verificado</code> y <code>revisar</code> describen el cálculo;
+        <code>Disponible</code> y <code>Experimental</code> describen el módulo.
+      </p>
 
       <RuleStrip index="Regla 07">
         Una superficie declara su nivel por posición, espacio y filete antes que

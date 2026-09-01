@@ -12,8 +12,9 @@ type BrandbookState = {
   motionMode: MotionMode;
   activeSignal: SignalId;
   copiedValue: string;
+  copiedLabel: string;
   setActiveSignal: (signal: SignalId) => void;
-  copyValue: (value: string) => void;
+  copyValue: (value: string, label?: string) => void;
 };
 
 const noop = () => {};
@@ -23,6 +24,7 @@ export const BrandbookContext = createContext<BrandbookState>({
   motionMode: 'activo',
   activeSignal: 'axial',
   copiedValue: '',
+  copiedLabel: '',
   setActiveSignal: noop,
   copyValue: noop,
 });

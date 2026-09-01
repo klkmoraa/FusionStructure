@@ -50,6 +50,7 @@ export default function Brandbook() {
   const [activeSection, setActiveSection] = useState<SectionId>('norte');
   const [activeSignal, setActiveSignal] = useState<SignalId>('moment');
   const [copiedValue, setCopiedValue] = useState('');
+  const [copiedLabel, setCopiedLabel] = useState('');
   const [menuOpen, setMenuOpen] = useState(false);
   const [progress, setProgress] = useState(0);
   const copyTimer = useRef<number | undefined>(undefined);
@@ -122,11 +123,17 @@ export default function Brandbook() {
     [motionMode],
   );
 
-  const copyValue = useCallback((value: string) => {
+  // El aviso muestra una etiqueta corta; el portapapeles se queda con el
+  // contenido completo, que puede ser una hoja de tokens entera.
+  const copyValue = useCallback((value: string, label?: string) => {
     void navigator.clipboard?.writeText(value).catch(() => undefined);
     setCopiedValue(value);
+    setCopiedLabel(label ?? value);
     if (copyTimer.current) window.clearTimeout(copyTimer.current);
-    copyTimer.current = window.setTimeout(() => setCopiedValue(''), 1900);
+    copyTimer.current = window.setTimeout(() => {
+      setCopiedValue('');
+      setCopiedLabel('');
+    }, 1900);
   }, []);
 
   const contextValue = useMemo(
@@ -135,10 +142,11 @@ export default function Brandbook() {
       motionMode,
       activeSignal,
       copiedValue,
+      copiedLabel,
       setActiveSignal,
       copyValue,
     }),
-    [theme, motionMode, activeSignal, copiedValue, copyValue],
+    [theme, motionMode, activeSignal, copiedValue, copiedLabel, copyValue],
   );
 
   return (
@@ -277,7 +285,7 @@ export default function Brandbook() {
           className={`toast ${copiedValue ? 'is-visible' : ''}`}
           aria-live="polite"
         >
-          Copiado <code>{copiedValue}</code>
+          Copiado <code>{copiedLabel}</code>
         </output>
       </div>
     </BrandbookContext.Provider>

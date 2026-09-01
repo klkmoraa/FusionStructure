@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { ArrowRight, Search, X } from 'lucide-react';
 import { StatusPill, ToolTile } from '../brand/marks';
 import {
@@ -23,57 +23,67 @@ const STATUS_ORDER: readonly StatusId[] = [
   'no-comprometido',
 ];
 
-const ToolDetail = ({ tool, onClose }: { tool: Tool; onClose: () => void }) => (
-  <aside
-    className={`tool-detail family--${tool.family}`}
-    aria-label={`Detalle de ${tool.name}`}
-  >
-    <div className="tool-detail__head">
-      <ToolTile glyph={tool.glyph} family={tool.family} size={54} />
-      <div>
-        <code>{tool.code}</code>
-        <h3>{tool.name}</h3>
-        <p>{tool.summary}</p>
+const ToolDetail = ({ tool, onClose }: { tool: Tool; onClose: () => void }) => {
+  const panel = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    panel.current?.focus();
+  }, [tool.id]);
+
+  return (
+    <aside
+      ref={panel}
+      tabIndex={-1}
+      className={`tool-detail family--${tool.family}`}
+      aria-label={`Detalle de ${tool.name}`}
+    >
+      <div className="tool-detail__head">
+        <ToolTile glyph={tool.glyph} family={tool.family} size={54} />
+        <div>
+          <code>{tool.code}</code>
+          <h3>{tool.name}</h3>
+          <p>{tool.summary}</p>
+        </div>
+        <button
+          type="button"
+          className="icon-button"
+          onClick={onClose}
+          aria-label="Cerrar detalle"
+        >
+          <X size={16} />
+        </button>
       </div>
-      <button
-        type="button"
-        className="icon-button"
-        onClick={onClose}
-        aria-label="Cerrar detalle"
-      >
-        <X size={16} />
-      </button>
-    </div>
-    <dl className="tool-detail__body">
-      <div>
-        <dt>Hoy</dt>
-        <dd>{tool.today}</dd>
-      </div>
-      <div>
-        <dt>Debe crecer</dt>
-        <dd>{tool.next}</dd>
-      </div>
-      <div>
-        <dt>Puerta mínima</dt>
-        <dd>{tool.gate}</dd>
-      </div>
-      <div>
-        <dt>Categoría estudiada</dt>
-        <dd>
-          {tool.reference}
-          <small>
-            Referencia de categoría para investigar el problema. No implica
-            equivalencia, compatibilidad ni reemplazo.
-          </small>
-        </dd>
-      </div>
-    </dl>
-    <footer className="tool-detail__foot">
-      <StatusPill status={tool.status} />
-      <span>{STATUS_META[tool.status].rule}</span>
-    </footer>
-  </aside>
-);
+      <dl className="tool-detail__body">
+        <div>
+          <dt>Hoy</dt>
+          <dd>{tool.today}</dd>
+        </div>
+        <div>
+          <dt>Debe crecer</dt>
+          <dd>{tool.next}</dd>
+        </div>
+        <div>
+          <dt>Puerta mínima</dt>
+          <dd>{tool.gate}</dd>
+        </div>
+        <div>
+          <dt>Categoría estudiada</dt>
+          <dd>
+            {tool.reference}
+            <small>
+              Referencia de categoría para investigar el problema. No implica
+              equivalencia, compatibilidad ni reemplazo.
+            </small>
+          </dd>
+        </div>
+      </dl>
+      <footer className="tool-detail__foot">
+        <StatusPill status={tool.status} />
+        <span>{STATUS_META[tool.status].rule}</span>
+      </footer>
+    </aside>
+  );
+};
 
 export const Tools = () => {
   const [family, setFamily] = useState<FamilyFilter>('todas');
@@ -186,33 +196,42 @@ export const Tools = () => {
 
       <ul className="tool-grid">
         {visible.map((tool) => (
-          <li key={tool.id}>
-            <button
-              type="button"
-              className={`tool-card family--${tool.family} ${openTool === tool.id ? 'is-open' : ''}`}
-              onClick={() => setOpenTool(openTool === tool.id ? null : tool.id)}
-              aria-expanded={openTool === tool.id}
-            >
-              <span className="tool-card__top">
-                <ToolTile glyph={tool.glyph} family={tool.family} size={48} />
-                <code>{tool.code}</code>
-              </span>
-              <span className="tool-card__name">
-                <strong>{tool.name}</strong>
-                <small>{tool.role}</small>
-              </span>
-              <span className="tool-card__summary">{tool.summary}</span>
-              <span className="tool-card__reference">
-                <small>categoría estudiada</small>
-                {tool.reference}
-              </span>
-              <span className="tool-card__foot">
-                <StatusPill status={tool.status} compact />
-                <span className="tool-card__more">Ver puerta mínima</span>
-                <ArrowRight size={14} aria-hidden="true" />
-              </span>
-            </button>
-          </li>
+          <Fragment key={tool.id}>
+            <li>
+              <button
+                type="button"
+                className={`tool-card family--${tool.family} ${openTool === tool.id ? 'is-open' : ''}`}
+                onClick={() =>
+                  setOpenTool(openTool === tool.id ? null : tool.id)
+                }
+                aria-expanded={openTool === tool.id}
+              >
+                <span className="tool-card__top">
+                  <ToolTile glyph={tool.glyph} family={tool.family} size={48} />
+                  <code>{tool.code}</code>
+                </span>
+                <span className="tool-card__name">
+                  <strong>{tool.name}</strong>
+                  <small>{tool.role}</small>
+                </span>
+                <span className="tool-card__summary">{tool.summary}</span>
+                <span className="tool-card__reference">
+                  <small>categoría estudiada</small>
+                  {tool.reference}
+                </span>
+                <span className="tool-card__foot">
+                  <StatusPill status={tool.status} compact />
+                  <span className="tool-card__more">Ver puerta mínima</span>
+                  <ArrowRight size={14} aria-hidden="true" />
+                </span>
+              </button>
+            </li>
+            {selected?.id === tool.id ? (
+              <li className="tool-grid__detail">
+                <ToolDetail tool={selected} onClose={() => setOpenTool(null)} />
+              </li>
+            ) : null}
+          </Fragment>
         ))}
       </ul>
 
@@ -221,10 +240,6 @@ export const Tools = () => {
           Ninguna superficie coincide con ese filtro. Prueba con otra familia o
           borra la búsqueda.
         </p>
-      ) : null}
-
-      {selected ? (
-        <ToolDetail tool={selected} onClose={() => setOpenTool(null)} />
       ) : null}
 
       <div className="status-board">
