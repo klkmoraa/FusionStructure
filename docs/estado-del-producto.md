@@ -4,7 +4,7 @@
 
 - Fecha de revisión: 2026-08-31.
 - Rama revisada: `main`.
-- Commit revisado antes de esta actualización: `0b3884b`.
+- Commit revisado antes de esta actualización: `c2fe725`.
 - Versión declarada en `package.json`: `0.8.2`.
 - El repositorio es privado y su código se encuentra en una etapa experimental.
 - No se presenta el concepto ni la implementación como tecnología patentada, certificada, propietaria o lista para obra.
@@ -31,7 +31,7 @@ La superficie actual es suficiente para hablar de una herramienta estructural ex
 
 ### 1. Cobertura numérica todavía pequeña
 
-La documentación existente registra 8 archivos de prueba y 41 pruebas automatizadas. Eso puede proteger fronteras de datos importantes, pero no demuestra la corrección general del solver, de Space 3D, de la memoria PDF ni de todos los flujos de interfaz.
+La documentación existente registra 19 archivos de prueba y 73 pruebas automatizadas. Eso puede proteger fronteras de datos importantes, pero no demuestra la corrección general del solver, de Space 3D, de la memoria PDF ni de todos los flujos de interfaz.
 
 Prioridad: construir una suite numérica independiente con casos manuales, oráculos externos, invariantes de equilibrio, unidades y regresiones por dominio.
 
@@ -67,7 +67,36 @@ Esta actualización establece:
 - ausencia deliberada de áreas de código protegidas;
 - estado experimental visible y límites técnicos;
 - imágenes conceptuales como material de alineación, no como especificaciones de interfaz;
-- el sistema visual actual fuera del alcance de esta tarea.
+- se mantiene la fundación del sistema visual; los estilos nuevos permanecen
+  en las superficies que los necesitan;
+- las referencias de StructureCo y CopiaWeb se tomaron de clones directos de GitHub,
+  no de sus carpetas locales; el árbol base de FusionStructure coincidía con
+  `klkmoraa/FusionStructure` en `c2fe725` antes de implementar cambios;
+- las superficies lazy del workspace tienen un límite de error local con recarga,
+  para que un chunk fallido no oculte el resto del proyecto;
+- el apoyo se coloca mediante un popover explícito y conserva las definiciones
+  existentes de resorte, prescripción y apoyo personalizado;
+- ACM usa una representación analítica dentro del lienzo en tamaños compactos y
+  conserva la hoja exterior en escritorio. Es una decisión de presentación:
+  no cambia el esquema persistente ni convierte los resultados en entradas.
+- las propuestas del asistente local pasan por un contrato cerrado, con unidades
+  admitidas explícitas, diagnóstico con ruta y preparación sobre una copia del
+  proyecto; la confirmación vuelve a comprobar la huella antes de ejecutar;
+  esto no agrega un proveedor remoto ni cambia la persistencia.
+- el asistente local es alcanzable desde la consola persistente y la paleta de
+  comandos, con una acción revisable antes de aplicar cualquier cambio;
+  conserva retorno de foco y una frontera de carga recuperable.
+- el preset de capas `Todas` es distinto del estado inicial de modelado y activa
+  explícitamente las nueve capas; el chrome visible del canvas conserva el modo
+  y la escala en escritorio.
+- el chrome móvil reserva la esquina del lanzador de capas, mantiene rieles y
+  botones táctiles legibles, compacta el panel de capas y libera la contención
+  de pintura sólo mientras ese panel está abierto para no quedar bajo Resultados.
+- el ajuste de cámara sanea reservas, límites, viewport e insets no finitos;
+  un evento de click nunca entra al cálculo geométrico como dato numérico.
+- el generador de estructuras se trata como una superficie temporal: al
+  cancelarlo o terminarlo, el riel vuelve a `Seleccionar` y no deja activa una
+  herramienta de edición que ya no tiene destino.
 
 ## Siguiente trabajo recomendado
 
