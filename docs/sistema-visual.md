@@ -24,7 +24,11 @@ borrador; esta implementación es la que se puede comprobar.
 
 La landing aplica esta fundación en una escala editorial: titulares grandes, superficies abiertas, una sola acción primaria y color restringido a las trazas de dominio presentes en las imágenes y los iconos de familia. Las seis familias (`Análisis`, `Modelo`, `Civil`, `Proyecto`, `Conexiones` y `Aprendizaje`) usan los glifos funcionales de la identidad de producto, con etiquetas breves y una imagen seleccionable; no se convierten en un catálogo de tarjetas ni en una promesa de implementación.
 
-La fuente de los activos de marca es `brandbook-site/public/brand/`. La marca madre conserva un núcleo abierto; los glifos de herramienta identifican cada familia incluso sin color. La landing mantiene esta aplicación acotada a la superficie editorial y no declara capacidades que aún estén en evolución.
+La fuente de los activos de marca es `brandbook-site/scripts/glyph-library.mjs`. De ahí se generan, con `npm run brand:assets` dentro de `brandbook-site/`, tanto los archivos de `brandbook-site/public/brand/` como los que consume la aplicación en `public/assets/brand/` y `public/favicon.svg`. Los activos se versionan; el sitio no los construye en tiempo de ejecución.
+
+La marca madre es una **ménsula**: un miembro vertical y dos voladizos cuyo peralte decrece de 9u a 5u hacia la punta, la forma que toma una sección dimensionada por el momento que recibe. El brazo inferior es el único que puede tomar el color de señal; el resto es tinta. Existen cuatro variantes —señal, mono, inversa e icono— y ninguna gira, se estira ni cambia de color de herramienta.
+
+Los glifos de familia se dibujan en la misma retícula de 48u con trazo 2.6, extremos redondos y un punto en cada nudo. Cada glifo representa el objeto real de su dominio —un pórtico con su diagrama, una placa con pernos, un renglón de precio unitario— y debe distinguirse en tinta, a 20 px y sin etiqueta. La landing mantiene esta aplicación acotada a la superficie editorial y no declara capacidades que aún estén en evolución.
 
 ## Identidad de módulo
 
@@ -40,10 +44,12 @@ hay sitio para su rol.** El bloque de marca pone el rol antes que la
 procedencia (`FStructure · Solver 2D · FusionStructure`), y la portada del
 módulo abre con `FusionStructure · Solver 2D` sobre el nombre.
 
-Su marca reutiliza la geometría de la marca madre: el mismo marco de cuatro
-piezas, con el color de la colección —el coral de acción— y un glifo funcional
-que dice lo que el módulo hace: una barra recta, que es la geometría que entra,
-y su deformada, que es la respuesta que devuelve.
+Su marca no repite la marca madre: usa el contenedor de familia —el mismo
+rectángulo redondeado de los glifos de herramienta, en el color de la
+colección— con un glifo funcional que dice lo que el módulo hace: una barra
+recta, que es la geometría que entra, y su deformada, que es la respuesta que
+devuelve. La ménsula acompaña al nombre en la firma (`solver-2d-lockup.svg`),
+no dentro del glifo.
 
 | Pieza | Dónde vive |
 |---|---|
@@ -115,6 +121,10 @@ de portada del solver 2D, que revela geometría, apoyos, carga, momento y deform
 el orden en que ocurre el trabajo, y la entrada del diagrama en el lienzo, que
 se dibuja cuando llega una corrida nueva. La segunda está encadenada a la
 identidad de la corrida y no al render: un paneo o un zoom no la repiten.
+
+El brandbook publica además una pareja Día/Noche para cada señal: en Noche se usan los valores luminosos de la tabla y en Día versiones más profundas (`#1B75B0`, `#B8412F`, `#277654`, `#6A57C8`, `#B44A7E`, `#8A6110`) que sostienen 4.5:1 sobre papel. La aplicación conserva por ahora los valores declarados en `src/design-system/tokens.css`; alinear ambos es una migración pendiente que requiere capturas comparables, revisión de accesibilidad y comprobación en los dos temas.
+
+A esa escala de dominio el brandbook suma dos escalas más, que no son de resultado: siete colores de familia para agrupar herramientas (`Núcleo`, `Análisis`, `Modelo`, `Civil`, `Proyecto`, `Interoperabilidad`, `Aprendizaje`) y cuatro colores de estado para `Disponible`, `Experimental`, `Planeado` y `No comprometido`.
 
 ## Materia y jerarquía
 

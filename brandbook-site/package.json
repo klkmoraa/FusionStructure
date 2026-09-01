@@ -10,6 +10,7 @@
     "build": "vinext build",
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
+    "brand:assets": "node scripts/build-brand-assets.mjs && oxfmt app/brand/generated",
     "format": "oxfmt"
   },
   "dependencies": {
