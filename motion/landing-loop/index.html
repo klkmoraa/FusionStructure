@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1024, height=768" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      @font-face {
+        font-family: "Instrument Sans";
+        src: url("assets/fonts/instrument-sans-variable.woff2") format("woff2");
+        font-style: normal;
+        font-weight: 100 900;
+      }
+      @font-face {
+        font-family: "Geist Mono";
+        src: url("assets/fonts/geist-mono-variable.woff2") format("woff2");
+        font-style: normal;
+        font-weight: 100 900;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1024px;
+        height: 768px;
+        overflow: hidden;
+        background: transparent;
+      }
+      body {
+        font-family: "Instrument Sans", sans-serif;
+      }
+      code,
+      pre,
+      .monospace {
+        font-family: "Geist Mono", monospace;
+      }
+      #root,
+      .hero-loop,
+      .scene-content {
+        width: 100%;
+        height: 100%;
+      }
+      #root {
+        position: relative;
+        background: transparent;
+      }
+      .hero-loop {
+        position: absolute;
+        inset: 0;
+      }
+      .scene-content {
+        position: relative;
+        display: grid;
+        place-items: center;
+        padding: 44px 58px;
+        box-sizing: border-box;
+      }
+      .hero-object {
+        position: relative;
+        z-index: 2;
+        width: min(850px, 90%);
+        height: auto;
+        display: block;
+        object-fit: contain;
+        filter: drop-shadow(30px 34px 36px rgb(23 26 28 / 0.18));
+        transform-origin: 52% 58%;
+      }
+      .orbit-map {
+        position: absolute;
+        inset: 4% 4% 2%;
+        z-index: 1;
+        width: 92%;
+        height: 94%;
+        overflow: visible;
+      }
+      .orbit-map path,
+      .orbit-map line {
+        fill: none;
+        vector-effect: non-scaling-stroke;
+      }
+      .orbit-a {
+        stroke: #2795e0;
+        stroke-width: 2.4;
+        stroke-dasharray: 1410;
+        stroke-dashoffset: 1410;
+      }
+      .orbit-b {
+        stroke: #8a73f5;
+        stroke-width: 2;
+        stroke-dasharray: 980;
+        stroke-dashoffset: 980;
+        opacity: 0.82;
+      }
+      .orbit-c {
+        stroke: #1ba268;
+        stroke-width: 1.8;
+        stroke-dasharray: 8 14;
+        opacity: 0.76;
+      }
+      .datum-line {
+        stroke: #171a1c;
+        stroke-width: 1;
+        opacity: 0.18;
+      }
+      .signal-dot {
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .signal-dot--blue { fill: #2795e0; }
+      .signal-dot--red { fill: #f0564c; }
+      .signal-dot--green { fill: #1ba268; }
+      .signal-dot--violet { fill: #8a73f5; }
+      .signal-dot--yellow { fill: #e8b22e; }
+      .signal-tick {
+        position: absolute;
+        z-index: 3;
+        width: 10px;
+        height: 10px;
+        border: 2px solid currentColor;
+        border-radius: 50%;
+        background: #f7f6f1;
+        box-shadow: 0 0 0 5px rgb(247 246 241 / 0.58);
+      }
+      .signal-tick--one { top: 20%; left: 17%; color: #2795e0; }
+      .signal-tick--two { top: 23%; right: 14%; color: #f0564c; }
+      .signal-tick--three { bottom: 17%; left: 23%; color: #1ba268; }
+      .signal-tick--four { right: 21%; bottom: 14%; color: #8a73f5; }
+      .signal-tick--five { top: 10%; left: 51%; color: #e8b22e; }
+      @media (prefers-reduced-motion: reduce) {
+        .hero-object { filter: drop-shadow(20px 24px 26px rgb(23 26 28 / 0.16)); }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="6"
+      data-width="1024"
+      data-height="768"
+    >
+      <div
+        id="hero-loop"
+        class="clip hero-loop"
+        data-start="0"
+        data-duration="6"
+        data-track-index="1"
+      >
+        <div class="scene-content" data-layout-allow-overflow>
+          <svg class="orbit-map" viewBox="0 0 1400 900" aria-hidden="true" data-layout-ignore>
+            <line class="datum-line" x1="125" y1="450" x2="1275" y2="450" />
+            <line class="datum-line" x1="700" y1="92" x2="700" y2="808" />
+            <path class="orbit-a" d="M118 510C180 178 552 80 850 132c284 50 476 244 438 432-42 208-350 310-652 246C334 746 74 676 118 510Z" />
+            <path class="orbit-b" d="M252 216c220-150 642-124 834 50 174 158 126 394-92 496-238 110-612 48-746-146-106-154-100-328 4-400Z" />
+            <path class="orbit-c" d="M190 640c178 82 354 94 522 36 196-68 320-216 506-246" />
+            <circle class="signal-dot signal-dot--blue" cx="118" cy="510" r="10" />
+            <circle class="signal-dot signal-dot--red" cx="1288" cy="564" r="10" />
+            <circle class="signal-dot signal-dot--green" cx="712" cy="676" r="9" />
+            <circle class="signal-dot signal-dot--violet" cx="252" cy="216" r="9" />
+            <circle class="signal-dot signal-dot--yellow" cx="1086" cy="266" r="8" />
+          </svg>
+          <img class="hero-object" src="assets/fusion-hero-structure.png" alt="" crossorigin="anonymous" />
+          <span class="signal-tick signal-tick--one" data-layout-ignore></span>
+          <span class="signal-tick signal-tick--two" data-layout-ignore></span>
+          <span class="signal-tick signal-tick--three" data-layout-ignore></span>
+          <span class="signal-tick signal-tick--four" data-layout-ignore></span>
+          <span class="signal-tick signal-tick--five" data-layout-ignore></span>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+      tl.from(".hero-object", { opacity: 0, y: 56, scale: 0.94, duration: 0.78, ease: "expo.out" }, 0.18);
+      tl.to(".orbit-a", { strokeDashoffset: 0, duration: 1.05, ease: "power3.out" }, 0.28);
+      tl.to(".orbit-b", { strokeDashoffset: 0, duration: 1.28, ease: "sine.out" }, 0.46);
+      tl.from(".orbit-c", { opacity: 0, duration: 0.64, ease: "power1.out" }, 0.7);
+      tl.from(".datum-line", { scaleX: 0, transformOrigin: "50% 50%", duration: 0.52, stagger: 0.12, ease: "circ.out" }, 0.62);
+      tl.from(".signal-dot", { opacity: 0, scale: 0, duration: 0.32, stagger: 0.08, ease: "back.out(1.5)" }, 0.82);
+      tl.from(".signal-tick", { opacity: 0, scale: 0.6, duration: 0.28, stagger: 0.06, ease: "power2.out" }, 1.05);
+      tl.to(".hero-object", { y: -15, rotation: 0.7, duration: 2.6, ease: "sine.inOut" }, 1.28);
+      tl.to(".orbit-map", { rotation: -1.4, scale: 1.012, transformOrigin: "50% 50%", duration: 2.8, ease: "sine.inOut" }, 1.18);
+      tl.to(".signal-tick", { y: -8, duration: 1.6, stagger: 0.08, ease: "sine.inOut" }, 2.05);
+      tl.to(".hero-object", { opacity: 0, y: -28, scale: 0.985, duration: 0.34, ease: "power2.in" }, 5.42);
+      tl.to(".orbit-map, .signal-tick", { opacity: 0, duration: 0.28, ease: "power3.in" }, 5.5);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
