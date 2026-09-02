@@ -14,7 +14,7 @@ Definir un sistema propio que convierta modelos, resultados y decisiones estruct
 ## Principios
 
 1. La geometría comunica estructura; el color comunica significado.
-2. La jerarquía se expresa con posición, espacio y filete antes que con decoración.
+2. La jerarquía se expresa con posición, espacio, filete y un solo escalón de profundidad; la elevación significa intención, no importancia.
 3. El modo noche conserva geometría y semántica; cambia papel, tinta y profundidad.
 4. El movimiento explica causa y efecto entre 90 y 520 ms, y se puede apagar sin perder información.
 5. Cada vista sigue siendo legible a 390 px, sin solapamientos ni desplazamiento horizontal.
@@ -52,8 +52,8 @@ Todos los valores de día sostienen al menos 4.5:1 sobre el papel `#F7F6F1`; los
 ## Superficies
 
 - Rampa neutra única de diez pasos, con un papel por rol: fondo, superficie, hundida, filete suave, filete visible, texto de apoyo, texto secundario, texto fuerte y tinta.
-- Seis niveles de materia: plano, interior, elevado, flotante, hoja y modal.
-- La sombra sólo aparece donde una pieza puede tapar contenido.
+- Seis niveles de una misma arcilla leve: plano, interior, elevado, flotante, hoja y modal.
+- La luz entra por arriba-izquierda y es una sola, del sistema: la sombra cae abajo-derecha y el contacto claro queda arriba-izquierda. Ninguna pieza se ilumina sola y ninguna capa de profundidad tiñe. El dato —rejilla, tabla, muestra— se queda plano.
 
 ## Tipografía
 

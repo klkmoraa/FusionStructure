@@ -171,8 +171,9 @@ export const References = () => (
     ))}
 
     <RuleStrip index="Regla 10">
-      Aplicar principios, no copiar pantallas: papel técnico, sombra corta,
-      color con significado y movimiento que explica procedencia.
+      Aplicar principios, no copiar pantallas: papel técnico, un solo escalón
+      de volumen con una sola luz, color con significado y movimiento que
+      explica procedencia.
     </RuleStrip>
   </section>
 );

@@ -20,7 +20,22 @@ try {
       const errors = [];
       if (values.some((value) => inherited.includes(value))) errors.push('color heredado');
       if (style.backdropFilter !== 'none') errors.push('backdrop-filter');
-      if (/inset/.test(style.boxShadow)) errors.push('sombra interior');
+      // La sombra interior dejó de ser un hallazgo: la cavidad del sistema es
+      // una, y el realce de contacto de la arcilla también. Lo que sí sigue
+      // prohibido es que la PROFUNDIDAD tiña — en cuanto una capa de volumen
+      // tiene hue, compite con las seis señales, que son lo único que puede
+      // significar color aquí.
+      //
+      // Lo que difumina es profundidad; lo que no, es un trazo. Un anillo de
+      // selección se dibuja con `box-shadow` (`0 0 0 2px`, sin difuminado) y
+      // SÍ puede llevar color de dominio: es una línea, y una línea puede
+      // teñirse. Sin esta distinción la guarda marcaría el indicador de
+      // familia activa, que es justamente color usado bien.
+      const teñidas = [...style.boxShadow.matchAll(/rgba?\((\d+),\s*(\d+),\s*(\d+)[^)]*\)\s+-?[\d.]+px\s+-?[\d.]+px\s+([\d.]+)px/g)]
+        .filter(([, , , , difuminado]) => Number(difuminado) > 0)
+        .map(([, r, g, b]) => [Number(r), Number(g), Number(b)])
+        .filter((canales) => Math.max(...canales) - Math.min(...canales) > 12);
+      if (teñidas.length) errors.push(`profundidad teñida: rgb(${teñidas[0].join(', ')})`);
       if (errors.length) return [`${node.tagName.toLowerCase()}.${node.className}: ${errors.join(', ')}`];
       return [];
     }), [...forbidden]);

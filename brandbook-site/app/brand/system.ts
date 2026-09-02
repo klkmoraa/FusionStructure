@@ -182,31 +182,31 @@ export const SURFACE_LEVELS = [
     id: 'plano',
     name: 'Plano',
     use: 'rejilla, tablas y filas técnicas',
-    rule: 'filete suave, sin sombra',
+    rule: 'filete suave, sin volumen: el dato se queda plano',
   },
   {
     id: 'interior',
     name: 'Interior',
     use: 'cavidad de interacción',
-    rule: 'fondo hundido, separación contenida',
+    rule: 'la luz se invierte: se hunde por arriba-izquierda',
   },
   {
     id: 'elevado',
     name: 'Elevado',
     use: 'paneles, barras e inspector',
-    rule: 'superficie definida, sombra corta',
+    rule: 'un escalón: sombra abajo-derecha, contacto arriba-izquierda',
   },
   {
     id: 'flotante',
     name: 'Flotante',
     use: 'menús, popovers y avisos',
-    rule: 'filete y sombra de contacto',
+    rule: 'dos escalones, misma luz: se despega sin cambiar de material',
   },
   {
     id: 'hoja',
     name: 'Hoja',
     use: 'superficies que nacen de un borde',
-    rule: 'entra desde su origen, no aparece al centro',
+    rule: 'entra desde su origen y proyecta hacia él: la única sombra que sube',
   },
   {
     id: 'modal',
@@ -214,6 +214,51 @@ export const SURFACE_LEVELS = [
     use: 'interrupciones que exigen decisión',
     rule: 'velo, foco atrapado y salida evidente',
   },
+] as const;
+
+/**
+ * La materia, en valores. Hasta ahora los seis niveles se publicaban como
+ * texto y su implementación vivía sólo en `app/globals.css`, así que quien
+ * recibía el brandbook se llevaba el color y el movimiento pero tenía que
+ * adivinar la profundidad. Aquí están los números, y el pliego de entrega los
+ * emite con el resto.
+ *
+ * `xs` no pertenece a la familia de radios: es el escalón del dato —rejilla,
+ * tabla, muestra de rampa— y por eso no crece con los demás. La escala misma
+ * es la que sostiene que el dato se queda plano.
+ */
+export const MATERIAL_TOKENS = [
+  { token: '--radius-xs', value: '6px', role: 'dato: rejilla, tabla, muestra' },
+  { token: '--radius-sm', value: '12px', role: 'control' },
+  { token: '--radius-md', value: '18px', role: 'tarjeta y panel' },
+  { token: '--radius-lg', value: '24px', role: 'marco y modal' },
+  {
+    token: '--shadow-raised',
+    value: '3px 4px 10px rgb(20 23 26 / 8%), -2px -2px 7px rgb(255 255 255 / 60%)',
+    night: '3px 4px 10px rgb(0 0 0 / 40%), -2px -2px 7px rgb(120 124 126 / 16%)',
+    role: 'elevado: un escalón',
+  },
+  {
+    token: '--shadow-float',
+    value: '6px 8px 18px rgb(20 23 26 / 10%), -3px -3px 10px rgb(255 255 255 / 65%)',
+    night: '6px 8px 18px rgb(0 0 0 / 46%), -3px -3px 10px rgb(120 124 126 / 20%)',
+    role: 'flotante: dos escalones',
+  },
+  {
+    token: '--shadow-inset',
+    value:
+      'inset 2px 2px 6px rgb(20 23 26 / 9%), inset -1px -1px 4px rgb(255 255 255 / 55%)',
+    night:
+      'inset 2px 2px 6px rgb(0 0 0 / 45%), inset -1px -1px 4px rgb(120 124 126 / 14%)',
+    role: 'interior: la misma luz, invertida',
+  },
+  {
+    token: '--shadow-sheet',
+    value: '0 -10px 24px rgb(20 23 26 / 10%)',
+    night: '0 -10px 24px rgb(0 0 0 / 32%)',
+    role: 'hoja: la única que sube',
+  },
+  { token: '--press', value: 'translateY(1px)', role: 'el hundido de un pulsado' },
 ] as const;
 
 export const MOTION_TOKENS = [
@@ -576,4 +621,5 @@ export const HANDOFF_CHECKS = [
   'La animación se puede apagar sin perder información.',
   'El foco es visible con teclado en día y en noche.',
   'El glifo distingue la herramienta incluso sin color.',
+  'La profundidad usa la luz del sistema y no tiñe: ninguna pieza se ilumina sola.',
 ] as const;

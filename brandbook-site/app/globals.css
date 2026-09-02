@@ -6,7 +6,8 @@
 /* ==========================================================================
    FusionStructure · Brandbook 2026
    Papel técnico de día, carbón de noche. Tres escalas de color con
-   significado, seis niveles de materia y un movimiento que se puede apagar.
+   significado, seis niveles de una misma arcilla leve —una sola luz, desde
+   arriba-izquierda— y un movimiento que se puede apagar.
    ========================================================================== */
 
 /* --- 1. Base -------------------------------------------------------------- */
@@ -133,7 +134,6 @@ table {
   --paper: var(--n-050);
   --surface: var(--n-000);
   --surface-sunken: var(--n-100);
-  --surface-raised: var(--n-000);
   --line: var(--n-300);
   --line-soft: var(--n-200);
   --line-strong: var(--n-400);
@@ -165,16 +165,37 @@ table {
   --fs-status-planeado: #5c6a6f;
   --fs-status-no-comprometido: #a7b1a9;
 
-  /* materia */
+  /* materia · arcilla leve
+     Un solo escalón de volumen. La luz entra por arriba-izquierda: la sombra
+     cae abajo-derecha y el brillo de contacto queda arriba-izquierda. Las dos
+     capas son acromáticas —tinta neutra y papel— porque aquí el color
+     significa dominio, nunca profundidad.
+     `xs` queda fuera de la familia a propósito: es el escalón del dato
+     —rejilla, tabla, muestra de rampa— y por eso no crece con el resto. La
+     escala misma es la que sostiene que el dato se queda plano. */
   --radius-xs: 6px;
-  --radius-sm: 10px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
   --shadow-raised:
-    0 1px 0 rgb(20 23 26 / 4%), 0 10px 24px -18px rgb(20 23 26 / 40%);
+    3px 4px 10px rgb(20 23 26 / 8%), -2px -2px 7px rgb(255 255 255 / 60%);
   --shadow-float:
-    0 18px 44px -22px rgb(20 23 26 / 45%), 0 2px 8px -4px rgb(20 23 26 / 18%);
-  --shadow-hard: 5px 6px 0 var(--n-200);
+    6px 8px 18px rgb(20 23 26 / 10%), -3px -3px 10px rgb(255 255 255 / 65%);
+  --shadow-lifted:
+    10px 13px 28px rgb(20 23 26 / 12%), -4px -4px 14px rgb(255 255 255 / 70%);
+  /* Una cavidad invierte la luz: oscurece su pared de arriba-izquierda y
+     aclara la de abajo-derecha. Es `--shadow-raised` girada media vuelta. */
+  --shadow-inset:
+    inset 2px 2px 6px rgb(20 23 26 / 9%),
+    inset -1px -1px 4px rgb(255 255 255 / 55%);
+  /* Una hoja nace de un borde y proyecta hacia él: la única que sube. Pesa algo
+     más que un contacto normal porque en el brandbook además tiene que
+     enseñarse: un nivel que no se ve no documenta nada. */
+  --shadow-sheet: 0 -10px 24px rgb(20 23 26 / 10%);
+  --shadow-veil: 0 0 0 2000px rgb(20 23 26 / 45%);
+  --press: translateY(1px);
 
   /* movimiento */
   --fs-instant: 90ms;
@@ -217,7 +238,6 @@ table {
   --paper: var(--n-050);
   --surface: var(--n-100);
   --surface-sunken: var(--n-000);
-  --surface-raised: var(--n-200);
   --line: var(--n-300);
   --line-soft: var(--n-200);
   --line-strong: var(--n-400);
@@ -242,10 +262,22 @@ table {
   --fs-status-planeado: #8b9599;
   --fs-status-no-comprometido: #5e6a6f;
 
-  --shadow-raised: 0 1px 0 rgb(0 0 0 / 30%), 0 14px 30px -20px rgb(0 0 0 / 80%);
+  /* La luz de contacto no puede ser blanca sobre carbón: lo que recoge un
+     canto de noche no es una fuente, es ambiente. Gris de ambiente, y la capa
+     oscura sube de opacidad porque tiene menos rango donde separarse. */
+  --shadow-raised:
+    3px 4px 10px rgb(0 0 0 / 40%), -2px -2px 7px rgb(120 124 126 / 16%);
   --shadow-float:
-    0 22px 50px -24px rgb(0 0 0 / 85%), 0 3px 10px -6px rgb(0 0 0 / 60%);
-  --shadow-hard: 5px 6px 0 rgb(0 0 0 / 55%);
+    6px 8px 18px rgb(0 0 0 / 46%), -3px -3px 10px rgb(120 124 126 / 20%);
+  --shadow-lifted:
+    10px 13px 28px rgb(0 0 0 / 52%), -4px -4px 14px rgb(120 124 126 / 24%);
+  --shadow-inset:
+    inset 2px 2px 6px rgb(0 0 0 / 45%),
+    inset -1px -1px 4px rgb(120 124 126 / 14%);
+  --shadow-sheet: 0 -10px 24px rgb(0 0 0 / 32%);
+  /* De noche el papel ES carbón, así que un velo de la misma tinta sobre la
+     misma tinta no vela nada: el velo nocturno tiene que ser negro. */
+  --shadow-veil: 0 0 0 2000px rgb(0 0 0 / 62%);
 }
 
 /* Un color por familia, resuelto una sola vez. */
@@ -792,17 +824,23 @@ table {
   font-weight: 550;
   transition:
     transform var(--fs-instant) var(--fs-ease),
+    box-shadow var(--fs-quick) var(--fs-ease),
     border-color var(--fs-quick) var(--fs-ease),
     background-color var(--fs-quick) var(--fs-ease);
 }
 
+/* La elevación es intención, no importancia: en reposo un control está
+   apoyado, al pasar el puntero se levanta y al pulsarlo se hunde. En reposo
+   no lleva sombra a propósito — las filas de botones van a 7 y 8px de
+   separación, y cinco piezas con volumen a esa distancia son un borrón. */
 .action:hover {
   border-color: var(--ink-faint);
-  transform: translateY(-1px);
+  box-shadow: var(--shadow-raised);
 }
 
 .action:active {
-  transform: translateY(0);
+  transform: var(--press);
+  box-shadow: none;
 }
 
 .action--primary {
@@ -841,12 +879,15 @@ table {
   color: var(--ink);
 }
 
+/* La pista es una cavidad y la pastilla activa se apoya dentro: sin el hundido
+   de la pista, «elevado dentro de un hueco» no se lee. */
 .segmented {
   display: inline-flex;
   padding: 3px;
   border: 1px solid var(--line);
   border-radius: 999px;
   background: var(--surface-sunken);
+  box-shadow: var(--shadow-inset);
 }
 
 .segmented button {
@@ -888,9 +929,16 @@ table {
   color: var(--ink-muted);
   font-size: 12.5px;
   transition:
+    transform var(--fs-instant) var(--fs-ease),
     border-color var(--fs-quick) var(--fs-ease),
     color var(--fs-quick) var(--fs-ease),
     background-color var(--fs-quick) var(--fs-ease);
+}
+
+/* Las pastillas se quedan planas: son etiquetas y filtros a alta densidad, y
+   una píldora con volumen promete ser un botón. Sólo se hunden al pulsarlas. */
+.chip:active {
+  transform: var(--press);
 }
 
 .chip span:last-child {
@@ -1931,8 +1979,12 @@ table {
   stroke-width: 1.4;
 }
 
+/* La marca con volumen tiene que leerse como categóricamente mal, no como un
+   poco más de lo mismo: ahora que la página entera tiene un escalón de
+   contacto, este error se dibuja con una sombra dura y proyectada —sin
+   difuminado y sin brillo— para que no se confunda con la materia de casa. */
 .misuse__item--sombra .mark {
-  filter: drop-shadow(3px 5px 3px rgb(20 23 26 / 55%));
+  filter: drop-shadow(4px 7px 1px rgb(20 23 26 / 70%));
 }
 
 .misuse__item--ruido .misuse__frame {
@@ -2108,7 +2160,11 @@ table {
 .tool-card:hover {
   border-color: color-mix(in srgb, var(--family) 45%, var(--line));
   box-shadow: var(--shadow-raised);
-  transform: translateY(-2px);
+}
+
+.tool-card:active {
+  transform: var(--press);
+  box-shadow: none;
 }
 
 .tool-card:hover .tool-tile {
@@ -3336,6 +3392,9 @@ table {
   align-items: stretch;
 }
 
+/* El escenario es un foso: por eso la tarjeta que lo habita se lee dentro de
+   algo y no flotando sobre la nada. `overflow: hidden` es lo que recorta el
+   velo de 2000px del nivel Modal — no quitarlo. */
 .material-stage {
   position: relative;
   display: grid;
@@ -3346,6 +3405,7 @@ table {
   border: 1px solid var(--line-soft);
   border-radius: var(--radius-lg);
   background: var(--surface-sunken);
+  box-shadow: var(--shadow-inset);
 }
 
 .material-stage__mesh {
@@ -3380,31 +3440,44 @@ table {
   box-shadow: none;
 }
 
+/* «fondo hundido, separación contenida» — una cavidad invierte la luz. El
+   valor anterior (`inset 0 1px 3px`) no tenía dirección, así que no enseñaba
+   de dónde viene la luz: ésta es `--shadow-raised` girada media vuelta. */
 .material-card--interior {
   border-color: transparent;
   background: var(--surface-sunken);
-  box-shadow: inset 0 1px 3px rgb(20 23 26 / 12%);
+  box-shadow: var(--shadow-inset);
 }
 
+/* «superficie definida, sombra corta» — un escalón. */
 .material-card--elevado {
   box-shadow: var(--shadow-raised);
 }
 
+/* «filete y sombra de contacto» — dos escalones. */
 .material-card--flotante {
   box-shadow: var(--shadow-float);
   transform: translateY(-6px);
 }
 
+/* «entra desde su origen, no aparece al centro» — una hoja que nace del borde
+   inferior proyecta hacia él: es la única sombra del sistema que sube, y por
+   eso el canto que toca su origen desaparece. Antes usaba `--shadow-float`,
+   una sombra que cae, sobre una superficie que entra desde abajo: contradecía
+   la regla que la propia tarjeta publica. */
 .material-card--hoja {
   border-radius: var(--radius-md) var(--radius-md) 0 0;
-  box-shadow: var(--shadow-float);
+  border-bottom-color: transparent;
+  box-shadow: var(--shadow-sheet);
   transform: translateY(24px);
 }
 
+/* «velo, foco atrapado y salida evidente» — el velo va primero para que tape
+   la sangría de la sombra. Es el único nivel sin brillo de contacto: una
+   superficie bajo velo no tiene ambiente que recoger. */
 .material-card--modal {
-  box-shadow:
-    0 0 0 2000px rgb(20 23 26 / 45%),
-    var(--shadow-float);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-veil), var(--shadow-lifted);
 }
 
 .material-card__head {
@@ -3476,6 +3549,7 @@ table {
   border: 1px solid var(--line-soft);
   border-radius: var(--radius-sm);
   background: var(--surface-sunken);
+  box-shadow: var(--shadow-inset);
   text-align: left;
 }
 
@@ -3566,16 +3640,19 @@ table {
   font-weight: 500;
   transition:
     transform var(--fs-instant) var(--fs-ease),
+    box-shadow var(--fs-quick) var(--fs-ease),
     border-color var(--fs-quick) var(--fs-ease),
     background-color var(--fs-quick) var(--fs-ease);
 }
 
 .ui-button:hover:not(:disabled) {
   border-color: var(--ink-faint);
+  box-shadow: var(--shadow-raised);
 }
 
 .ui-button:active:not(:disabled) {
-  transform: translateY(1px);
+  transform: var(--press);
+  box-shadow: none;
 }
 
 .ui-button--primary {
@@ -3616,6 +3693,8 @@ table {
   font-size: 12px;
 }
 
+/* Un campo es la cavidad canónica: el nivel Interior que el sistema publica y
+   que hasta ahora no se rendía en ninguna parte. */
 .field__control {
   display: flex;
   align-items: center;
@@ -3624,6 +3703,7 @@ table {
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
   background: var(--surface-sunken);
+  box-shadow: var(--shadow-inset);
 }
 
 .field__control input {
@@ -4937,6 +5017,32 @@ table {
   transform: none;
 }
 
+/* En calma el bloque de arriba sólo acorta la transición a 1ms: el
+   levantamiento y el hundido siguen ocurriendo, de golpe. Aquí se retiran los
+   dos gestos, y sólo ellos: la sombra de hover se queda, porque no es
+   movimiento sino la lectura del estado, y `HANDOFF_CHECKS` exige que apagar
+   la animación no cueste información. */
+.brandbook--calma .action:hover,
+.brandbook--calma .action:active,
+.brandbook--calma .ui-button:active:not(:disabled),
+.brandbook--calma .tool-card:hover,
+.brandbook--calma .tool-card:active,
+.brandbook--calma .chip:active {
+  transform: none;
+}
+
+/* El levantamiento responde a un puntero: donde no hay puntero no hay
+   levantamiento, sólo un estado pegado que nadie pidió. */
+@media (hover: hover) and (pointer: fine) {
+  .action:hover {
+    transform: translateY(-1px);
+  }
+
+  .tool-card:hover {
+    transform: translateY(-2px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -4952,6 +5058,17 @@ table {
 
   .reveal {
     opacity: 1;
+    transform: none;
+  }
+
+  /* El mismo retiro de gestos que en calma: la sombra se queda, el
+     desplazamiento no. */
+  .action:hover,
+  .action:active,
+  .ui-button:active:not(:disabled),
+  .tool-card:hover,
+  .tool-card:active,
+  .chip:active {
     transform: none;
   }
 }

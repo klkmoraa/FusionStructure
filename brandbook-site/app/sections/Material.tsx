@@ -22,7 +22,7 @@ export const Material = () => {
         index="07"
         eyebrow="Materia · profundidad"
         title="La profundidad también comunica."
-        body="Borde, espacio y sombra dicen qué está arriba, qué se puede presionar y qué superficie contiene la decisión actual. Seis niveles, ni uno más: apilar tarjetas no es jerarquía."
+        body="Un solo material a seis distancias. La sombra cae abajo-derecha y el contacto queda arriba-izquierda, siempre, así que la profundidad dice qué está arriba, qué se puede presionar y qué contiene la decisión actual. Seis niveles, ni uno más: apilar tarjetas no es jerarquía."
       />
 
       <div className="material-lab">
@@ -229,8 +229,8 @@ export const Material = () => {
       </p>
 
       <RuleStrip index="Regla 07">
-        Una superficie declara su nivel por posición, espacio y filete antes que
-        por decoración.
+        Toda la luz entra por arriba-izquierda y ninguna superficie tiene luz
+        propia: la profundidad es una sola, compartida, y por eso se puede leer.
       </RuleStrip>
     </section>
   );

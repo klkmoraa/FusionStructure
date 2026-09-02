@@ -4,6 +4,7 @@ import { Check, Download, FileDown } from 'lucide-react';
 import {
   EASINGS,
   HANDOFF_CHECKS,
+  MATERIAL_TOKENS,
   MOTION_TOKENS,
   NEUTRALS,
   SIGNALS,
@@ -66,6 +67,10 @@ const buildTokenSheet = () => {
   }
   for (const easing of EASINGS) {
     lines.push(`  ${easing.token}: ${easing.value};`);
+  }
+  for (const material of MATERIAL_TOKENS) {
+    const night = 'night' in material ? ` /* noche ${material.night} */` : '';
+    lines.push(`  ${material.token}: ${material.value};${night}`);
   }
   lines.push('}');
   return lines.join('\n');
