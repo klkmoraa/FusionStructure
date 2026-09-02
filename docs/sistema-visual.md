@@ -19,10 +19,23 @@ La fundación implementa el brandbook de FusionStructure. Su frase rectora es
   puede decir con una cifra no lleva una frase. El radio acompaña a la sombra,
   pero la densidad no se negocia.
 
-Donde el brandbook publica un valor que no aguanta la prueba de contraste sobre
-las cuatro superficies del producto, aquí vive el escalón que sí la aguanta y el
-valor publicado queda como la tinta del tema que lo necesita. El brandbook es un
-borrador; esta implementación es la que se puede comprobar.
+El producto implementa el brandbook publicado: sus doce valores de señal, sus
+siete familias, sus cuatro estados, su escala de radios y su escala de
+movimiento. Lo que antes se registraba aquí como *«el brandbook es un borrador y
+esta implementación es la que se puede comprobar»* dejó de ser cierto para color,
+forma y movimiento: la fundación ya no baja ningún escalón por su cuenta.
+
+Queda **una divergencia viva y declarada**: las familias tipográficas. El
+brandbook las carga del CDN de Google (Space Grotesk, Inter, IBM Plex Mono) y la
+aplicación auto-hospeda las suyas (Instrument Sans, Geist Mono) en
+`public/fonts/`, porque el producto se compromete con el uso sin red. Es una
+decisión de PWA, no de estilo, y no se resuelve cambiando un token. La *escala*
+tipográfica sí es la del brandbook.
+
+Y hay una escala que el brandbook **no** publica y el producto necesita: las
+cargas aplicadas. Los seis significados del brandbook son todos respuesta de la
+estructura, y una carga no es una respuesta. Ver *Las seis señales, y la
+séptima*.
 
 La landing aplica esta fundación en una escala editorial: titulares grandes, superficies abiertas, acciones explícitas y color restringido a las trazas de dominio. Sus imágenes son recortes clay de fondo transparente —workspace, proyecto, análisis y entrega— colocados sobre la misma materia Día/Noche del producto. No llevan texto ni controles pintados: las acciones, el contenido y el cambio de familia siguen siendo HTML accesible. Cada recorte recibe la única luz del sistema y no convierte el fondo en una escena ni introduce otra paleta. Las seis familias (`Análisis`, `Modelo`, `Civil`, `Proyecto`, `Conexiones` y `Aprendizaje`) usan los glifos funcionales de la identidad de producto, etiquetas breves y una pieza seleccionable; no se convierten en un catálogo de tarjetas ni en una promesa de implementación.
 
@@ -78,55 +91,101 @@ poco para competir con una señal. La guarda lo mide en cada `npm run check`.
 | Filete | `#dcdbd3` | `#333a3d` |
 | Tinta | `#171a1c` | `#f4f4f1` |
 
-## Las seis señales
+## Las seis señales, y la séptima
 
-El color es del dominio. Seis significados y ninguno más; se usan como TRAZO,
-no como relleno de superficie.
+El color es del dominio. Seis significados de resultado, y una séptima familia
+para lo que se aplica.
 
-| Señal | Trazo | Uso |
+| Señal | Día | Noche | Uso |
+|---|---|---|---|
+| Axial | `#1b75b0` | `#63c5ff` | fuerza normal: tensión y compresión |
+| Momento | `#b8412f` | `#ff8e80` | momento flector |
+| Cortante | `#277654` | `#55c990` | cortante y reacciones de apoyo |
+| Deformada | `#6a57c8` | `#9b87ff` | geometría desplazada, modos y pandeo |
+| Fluencia | `#b44a7e` | `#ef7ab9` | fluencia, y las líneas de influencia |
+| Aviso | `#8a6110` | `#f3c553` | cotas, revisión y resultados caducos |
+
+**Lo invariante es el significado, no el hex.** Hasta esta migración una señal
+era un trazo único para los dos temas, medido a medio camino entre papel y
+carbón, más una tinta que sí se recalibraba. Era defendible y era nuestra, no la
+del brandbook, que publica doce valores porque un mismo hex no puede estar
+medido a la vez contra `#fdfdfb` y contra `#171a1c`. Con el par, la distinción
+trazo/tinta desaparece: el valor de Día ya está en escalón de tinta sobre papel,
+así que la misma variable pinta la línea del diagrama y la cifra que la nombra.
+
+Con ello se va también la excepción del aviso. Ningún amarillo llega a 3:1 sobre
+papel sin dejar de ser amarillo, y por eso el aviso tenía una regla propia; el
+amarillo de Día del brandbook es `#8a6110`, que es ámbar oscuro y pasa. La
+guarda de contraste ya no tiene huecos.
+
+Dos cambios de significado, no sólo de valor: el **momento** pasa de rosa a
+rojo, que es el rojo del brandbook, y el rosa que era momento pasa a ser
+**fluencia**, una señal nueva. `action` deja de ser señal de dominio y queda
+como el rol de acción destructiva del chrome, apuntando al mismo rojo: nunca
+comparten campo visual, porque uno es cromo y el otro es lienzo.
+
+### La séptima familia: las cargas, en pastel
+
+El brandbook no publica ninguna señal para una carga aplicada. Antes las tres
+cargas compartían el rojo de `action`, y con el rojo pasando a momento habrían
+quedado del mismo color que el diagrama de momento.
+
+| Carga | Día | Noche |
 |---|---|---|
-| Axial | `#2795e0` | fuerza normal: tensión y compresión |
-| Cortante | `#1ba268` | cortante y reacciones de apoyo |
-| Momento | `#de5ca4` | momento flector y líneas de influencia |
-| Acción | `#f0564c` | cargas puntuales, distribuidas y momentos aplicados |
-| Deformada | `#8a73f5` | geometría desplazada, modos y pandeo |
-| Aviso | `#e8b22e` | cotas, revisión y resultados caducos |
+| Puntual | `#5a7f96` | `#9ec9e8` |
+| Distribuida | `#a0655c` | `#e5afa6` |
+| Momento aplicado | `#57876b` | `#a8cbb6` |
 
-Estos valores conservan su significado entre Día y Noche: un momento flector no
-cambia de color al apagar la luz.
+Comparten hue con axial, momento y cortante, y **se separan por croma**: una
+carga es un apunte apagado, un resultado es una línea viva. Lo que se aplica a
+la estructura y lo que la estructura responde se leen como dos capas distintas.
+La guarda mide esa distancia en los dos temas; sin ella, el tono de Día se
+desliza hacia el pastel literal hasta desaparecer sobre papel, que es de donde
+venimos.
 
-Cada señal tiene además una **tinta**, que es la misma señal en el escalón que
-necesita una cifra o una etiqueta. La tinta sí se recalibra por tema, porque
-cambia el papel debajo. Ahí es donde viven los valores publicados en el
-brandbook (`#63C5FF`, `#FF6F66`, `#55C990`, `#F3C553`, `#9B87FF`, `#EF7AB9`):
-se dibujaron sobre carbón y sobre papel se quedan por debajo del mínimo gráfico
-de 3:1, así que son la tinta de Noche y no el trazo compartido.
+### Familias y estados
 
-El aviso es el único caso con una regla propia y una razón física: ningún
-amarillo llega a 3:1 sobre papel sin dejar de ser amarillo. En Día se pinta con
-su tinta; el valor de trazo se reserva a Noche.
+A la escala de dominio el brandbook suma dos que no son de resultado, y que el
+producto ahora implementa: siete colores de **familia** para agrupar
+herramientas (`Núcleo`, `Análisis`, `Modelo`, `Civil`, `Proyecto`,
+`Interoperabilidad`, `Aprendizaje`) y cuatro de **estado de madurez** para
+`Disponible`, `Experimental`, `Planeado` y `No comprometido`. En un producto
+experimental, cuánto se puede confiar en una función es información de primer
+orden y no una etiqueta decorativa.
+
+Antes de tenerlas, la interfaz las pedía prestadas: el landing pintaba «Modelo»
+con el color de una carga aplicada y «Experimental» con el de un aviso del
+solver.
 
 ## Movimiento
 
-Cuatro duraciones, una por trabajo. Nada dura más que *Revelar* salvo lo que de
-verdad está procesando, y todo respeta `prefers-reduced-motion`.
+Seis duraciones, una por trabajo, y las tres curvas del brandbook. Todo respeta
+`prefers-reduced-motion`.
 
 | Nombre | Valor | Trabajo |
 |---|---|---|
-| Rápido | 120 ms | foco y control |
-| Puente | 180 ms | cambio de plano |
-| Revelar | 260 ms | contenido contextual |
-| Pulso | 680 ms | espera y proceso |
+| Instante | 90 ms | acuse de recibo |
+| Rápido | 140 ms | foco y control |
+| Puente | 200 ms | cambio de plano |
+| Revelar | 280 ms | contenido contextual |
+| Trazar | 520 ms | dibujar un resultado |
+| Pulso | 1400 ms | espera y proceso |
+
+*Trazar* es la única que puede pasar de *Revelar* sin estar procesando: dibujar
+un diagrama de momento es la explicación de un resultado, y verlo aparecer de
+golpe no explica nada. Cualquier otra cosa que dure más que *Revelar* sin estar
+calculando es adorno, y la guarda lo mide.
+
+Curvas: `cubic-bezier(.2,.8,.2,1)` para lo que aparece, `cubic-bezier(.5,0,.75,0)`
+para lo que se va —lo que se retira no necesita ser leído— y
+`cubic-bezier(.65,0,.35,1)`, simétrica, para un cambio que decide el sistema y
+no el dedo. Sin muelles: ninguna curva sobrepasa 1.
 
 Las animaciones del producto son dos y las dos explican una causa: el diagrama
 de portada del solver 2D, que revela geometría, apoyos, carga, momento y deformada en
 el orden en que ocurre el trabajo, y la entrada del diagrama en el lienzo, que
 se dibuja cuando llega una corrida nueva. La segunda está encadenada a la
 identidad de la corrida y no al render: un paneo o un zoom no la repiten.
-
-El brandbook publica además una pareja Día/Noche para cada señal: en Noche se usan los valores luminosos de la tabla y en Día versiones más profundas (`#1B75B0`, `#B8412F`, `#277654`, `#6A57C8`, `#B44A7E`, `#8A6110`) que sostienen 4.5:1 sobre papel. La aplicación conserva por ahora los valores declarados en `src/design-system/tokens.css`; alinear ambos es una migración pendiente que requiere capturas comparables, revisión de accesibilidad y comprobación en los dos temas.
-
-A esa escala de dominio el brandbook suma dos escalas más, que no son de resultado: siete colores de familia para agrupar herramientas (`Núcleo`, `Análisis`, `Modelo`, `Civil`, `Proyecto`, `Interoperabilidad`, `Aprendizaje`) y cuatro colores de estado para `Disponible`, `Experimental`, `Planeado` y `No comprometido`.
 
 ## Materia y jerarquía
 
@@ -192,8 +251,12 @@ ninguna capa tiñe. Lo que puede **tapar** contenido —popover, hoja, modal,
 toast— sube un escalón más, porque ahí la sombra es información: dice que esa
 pieza está delante.
 
-**4 · Menos superficie, menos texto.** Radios por rol (0 / 10 / 14 / 18 / 22px),
-tarjetas pequeñas, filas densas, etiquetas breves. Lo que se puede decir con
+**4 · Menos superficie, menos texto.** Radios por rol (6 / 12 / 18 / 18 / 24px:
+dato, control, tarjeta, panel, modal), tarjetas pequeñas, filas densas,
+etiquetas breves. El dato dejó de ser el escalón cero: era la excepción mejor
+argumentada del sistema —redondear una celda comparable rompe el barrido lineal
+de la columna— y el brandbook la contradice con 6px, que es lo que se
+implementa. Lo que se puede decir con
 una cifra no lleva una frase. La consola deja visibles sólo proyecto, acción y
 estado; el resto es icono con `aria-label` o una divulgación `?` cuando es una
 salvedad real de cálculo.

@@ -3,7 +3,18 @@ import { dirname, resolve } from 'node:path';
 import { chromium } from 'playwright';
 
 const baseUrl = process.env.UI_URL ?? 'http://localhost:5173';
-const forbidden = new Set(['rgb(0, 125, 97)', 'rgb(22, 138, 108)', 'rgb(70, 140, 9)', 'rgb(101, 163, 35)', 'rgb(47, 115, 200)', 'rgb(216, 92, 74)', 'rgb(118, 87, 213)', 'rgb(198, 95, 134)']);
+// Los ocho primeros son la paleta de los dos productos de origen. Los seis
+// siguientes son las señales que el producto tuvo antes de adoptar el par
+// Día/Noche del brandbook: un trazo invariante medido a medio camino entre
+// papel y carbón, que en Día se quedaba en 2,9–3,4:1 sobre el chrome. No es que
+// fueran feos, es que no estaban medidos contra ninguna superficie concreta, y
+// cualquier regla nueva copiada de una hoja vieja los reintroduce.
+const forbidden = new Set([
+  'rgb(0, 125, 97)', 'rgb(22, 138, 108)', 'rgb(70, 140, 9)', 'rgb(101, 163, 35)',
+  'rgb(47, 115, 200)', 'rgb(216, 92, 74)', 'rgb(118, 87, 213)', 'rgb(198, 95, 134)',
+  'rgb(39, 149, 224)', 'rgb(27, 162, 104)', 'rgb(222, 92, 164)', 'rgb(240, 86, 76)',
+  'rgb(138, 115, 245)', 'rgb(232, 178, 46)',
+]);
 const defaultExecutable = chromium.executablePath();
 const headlessShell = resolve(dirname(dirname(defaultExecutable)), '..', `chromium_headless_shell-${defaultExecutable.match(/chromium-(\d+)/)?.[1] ?? ''}`, 'chrome-headless-shell-win64', 'chrome-headless-shell.exe');
 const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_PATH ?? (existsSync(headlessShell) ? headlessShell : defaultExecutable) });
