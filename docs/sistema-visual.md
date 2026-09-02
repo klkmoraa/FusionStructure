@@ -11,11 +11,13 @@ La fundación implementa el brandbook de FusionStructure. Su frase rectora es
   neutros —papel en Día, carbón en Noche— y el acento es la tinta misma;
 - **el color es del dominio:** seis señales y sólo para significar algo que el
   solver o el modelo dicen;
-- **la profundidad es el filete:** un borde de 1 px y el espacio separan; la
-  sombra existe en un único escalón de contacto, reservado a lo que puede tapar
-  contenido;
-- **menos superficie, menos texto:** radios cortos, filas densas, etiquetas
-  breves; lo que se puede decir con una cifra no lleva una frase.
+- **la profundidad es una sola luz:** el filete de 1 px sigue delimitando y
+  además hay un escalón de arcilla —sombra abajo-derecha, contacto claro
+  arriba-izquierda—; la luz es del sistema y no de la pieza, así que ninguna
+  superficie se ilumina sola ni tiñe;
+- **menos superficie, menos texto:** filas densas y etiquetas breves; lo que se
+  puede decir con una cifra no lleva una frase. El radio acompaña a la sombra,
+  pero la densidad no se negocia.
 
 Donde el brandbook publica un valor que no aguanta la prueba de contraste sobre
 las cuatro superficies del producto, aquí vive el escalón que sí la aguanta y el
@@ -132,15 +134,17 @@ La interfaz usa niveles explícitos:
 
 | Nivel | Uso | Regla |
 |---|---|---|
-| Plano | rejilla, tablas y filas técnicas | filete suave, sin sombra |
-| Interior | cavidad de interacción | separación contenida |
-| Elevado | paneles y barras | superficie definida, sin volumen exagerado |
-| Flotante | menús, popovers y toasts | filete y sombra de contacto |
-| Hoja | superficies que nacen de un borde | separación clara del contenido |
+| Plano | rejilla, tablas y filas técnicas | filete suave, sin volumen: el dato se queda plano |
+| Interior | cavidad de interacción | la misma luz, invertida: se hunde por arriba-izquierda |
+| Elevado | paneles y barras | un escalón: sombra abajo-derecha, contacto arriba-izquierda |
+| Flotante | menús, popovers y toasts | dos escalones, misma luz |
+| Hoja | superficies que nacen de un borde | proyecta hacia su origen: la única sombra que sube |
 | Modal | interrupciones | velo y prioridad visual |
 
-Una superficie no debe apilar tarjetas innecesariamente. Un componente debe
-comunicar su nivel por posición, espacio y filete antes que por decoración.
+Una superficie no debe apilar tarjetas innecesariamente. La elevación significa
+intención, no importancia: un panel no sube por ser importante, sube porque tapa
+contenido. En reposo una pieza está apoyada, al puntero se levanta y al pulsarla
+se hunde un píxel.
 
 ## La especificidad es parte del sistema
 
@@ -175,18 +179,20 @@ Las hojas de feature deben consumir roles del sistema. No deben crear otra raíz
 - Si falta un rol, revisar primero si existe uno equivalente.
 - Si una diferencia es de dominio, usar un color de dominio; si es de jerarquía, usar tamaño, espacio, peso o inversión.
 - Mantener radios y filetes consistentes con la función del componente.
-- No agregar claymorphism, glassmorphism o volumen por defecto sin una decisión específica de producto y una revisión visual independiente.
+- La arcilla leve es una decisión de producto tomada y acotada: un escalón, una luz, sin tinte. No agregar glassmorphism, ni una segunda fuente de luz, ni un escalón fuera de la escala sin una decisión específica y una revisión visual independiente.
 - Cualquier cambio importante debe acompañarse de capturas comparables, revisión de accesibilidad y comprobación en Día y Noche.
 
 ## Alcance de esta actualización
 
-**3 · La profundidad es el filete.** Un borde de 1px y el espacio separan las
-cosas. La escala de sombras resuelve a `none` salvo un único escalón de
-contacto, reservado a lo que puede **tapar** contenido —popover, hoja, modal,
-toast—. Ahí la sombra es información: dice que esa pieza está delante. Es una
-sola dirección, sin luz interior y sin tinte.
+**3 · La profundidad es una sola luz.** Un borde de 1px sigue delimitando, y
+además hay un escalón de arcilla: la luz entra por arriba-izquierda, la sombra
+cae abajo-derecha y el contacto claro queda arriba-izquierda. La luz es del
+**sistema**, no de la pieza: ninguna superficie finge su propia fuente y
+ninguna capa tiñe. Lo que puede **tapar** contenido —popover, hoja, modal,
+toast— sube un escalón más, porque ahí la sombra es información: dice que esa
+pieza está delante.
 
-**4 · Menos superficie, menos texto.** Radios cortos (3 / 4 / 6 / 8px),
+**4 · Menos superficie, menos texto.** Radios por rol (0 / 10 / 14 / 18 / 22px),
 tarjetas pequeñas, filas densas, etiquetas breves. Lo que se puede decir con
 una cifra no lleva una frase. La consola deja visibles sólo proyecto, acción y
 estado; el resto es icono con `aria-label` o una divulgación `?` cuando es una
@@ -240,9 +246,9 @@ gana la cascada a las hojas de feature sin duplicar selectores.
 
 | Nivel | Qué es | Materia |
 |---|---|---|
-| `flat` | Rejilla técnica: tablas, filas del inspector | Filete suave, sin sombra |
-| `inset` | Cavidad de interacción | Un plano por debajo, sin sombra |
-| `raised` | Paneles, barras, tarjetas | Filete propio, sin sombra |
+| `flat` | Rejilla técnica: tablas, filas del inspector | Filete suave, sin volumen |
+| `inset` | Cavidad de interacción | Un plano por debajo + la luz invertida |
+| `raised` | Paneles, barras, tarjetas | Filete propio + un escalón de arcilla |
 | `floating` | Popover, menú, toast | Filete + sombra de contacto |
 | `sheet` | Plano que nace de un borde | Filete + sombra de contacto ascendente |
 | `modal` | Interrupción con velo | Filete + sombra de contacto profunda |
@@ -261,8 +267,10 @@ Nada de tarjeta dentro de tarjeta; el contenido de un panel vuelve a plano.
   lo que necesita es jerarquía —tamaño, peso, espacio, inversión a tinta—, no
   color. Repetir una acción no es un estado de éxito; un aviso de interfaz no
   es una cota.
-- **No devuelvas el volumen.** Un hover cambia de plano; no levanta la pieza.
-  Un control pulsado cambia de plano; no se hunde.
+- **El volumen es uno, del sistema.** Un hover levanta la pieza y un pulsado la
+  hunde un píxel, pero con la luz del sistema: nada de una fuente por pieza, ni
+  brillo interior, ni degradado. Si una pieza necesita un escalón que la escala
+  no tiene, lo que falta es jerarquía, no volumen.
 - **Radios por rol, no por tamaño.** Un botón de 44px y otro de 28px son los
   dos controles y comparten radio.
 - **Un reinicio pesa cero.** Escríbelo con `:where()` en las dos mitades del
@@ -274,10 +282,15 @@ Nada de tarjeta dentro de tarjeta; el contenido de un panel vuelve a plano.
 ## La guarda
 
 `src/design-system/designSystem.test.ts` comprueba estas invariantes en cada
-`npm run check`, porque no basta con haber retirado el claymorphism una vez:
-cualquier regla copiada de cualquiera de los dos productos de origen lo
-reintroduce. Las dieciocho pruebas verifican, entre otras cosas, que ninguna
-sombra tenga luz interior o proyecte en dos direcciones, que la desviación de
+`npm run check`. La guarda no desapareció al adoptar la arcilla: cambió de
+polaridad. Lo que antes prohibía —que una sombra proyecte y realce a la vez—
+ahora lo exige, y lo que sigue prohibido es lo que hacía ilegible al original:
+que cada pieza finja su propia luz, que la profundidad tiña, que el volumen
+crezca sin límite y que el dato se redondee. Las veinte pruebas verifican, entre
+otras cosas, que ninguna capa contradiga la luz del sistema proyectando
+abajo-izquierda o arriba-derecha, que ninguna capa de profundidad tenga hue, que
+la escalera de elevación sea monótona y no se dispare, que cada escalón se
+recalibre en Noche, que la desviación de
 canal de un rol de chrome no pase de 12 en ninguno de los dos temas, que las
 seis señales se declaren una sola vez y no se redefinan en Noche, que cada
 señal se separe del papel y del carbón al menos 3:1 —y que el aviso, que no

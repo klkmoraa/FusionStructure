@@ -235,13 +235,13 @@ export const MATERIAL_TOKENS = [
   {
     token: '--shadow-raised',
     value: '3px 4px 10px rgb(20 23 26 / 8%), -2px -2px 7px rgb(255 255 255 / 60%)',
-    night: '3px 4px 10px rgb(0 0 0 / 40%), -2px -2px 7px rgb(110 122 128 / 16%)',
+    night: '3px 4px 10px rgb(0 0 0 / 40%), -2px -2px 7px rgb(120 124 126 / 16%)',
     role: 'elevado: un escalón',
   },
   {
     token: '--shadow-float',
     value: '6px 8px 18px rgb(20 23 26 / 10%), -3px -3px 10px rgb(255 255 255 / 65%)',
-    night: '6px 8px 18px rgb(0 0 0 / 46%), -3px -3px 10px rgb(110 122 128 / 20%)',
+    night: '6px 8px 18px rgb(0 0 0 / 46%), -3px -3px 10px rgb(120 124 126 / 20%)',
     role: 'flotante: dos escalones',
   },
   {
@@ -249,7 +249,7 @@ export const MATERIAL_TOKENS = [
     value:
       'inset 2px 2px 6px rgb(20 23 26 / 9%), inset -1px -1px 4px rgb(255 255 255 / 55%)',
     night:
-      'inset 2px 2px 6px rgb(0 0 0 / 45%), inset -1px -1px 4px rgb(110 122 128 / 14%)',
+      'inset 2px 2px 6px rgb(0 0 0 / 45%), inset -1px -1px 4px rgb(120 124 126 / 14%)',
     role: 'interior: la misma luz, invertida',
   },
   {

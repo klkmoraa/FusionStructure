@@ -266,14 +266,14 @@ table {
      canto de noche no es una fuente, es ambiente. Gris de ambiente, y la capa
      oscura sube de opacidad porque tiene menos rango donde separarse. */
   --shadow-raised:
-    3px 4px 10px rgb(0 0 0 / 40%), -2px -2px 7px rgb(110 122 128 / 16%);
+    3px 4px 10px rgb(0 0 0 / 40%), -2px -2px 7px rgb(120 124 126 / 16%);
   --shadow-float:
-    6px 8px 18px rgb(0 0 0 / 46%), -3px -3px 10px rgb(110 122 128 / 20%);
+    6px 8px 18px rgb(0 0 0 / 46%), -3px -3px 10px rgb(120 124 126 / 20%);
   --shadow-lifted:
-    10px 13px 28px rgb(0 0 0 / 52%), -4px -4px 14px rgb(110 122 128 / 24%);
+    10px 13px 28px rgb(0 0 0 / 52%), -4px -4px 14px rgb(120 124 126 / 24%);
   --shadow-inset:
     inset 2px 2px 6px rgb(0 0 0 / 45%),
-    inset -1px -1px 4px rgb(110 122 128 / 14%);
+    inset -1px -1px 4px rgb(120 124 126 / 14%);
   --shadow-sheet: 0 -10px 24px rgb(0 0 0 / 32%);
   /* De noche el papel ES carbón, así que un velo de la misma tinta sobre la
      misma tinta no vela nada: el velo nocturno tiene que ser negro. */
