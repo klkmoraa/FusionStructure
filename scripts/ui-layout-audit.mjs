@@ -149,6 +149,17 @@ try {
         // unidades que usa el riel: el ancho del lienzo de este momento.
         lienzo: Math.round(s.width),
         desborda: Math.round(Math.max(s.left - r.left, r.right - s.right)),
+        // Se miden LAS TECLAS, no la caja. El dock lleva `max-width` —así que
+        // su caja nunca se pasa— y `overflow:visible` —así que `scrollWidth`
+        // tampoco crece—: el contenido se pinta fuera sin que ninguna de las
+        // dos medidas se entere. Sólo la extensión real de las teclas lo dice.
+        teclasFuera: (() => {
+          const teclas = [...rail.querySelectorAll('.tool-button')].filter((t) => t.getClientRects().length);
+          if (!teclas.length) return 0;
+          const izq = Math.min(...teclas.map((t) => t.getBoundingClientRect().left));
+          const der = Math.max(...teclas.map((t) => t.getBoundingClientRect().right));
+          return Math.round(Math.max(s.left - izq, der - s.right));
+        })(),
       };
     });
     if (!riel) {
@@ -159,6 +170,9 @@ try {
       // reportaría un desborde que es su forma de decir «hay más a los lados».
       if (riel.desborda > 1) {
         report(width, `el riel se sale del lienzo por ${riel.desborda}px`);
+      }
+      if (riel.teclasFuera > 1) {
+        report(width, `las teclas del riel se salen del lienzo por ${riel.teclasFuera}px`);
       }
       const ESPERADAS = ['select', 'node', 'member', 'support', 'pointLoad', 'dimension'];
       if (riel.etiquetado) {
@@ -342,6 +356,37 @@ try {
       return out.slice(0, 5);
     });
     for (const problema of clipped) report(width, `el Inspector corta contenido: ${problema}`);
+
+    // Con una selección viva el riel suma el lanzador de edición estructural
+    // —medido: de 1112 a 1157px—, así que el presupuesto se vuelve a comprobar
+    // aquí. La comprobación de arriba corre sin selección y no lo vería.
+    const rielConSeleccion = await page.evaluate(() => {
+      const rail = document.querySelector('.tool-rail');
+      const stage = document.querySelector('.center-stage');
+      if (!rail || !stage) return null;
+      const r = rail.getBoundingClientRect();
+      const s = stage.getBoundingClientRect();
+      return {
+        clase: document.querySelector('.app-shell')?.dataset.shellClass,
+        conLanzador: Boolean(rail.querySelector('.tool-structural-edit')),
+        desborda: Math.round(Math.max(s.left - r.left, r.right - s.right)),
+        teclasFuera: (() => {
+          const teclas = [...rail.querySelectorAll('.tool-button')].filter((t) => t.getClientRects().length);
+          if (!teclas.length) return 0;
+          const izq = Math.min(...teclas.map((t) => t.getBoundingClientRect().left));
+          const der = Math.max(...teclas.map((t) => t.getBoundingClientRect().right));
+          return Math.round(Math.max(s.left - izq, der - s.right));
+        })(),
+      };
+    });
+    if (rielConSeleccion?.clase === 'X2' && rielConSeleccion.conLanzador) {
+      if (rielConSeleccion.desborda > 1) {
+        report(width, `con selección, el riel se sale del lienzo por ${rielConSeleccion.desborda}px`);
+      }
+      if (rielConSeleccion.teclasFuera > 1) {
+        report(width, `con selección, las teclas del riel se salen del lienzo por ${rielConSeleccion.teclasFuera}px`);
+      }
+    }
 
     // ---------------------------------------------------------------------
     // Objetivos táctiles · «Los controles críticos deben medir al menos 44 px
