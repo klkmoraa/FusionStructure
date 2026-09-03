@@ -124,6 +124,7 @@ npm run pdf:reportlab-service
 - [Sistema visual](docs/sistema-visual.md) — papel y carbón, las seis señales del dominio, la identidad de FStructure y las invariantes que comprueba la guarda.
 - [Índice de documentación](docs/README.md) — autoridad, estructura y mantenimiento.
 - [Reglas persistentes](AGENTS.md) — prácticas del repositorio y puerta de cierre.
+- [Implementación del canvas 2D](docs/canvas-implementation.md) — correspondencia entre la propuesta, las superficies y las puertas de verificación.
 
 ## Licencia
 
