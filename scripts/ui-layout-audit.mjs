@@ -286,6 +286,80 @@ try {
     });
     for (const problema of clipped) report(width, `el Inspector corta contenido: ${problema}`);
 
+    // ---------------------------------------------------------------------
+    // Objetivos táctiles · «Los controles críticos deben medir al menos 44 px
+    // en móvil». El suelo lo declara el propio design system
+    // (`--sc-control-height-touch`), y la hoja de densidad móvil lo pisaba.
+    // Sólo se exige donde las reglas táctiles aplican, que es el mismo umbral
+    // que usan las hojas: 700px.
+    // ---------------------------------------------------------------------
+    if (width <= 700) {
+      const pequenos = await page.evaluate(() => {
+        const suelo = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--sc-control-height-touch')) || 44;
+        const out = [];
+        for (const el of document.querySelectorAll('button, a[href], select, [role="button"], [role="tab"]')) {
+          const r = el.getBoundingClientRect();
+          if (!r.width || !r.height) continue;
+          const cs = getComputedStyle(el);
+          if (cs.visibility === 'hidden' || cs.pointerEvents === 'none') continue;
+          // El suelo táctil gobierna el CROMO. Un nudo o una barra del dibujo
+          // también se pulsan, pero su área no es una decisión de interfaz: es
+          // geometría del modelo, y ensancharla acerca unos nudos a otros hasta
+          // solaparlos. Se mide lo que el producto puede dimensionar libremente.
+          if (el.ownerSVGElement || el instanceof SVGElement) continue;
+          if (r.width >= suelo && r.height >= suelo) continue;
+          out.push(`«${(el.getAttribute('aria-label') || (el.textContent || '').trim()).slice(0, 34)}» mide ${Math.round(r.width)}x${Math.round(r.height)} (suelo ${suelo})`);
+        }
+        return out.slice(0, 8);
+      });
+      for (const control of pequenos) report(width, `control por debajo del suelo táctil: ${control}`);
+    }
+
+    // ---------------------------------------------------------------------
+    // La paleta: «abre, es visible, filtra, se cierra con Esc y devuelve el
+    // foco al punto de partida». Aquí se comprueba lo que es geometría y foco;
+    // el filtrado ya lo cubre `commandRegistry.test.ts`.
+    // ---------------------------------------------------------------------
+    const lanzadorPaleta = page.getByRole('button', { name: 'Abrir la paleta de comandos' }).first();
+    if (!(await lanzadorPaleta.count())) {
+      report(width, 'no existe el lanzador de la paleta: su visibilidad y su foco se quedan sin comprobar');
+    } else {
+      await lanzadorPaleta.focus();
+      await page.keyboard.press('Control+k');
+      await page.waitForTimeout(600);
+      const paleta = await page.evaluate(() => {
+        const modal = document.querySelector('.command-palette');
+        if (!modal) return { montada: false };
+        const r = modal.getBoundingClientRect();
+        const activo = document.activeElement;
+        return {
+          montada: true,
+          visible: r.width > 120 && r.height > 120,
+          dentro: r.left >= -1 && r.top >= -1 && r.right <= window.innerWidth + 1 && r.bottom <= window.innerHeight + 1,
+          caja: `${Math.round(r.width)}x${Math.round(r.height)} en (${Math.round(r.left)},${Math.round(r.top)})`,
+          fondo: Boolean(document.querySelector('.command-palette-backdrop')),
+          focoEnBuscador: activo?.tagName === 'INPUT' && modal.contains(activo),
+        };
+      });
+      if (!paleta.montada) {
+        report(width, 'Ctrl+K no montó la paleta de comandos');
+      } else {
+        if (!paleta.visible) report(width, `la paleta se monta pero no se ve: ${paleta.caja}`);
+        if (!paleta.dentro) report(width, `la paleta se dibuja fuera de la ventana: ${paleta.caja}`);
+        if (!paleta.fondo) report(width, 'la paleta se monta sin fondo que la separe del lienzo');
+        if (!paleta.focoEnBuscador) report(width, 'la paleta abre sin dejar el foco en su buscador');
+
+        await page.keyboard.press('Escape');
+        await page.waitForTimeout(500);
+        const tras = await page.evaluate(() => ({
+          cerrada: !document.querySelector('.command-palette'),
+          devuelto: document.activeElement?.getAttribute('aria-label') === 'Abrir la paleta de comandos',
+        }));
+        if (!tras.cerrada) report(width, 'Esc no cierra la paleta de comandos');
+        else if (!tras.devuelto) report(width, 'al cerrarse con Esc, la paleta no devuelve el foco a quien la abrió');
+      }
+    }
+
     await page.close();
   }
 

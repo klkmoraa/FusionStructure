@@ -99,6 +99,13 @@ tenga hoja antes de abrirse, que una superficie suspendida no reserve ancho, que
 la navegación desplegada no cubra la bandeja de Resultados y que el Inspector no
 corte contenido en silencio. Cada hallazgo viene con la medida que lo demuestra.
 
+También la lista de aceptación que puede medirse desde fuera: que la paleta se
+abra visible y dentro de la ventana, con fondo, el foco en su buscador y `Esc`
+devolviéndolo a quien la abrió; y que en la anchura táctil (≤700 px) ningún
+control del cromo baje del suelo de `--sc-control-height-touch`. El dibujo queda
+fuera de esa última: el área de un nudo es geometría del modelo, no una medida
+de interfaz.
+
 No se salta una comprobación en silencio: si falta el control que la monta o el
 estado que la exhibe no llega a producirse, eso mismo es un hallazgo. Un verde
 sólo significa algo si la auditoría llegó a mirar.
