@@ -104,8 +104,16 @@ para lo que se aplica.
 | Momento | `#b8412f` | `#ff8e80` | momento flector |
 | Cortante | `#277654` | `#55c990` | cortante y reacciones de apoyo |
 | Deformada | `#6a57c8` | `#9b87ff` | geometría desplazada, modos y pandeo |
-| Fluencia | `#b44a7e` | `#ef7ab9` | fluencia, y las líneas de influencia |
+| Fluencia | `#b44a7e` | `#ef7ab9` | mapa de demanda (η frente a Fy) y líneas de influencia |
 | Aviso | `#8a6110` | `#f3c553` | cotas, revisión y resultados caducos |
+
+La fluencia tiene además su ficha en el riel de evidencia del lienzo, junto a
+Axial, Cortante, Momento y Deformada. El mapa de demanda estaba excluido a mano
+de ese riel y sólo se encendía desde el menú de capas: la única lectura que dice
+si una barra alcanza su Fy era la única sin ficha. En el riel se llama por su
+señal, «Fluencia»; en el menú de capas sigue llamándose por lo que pinta, «Mapa
+de demanda», con su detalle. Sigue siendo una estimación elástica, no una
+comprobación por norma.
 
 **Lo invariante es el significado, no el hex.** Hasta esta migración una señal
 era un trazo único para los dos temas, medido a medio camino entre papel y
@@ -126,7 +134,7 @@ rojo, que es el rojo del brandbook, y el rosa que era momento pasa a ser
 como el rol de acción destructiva del chrome, apuntando al mismo rojo: nunca
 comparten campo visual, porque uno es cromo y el otro es lienzo.
 
-### La séptima familia: las cargas, en pastel
+### La séptima familia: las cargas, vivas
 
 El brandbook no publica ninguna señal para una carga aplicada. Antes las tres
 cargas compartían el rojo de `action`, y con el rojo pasando a momento habrían
@@ -134,16 +142,25 @@ quedado del mismo color que el diagrama de momento.
 
 | Carga | Día | Noche |
 |---|---|---|
-| Puntual | `#5a7f96` | `#9ec9e8` |
-| Distribuida | `#a0655c` | `#e5afa6` |
-| Momento aplicado | `#57876b` | `#a8cbb6` |
+| Puntual | `#1a4fe0` | `#2f92ff` |
+| Distribuida | `#ee5116` | `#ff6f3c` |
+| Momento aplicado | `#009b7a` | `#1ddfae` |
 
-Comparten hue con axial, momento y cortante, y **se separan por croma**: una
-carga es un apunte apagado, un resultado es una línea viva. Lo que se aplica a
-la estructura y lo que la estructura responde se leen como dos capas distintas.
-La guarda mide esa distancia en los dos temas; sin ella, el tono de Día se
-desliza hacia el pastel literal hasta desaparecer sobre papel, que es de donde
-venimos.
+Comparten hue con axial, momento y cortante. La versión anterior las separaba
+**apagándolas** —croma 48-68 frente a 79-149—, y el precio era que la entrada
+que el usuario dibuja fuese lo más sucio del lienzo. Ahora la carga es viva
+(croma 155-216) y lo que la separa de la señal es la **distancia de color**:
+cobalto contra azur, bermellón contra ladrillo, esmeralda contra verde bosque.
+
+La guarda de `designSystem.test.ts` mide tres cosas en los dos temas: ≥3:1
+sobre el papel del tema, ≥55 de separación RGB frente a las **seis** señales
+—no sólo la del tono propio— y un suelo de croma que impide volver al pastel.
+
+Cada carga se pinta de **un solo color**. El tipo publica su tinta en
+`--load-ink` y el asta, el arco y el número la consumen; ninguna regla genérica
+la redeclara, así que el orden de las hojas no puede volver a pintar el asta de
+una distribuida con el azul de la puntual mientras su punta de flecha sale del
+color correcto.
 
 ### Familias y estados
 
