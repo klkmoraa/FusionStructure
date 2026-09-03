@@ -85,6 +85,20 @@ npm run build        # aplicación estática desplegable
 npm run test         # pruebas automatizadas
 ```
 
+La geometría del canvas 2D se audita aparte, en un navegador real, porque jsdom
+no hace layout y una columna reservada, un panel tapado o un número recortado
+sólo existen cuando algo se mide de verdad:
+
+```bash
+npm run build && npm run preview   # en una terminal
+npm run ui:layout                  # en otra; UI_URL cambia el destino
+```
+
+Comprueba, a 390, 768, 1024, 1280 y 1440 px de ancho, que la paleta de comandos
+tenga hoja antes de abrirse, que una superficie suspendida no reserve ancho, que
+la navegación desplegada no cubra la bandeja de Resultados y que el Inspector no
+corte contenido en silencio. Cada hallazgo viene con la medida que lo demuestra.
+
 El servicio opcional de ReportLab se puede levantar con:
 
 ```bash
