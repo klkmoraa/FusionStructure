@@ -30,6 +30,10 @@ Este documento separa el estado verificable del código de la dirección de prod
 | Space 3D | Experimental | marco espacial elástico lineal separado, con limitaciones explícitas frente al dominio 2D |
 | Asistencia local | Experimental | propuestas de comandos locales; no debe ocultar ni ejecutar acciones ambiguas sin confirmación |
 
+### Unidades de presentación
+
+El solver mantiene sus magnitudes internas en kN, m y rad. El proyecto puede elegir perfiles estándar (N, kN, MN, gf, kgf, t, lb o kip combinados con mm, cm, m, km, in, ft o yd) y crear un perfil personalizado con nombre propio, por ejemplo `T/M`. La selección se conserva en `settings.units`, se valida al importar y se aplica también a edición, canvas, resultados, biblioteca y memoria PDF; cambiarla no convierte ni muta los valores base del modelo.
+
 ## Mapa de superficies
 
 La nomenclatura propuesta evita usar nombres de proveedores como si fueran módulos propios:
