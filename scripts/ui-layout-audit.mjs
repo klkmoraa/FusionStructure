@@ -117,6 +117,63 @@ try {
     }
 
     // ---------------------------------------------------------------------
+    // Fase 1 · El riel nombra sus seis principales, y nunca se sale.
+    //
+    // Dos afirmaciones, no una: nombrarlas cuesta ancho, y el modo de fallar
+    // que esto guarda es que el riel crezca hasta salirse del lienzo.
+    //
+    // VA AQUÍ, con la pantalla recién cargada y el Inspector cerrado, porque
+    // ése es el estado en el que los rótulos deben verse. Colocada más abajo
+    // —después de abrir Cargas y Resultados— el lienzo ya está estrecho, no se
+    // esperan rótulos, y la comprobación pasaba en verde con el riel mudo: un
+    // falso verde de manual.
+    // ---------------------------------------------------------------------
+    const riel = await page.evaluate(() => {
+      const rail = document.querySelector('.tool-rail');
+      const stage = document.querySelector('.center-stage');
+      if (!rail || !stage) return null;
+      const r = rail.getBoundingClientRect();
+      const s = stage.getBoundingClientRect();
+      // Un rótulo cuenta como legible sólo si OCUPA sitio: el riel guarda el
+      // nombre en el árbol accesible aunque lo esconda, así que preguntar por
+      // el texto daría verde con el riel mudo.
+      const nombradas = [...rail.querySelectorAll('.tool-button')].filter((boton) => {
+        const copy = boton.querySelector('.sc-tool-button__copy');
+        return copy && copy.getBoundingClientRect().width > 1;
+      }).map((boton) => boton.dataset.toolId);
+      return {
+        clase: document.querySelector('.app-shell')?.dataset.shellClass,
+        etiquetado: rail.getAttribute('data-tool-rail-labels') === 'true',
+        nombradas,
+        // El presupuesto que decide si caben los nombres, en las mismas
+        // unidades que usa el riel: el ancho del lienzo de este momento.
+        lienzo: Math.round(s.width),
+        desborda: Math.round(Math.max(s.left - r.left, r.right - s.right)),
+      };
+    });
+    if (!riel) {
+      report(width, 'no se encontró el riel de herramientas: la fase 1 se queda sin comprobar');
+    } else if (riel.clase === 'X2') {
+      // Sólo en X2: el riel flotante es de esta clase. En M1 y K0 el riel es
+      // una banda con su propio desplazamiento, y medirla contra el lienzo
+      // reportaría un desborde que es su forma de decir «hay más a los lados».
+      if (riel.desborda > 1) {
+        report(width, `el riel se sale del lienzo por ${riel.desborda}px`);
+      }
+      const ESPERADAS = ['select', 'node', 'member', 'support', 'pointLoad', 'dimension'];
+      if (riel.etiquetado) {
+        const faltan = ESPERADAS.filter((tool) => !riel.nombradas.includes(tool));
+        if (faltan.length) {
+          report(width, `el riel dice estar etiquetado pero ${faltan.length} de las seis principales no muestran rótulo: ${faltan.join(', ')}`);
+        }
+      } else if (riel.lienzo >= 1152) {
+        report(width, `el lienzo mide ${riel.lienzo}px y da de sobra para los rótulos, pero el riel está mudo`);
+      } else if (riel.nombradas.length) {
+        report(width, `el riel no está en modo etiquetado y aun así ${riel.nombradas.length} tecla(s) muestran rótulo`);
+      }
+    }
+
+    // ---------------------------------------------------------------------
     // P0-2 · Una superficie suspendida no reserva ancho.
     // Se abre Cargas y encima Resultados —que la suspende— y se mide lo que
     // queda a la derecha del lienzo.

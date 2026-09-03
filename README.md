@@ -99,7 +99,9 @@ tenga hoja antes de abrirse, que una superficie suspendida no reserve ancho, que
 la navegación desplegada no cubra la bandeja de Resultados y que el Inspector no
 corte contenido en silencio. Cada hallazgo viene con la medida que lo demuestra.
 
-También la lista de aceptación que puede medirse desde fuera: que la paleta se
+También el riel de la fase 1: que nombre sus seis herramientas principales
+cuando el lienzo da para ello y que no se salga de él cuando no. Y la lista de
+aceptación que puede medirse desde fuera: que la paleta se
 abra visible y dentro de la ventana, con fondo, el foco en su buscador y `Esc`
 devolviéndolo a quien la abrió; y que en la anchura táctil (≤700 px) ningún
 control del cromo baje del suelo de `--sc-control-height-touch`. El dibujo queda
