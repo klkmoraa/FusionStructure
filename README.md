@@ -85,6 +85,33 @@ npm run build        # aplicación estática desplegable
 npm run test         # pruebas automatizadas
 ```
 
+La geometría del canvas 2D se audita aparte, en un navegador real, porque jsdom
+no hace layout y una columna reservada, un panel tapado o un número recortado
+sólo existen cuando algo se mide de verdad:
+
+```bash
+npm run build && npm run preview   # en una terminal
+npm run ui:layout                  # en otra; UI_URL cambia el destino
+```
+
+Comprueba, a 390, 768, 1024, 1280 y 1440 px de ancho, que la paleta de comandos
+tenga hoja antes de abrirse, que una superficie suspendida no reserve ancho, que
+la navegación desplegada no cubra la bandeja de Resultados y que el Inspector no
+corte contenido en silencio. Cada hallazgo viene con la medida que lo demuestra.
+
+También el riel de la fase 1: que nombre sus seis herramientas principales
+cuando el lienzo da para ello y que no se salga de él cuando no. Y la lista de
+aceptación que puede medirse desde fuera: que la paleta se
+abra visible y dentro de la ventana, con fondo, el foco en su buscador y `Esc`
+devolviéndolo a quien la abrió; y que en la anchura táctil (≤700 px) ningún
+control del cromo baje del suelo de `--sc-control-height-touch`. El dibujo queda
+fuera de esa última: el área de un nudo es geometría del modelo, no una medida
+de interfaz.
+
+No se salta una comprobación en silencio: si falta el control que la monta o el
+estado que la exhibe no llega a producirse, eso mismo es un hallazgo. Un verde
+sólo significa algo si la auditoría llegó a mirar.
+
 El servicio opcional de ReportLab se puede levantar con:
 
 ```bash
@@ -106,6 +133,7 @@ npm run pdf:reportlab-service
 - [Sistema visual](docs/sistema-visual.md) — papel y carbón, las seis señales del dominio, la identidad de FStructure y las invariantes que comprueba la guarda.
 - [Índice de documentación](docs/README.md) — autoridad, estructura y mantenimiento.
 - [Reglas persistentes](AGENTS.md) — prácticas del repositorio y puerta de cierre.
+- [Implementación del canvas 2D](docs/canvas-implementation.md) — correspondencia entre la propuesta, las superficies y las puertas de verificación.
 
 ## Licencia
 
