@@ -121,16 +121,23 @@ try {
     // Se abre Cargas y encima Resultados —que la suspende— y se mide lo que
     // queda a la derecha del lienzo.
     // ---------------------------------------------------------------------
-    const loads = page.getByRole('button', { name: 'Análisis y cargas' }).first();
-    if (await loads.count()) {
-      await loads.click();
-      await page.waitForTimeout(350);
-    }
-    const results = page.getByRole('button', { name: 'Resultados', exact: true }).first();
-    if (await results.count()) {
-      await results.click();
-      await page.waitForTimeout(500);
-    }
+    // Estos dos lanzadores NO son opcionales: sin ellos no hay superficie
+    // suspendida que mirar ni bandeja con la que chocar, y saltárselos en
+    // silencio dejaría pasar P0-2 y P0-3 sin haberlos ejercido. Que falten es
+    // en sí un hallazgo —la auditoría dejó de auditar—, no una rama más.
+    const pulsar = async (nombre, criterio) => {
+      const boton = page.getByRole('button', { name: nombre, exact: true }).first();
+      if (!(await boton.count())) {
+        report(width, `no existe el control «${nombre}»: ${criterio} se queda sin comprobar`);
+        return false;
+      }
+      await boton.click();
+      await page.waitForTimeout(450);
+      return true;
+    };
+
+    const conCargas = await pulsar('Análisis y cargas', 'la columna reservada (P0-2)');
+    const conResultados = await pulsar('Resultados', 'la columna reservada (P0-2) y la colisión con la navegación (P0-3)');
 
     const reserved = await page.evaluate(() => {
       const stage = document.querySelector('.center-stage');
@@ -147,8 +154,14 @@ try {
       const margin = parseFloat(getComputedStyle(stage).marginRight) || 0;
       return { gap: Math.round(w.right - s.right - margin), suspended, visible };
     });
-    if (reserved && reserved.suspended > 0 && reserved.visible === 0 && reserved.gap > 2) {
-      report(width, `queda una columna de ${reserved.gap}px reservada a la derecha del lienzo con el Inspector suspendido`);
+    if (conCargas && conResultados) {
+      if (!reserved) {
+        report(width, 'no se encontró la retícula del área de trabajo: la columna reservada (P0-2) se queda sin medir');
+      } else if (reserved.suspended === 0 && reserved.visible === 0) {
+        report(width, 'abrir Cargas y luego Resultados no dejó ninguna superficie del Inspector suspendida: el estado que exhibe P0-2 no se llegó a montar');
+      } else if (reserved.suspended > 0 && reserved.visible === 0 && reserved.gap > 2) {
+        report(width, `queda una columna de ${reserved.gap}px reservada a la derecha del lienzo con el Inspector suspendido`);
+      }
     }
 
     // ---------------------------------------------------------------------
@@ -157,6 +170,12 @@ try {
     // ---------------------------------------------------------------------
     const consoleEl = page.locator('.console');
     const panel = page.locator('.results-panel');
+    if (conResultados && !(await panel.count())) {
+      report(width, 'Resultados no montó su panel: la colisión con la navegación (P0-3) se queda sin comprobar');
+    }
+    if (!(await consoleEl.count())) {
+      report(width, 'no se encontró la navegación: la colisión con Resultados (P0-3) se queda sin comprobar');
+    }
     if (await panel.count() && await consoleEl.count()) {
       await consoleEl.hover();
       await page.waitForTimeout(450);
@@ -213,10 +232,12 @@ try {
     const abrirInspector = async () => {
       if (await page.evaluate(() => Boolean(document.querySelector('.inspector-panel[data-surface-status="active"]')))) return;
       const toggle = page.getByRole('button', { name: 'Mostrar inspector' }).first();
-      if (await toggle.count()) {
-        await toggle.click();
-        await page.waitForTimeout(600);
+      if (!(await toggle.count())) {
+        report(width, 'no existe el control «Mostrar inspector»: el recorte del Inspector (P0-4) se queda sin comprobar');
+        return;
       }
+      await toggle.click();
+      await page.waitForTimeout(600);
     };
     await abrirInspector();
     const conPropiedades = await page.evaluate(() => Boolean(
@@ -273,49 +294,95 @@ try {
   // quien ya tiene trabajo guardado.
   // -----------------------------------------------------------------------
   const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+
+  // Se abre primero el lienzo para que la aplicación escriba su proyecto actual
+  // en `localStorage`: ese registro es la mitad de la pregunta que la decisión
+  // de entrada contesta —la otra mitad es la biblioteca de IndexedDB—, y sólo
+  // coincidiendo las dos es correcto saltarse la bienvenida.
+  await page.goto(`${baseUrl}/?surface=workspace2d`, { waitUntil: 'networkidle' });
+  await page.waitForSelector('.app-shell', { timeout: 15000 });
+  await page.waitForTimeout(900);
+
+  /*
+   * Sembrar la biblioteca REAL: base `structureCo.projects`, almacén `projects`,
+   * clave `id`, y un registro cuyo id es el del proyecto abierto. Una versión
+   * anterior de esta auditoría abría una base inventada y no insertaba nada, de
+   * modo que la recarga veía siempre a un usuario nuevo y la rama de vuelta
+   * —justo la que este P0 promete— no se ejercía jamás. Por eso se comprueba
+   * abajo que la siembra ocurrió: una siembra fallida tiene que ser un hallazgo,
+   * no un verde silencioso.
+   */
+  const sembrado = await page.evaluate(async () => {
+    const crudo = localStorage.getItem('structureCo.project');
+    if (!crudo) return { ok: false, motivo: 'la aplicación no dejó ningún proyecto en localStorage' };
+    const proyecto = JSON.parse(crudo);
+    const db = await new Promise((resolve, reject) => {
+      const peticion = indexedDB.open('structureCo.projects', 1);
+      peticion.onupgradeneeded = () => {
+        const base = peticion.result;
+        for (const almacen of ['projects', 'recoveries', 'meta']) {
+          if (base.objectStoreNames.contains(almacen)) continue;
+          base.createObjectStore(almacen, { keyPath: almacen === 'meta' ? 'key' : 'id' });
+        }
+      };
+      peticion.onsuccess = () => resolve(peticion.result);
+      peticion.onerror = () => reject(peticion.error);
+    });
+    // Del registro sólo importan aquí su `id` y que se cuente: es lo único que
+    // `readWelcomeEntry` lee. El resto se rellena para que sea un registro
+    // legible, no para simular una revisión real.
+    await new Promise((resolve, reject) => {
+      const tx = db.transaction('projects', 'readwrite');
+      tx.objectStore('projects').put({
+        id: proyecto.id,
+        name: proyecto.name,
+        schemaVersion: proyecto.schemaVersion ?? 1,
+        revision: 1,
+        updatedAt: new Date().toISOString(),
+        checksum: 'ui-layout-audit',
+        project: proyecto,
+      });
+      tx.oncomplete = () => resolve();
+      tx.onerror = () => reject(tx.error);
+    });
+    const guardados = await new Promise((resolve, reject) => {
+      const tx = db.transaction('projects', 'readonly');
+      const peticion = tx.objectStore('projects').getAll();
+      peticion.onsuccess = () => resolve(peticion.result);
+      peticion.onerror = () => reject(peticion.error);
+    });
+    db.close();
+    return { ok: guardados.some((registro) => registro.id === proyecto.id), guardados: guardados.length, id: proyecto.id };
+  }).catch((error) => ({ ok: false, motivo: String(error) }));
+
+  if (!sembrado.ok) {
+    report(1440, `no se pudo sembrar la biblioteca (${sembrado.motivo ?? 'el registro no quedó guardado'}): la entrada directa (P0-5) se queda sin comprobar`);
+  }
+
   await page.goto(baseUrl, { waitUntil: 'networkidle' });
   await page.waitForSelector('[data-testid="platform-landing"]', { timeout: 15000 });
-  // Se siembra un proyecto guardado para preguntar por el usuario que VUELVE:
-  // sin biblioteca la decisión correcta es la bienvenida, y no probaría nada.
-  await page.evaluate(async () => {
-    await new Promise((resolve, reject) => {
-      const open = indexedDB.open('fusionstructure', 1);
-      open.onupgradeneeded = () => {
-        const db = open.result;
-        if (!db.objectStoreNames.contains('projects')) db.createObjectStore('projects', { keyPath: 'id' });
-      };
-      open.onsuccess = () => { open.result.close(); resolve(); };
-      open.onerror = () => reject(open.error);
-    });
-  }).catch(() => {});
-  await page.reload({ waitUntil: 'networkidle' });
   await page.waitForTimeout(600);
+
   const cta = page.getByRole('button', { name: 'Abrir Solver 2D' });
-  if (await cta.count()) {
+  if (!(await cta.count())) {
+    report(1440, 'no se encontró el CTA «Abrir Solver 2D» en la portada');
+  } else {
     await cta.click();
-    await page.waitForTimeout(800);
-    const landed = await page.evaluate(() => ({
+    await page.waitForTimeout(1200);
+    const destino = await page.evaluate(() => ({
       canvas: Boolean(document.querySelector('.app-shell.workspace-screen')),
       welcome: Boolean(document.querySelector('[data-testid="solver2d-welcome"]')),
     }));
-    if (!landed.canvas && !landed.welcome) {
+    // Con biblioteca sembrada Y el proyecto abierto dentro de ella, la única
+    // respuesta correcta es el lienzo: es exactamente lo que P0-5 promete.
+    if (sembrado.ok && !destino.canvas) {
+      report(1440, `el CTA «Abrir Solver 2D» no entró al proyecto guardado con la biblioteca sembrada (bienvenida: ${destino.welcome})`);
+    }
+    if (!destino.canvas && !destino.welcome) {
       report(1440, 'el CTA «Abrir Solver 2D» no lleva ni al lienzo ni a la bienvenida del módulo');
     }
-    // Con biblioteca vacía la bienvenida es la respuesta correcta: ahí viven la
-    // creación, la selección y la recuperación en un mismo paso. Lo que se
-    // exige es que ese paso EXISTA y ofrezca las dos salidas.
-    if (landed.welcome) {
-      const salidas = await page.evaluate(() => ({
-        continuar: Boolean([...document.querySelectorAll('button')].find((b) => b.textContent?.trim() === 'Continuar')),
-        empezar: Boolean([...document.querySelectorAll('h2,h3')].find((h) => h.textContent?.includes('Por dónde empezar'))),
-      }));
-      if (!salidas.continuar || !salidas.empezar) {
-        report(1440, 'la bienvenida del Solver 2D no ofrece continuar y empezar en el mismo paso');
-      }
-    }
-  } else {
-    report(1440, 'no se encontró el CTA «Abrir Solver 2D» en la portada');
   }
+
   await page.close();
 
   if (findings.length) {

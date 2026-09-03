@@ -99,6 +99,10 @@ tenga hoja antes de abrirse, que una superficie suspendida no reserve ancho, que
 la navegación desplegada no cubra la bandeja de Resultados y que el Inspector no
 corte contenido en silencio. Cada hallazgo viene con la medida que lo demuestra.
 
+No se salta una comprobación en silencio: si falta el control que la monta o el
+estado que la exhibe no llega a producirse, eso mismo es un hallazgo. Un verde
+sólo significa algo si la auditoría llegó a mirar.
+
 El servicio opcional de ReportLab se puede levantar con:
 
 ```bash
