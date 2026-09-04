@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "observedAt": "2026-09-04T15:53:59Z",
+  "observedAt": "2026-09-04T15:56:32Z",
   "source": {
     "repository": "https://github.com/klkmoraa/FusionStructure",
     "cutoverTag": "monolith-cutover-20260904",
@@ -13,7 +13,7 @@
       "name": "FusionStructure",
       "role": "governance-and-compatibility",
       "url": "https://github.com/klkmoraa/FusionStructure",
-      "main": "700a0365352245a1db61f6938fd1bcd72f812fa7",
+      "main": "a2d95e4559976ee298c888e85cabba62d201011f",
       "cutoverTag": "monolith-cutover-20260904",
       "qualityGate": {
         "command": "npm.cmd run check",
@@ -25,9 +25,17 @@
       "ci": {
         "workflow": "CI",
         "check": "Puerta de calidad",
-        "runId": 33886906551,
-        "checkRunId": 101068820422,
+        "runId": 33892150193,
+        "checkRunId": 101086144341,
         "result": "success"
+      },
+      "closurePullRequest": {
+        "number": 17,
+        "mergeCommit": "a2d95e4559976ee298c888e85cabba62d201011f",
+        "mergedAt": "2026-09-04T15:55:58Z",
+        "checks": "success",
+        "reviewDecisionAtMerge": "REVIEW_REQUIRED",
+        "note": "Owner-admin bypass was used under the documented sole-owner exception; no independent bot review was returned for this documentation-only closure PR."
       }
     },
     {
