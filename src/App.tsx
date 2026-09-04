@@ -13,6 +13,12 @@ import { onLaunchedFile } from './platform/launchedFile';
 import { safeProjectFilename } from './utils/export';
 import { decodeProjectFragment } from './utils/shareLink';
 import { readAppRoute, writeAppRoute, type AppScreen } from './appRoute';
+import {
+  cancelPlanar2DToSpace3DHandoff,
+  isExternal2DTo3DHandoffEnabled,
+  preparePlanar2DToSpace3DHandoff,
+  type Planar2DToSpace3DHandoffV1,
+} from './integrations/planar2dToSpace3d';
 
 const loadWorkspaceShell = () => import('./features/workspace/WorkspaceShell');
 const WorkspaceShell = lazy(loadWorkspaceShell);
@@ -29,12 +35,18 @@ const PortableImportCenter = lazy(() => import('./features/import-export/Portabl
  */
 type Space3DOrigin = Space3DEntryOrigin;
 
+interface Space3DEntryRequest {
+  readonly origin: Space3DEntryOrigin;
+  readonly handoff: Planar2DToSpace3DHandoffV1 | null;
+}
+
 const AppShell = () => {
   const [initialRoute] = useState(() => readAppRoute(window.location.search));
   const [screen, setScreen] = useState<AppScreen>(initialRoute.screen);
   const [welcomeInitialView, setWelcomeInitialView] = useState<HomeView>(initialRoute.welcomeView);
   const [space3dOrigin, setSpace3DOrigin] = useState<Space3DOrigin>(initialRoute.space3dOrigin);
-  const [space3DEntryOrigin, setSpace3DEntryOrigin] = useState<Space3DEntryOrigin | null>(null);
+  const [space3DEntryRequest, setSpace3DEntryRequest] = useState<Space3DEntryRequest | null>(null);
+  const [space3DHandoff, setSpace3DHandoff] = useState<Planar2DToSpace3DHandoffV1 | null>(null);
   const [launchedFile, setLaunchedFile] = useState<File | null>(null);
   const { project, analysis, replaceProject } = useProject();
   const { t } = useI18n();
@@ -42,6 +54,7 @@ const AppShell = () => {
   const navigate = useCallback((next: AppScreen, view: HomeView = 'home', origin: Space3DOrigin = 'standalone') => {
     if (next === 'welcome') setWelcomeInitialView(view);
     if (next === 'space3d') setSpace3DOrigin(origin);
+    else setSpace3DHandoff(null);
     setScreen(next);
     writeAppRoute({ screen: next, welcomeView: view, space3dOrigin: origin });
   }, []);
@@ -82,18 +95,32 @@ const AppShell = () => {
     window.addEventListener('hashchange', receiveSharedProject);
     return () => window.removeEventListener('hashchange', receiveSharedProject);
   }, [navigate]);
-  const requestSpace3D = (origin: Space3DEntryOrigin) => setSpace3DEntryOrigin(origin);
+  const requestSpace3D = (origin: Space3DEntryOrigin) => {
+    const handoff = origin === 'workspace' && isExternal2DTo3DHandoffEnabled()
+      ? preparePlanar2DToSpace3DHandoff(project)
+      : null;
+    setSpace3DEntryRequest({ origin, handoff });
+  };
   const proceedToSpace3D = () => {
-    if (!space3DEntryOrigin) return;
-    const origin = space3DEntryOrigin;
-    setSpace3DEntryOrigin(null);
+    if (!space3DEntryRequest) return;
+    const { origin, handoff } = space3DEntryRequest;
+    setSpace3DHandoff(handoff);
+    setSpace3DEntryRequest(null);
     navigate('space3d', 'home', origin);
   };
-  const space3DEntry = space3DEntryOrigin ? <Space3DEntryDialog
+  const cancelSpace3DEntry = () => {
+    if (space3DEntryRequest?.handoff) cancelPlanar2DToSpace3DHandoff(space3DEntryRequest.handoff);
+    setSpace3DEntryRequest(null);
+  };
+  const routeHandoff = space3dOrigin === 'workspace' && isExternal2DTo3DHandoffEnabled()
+    ? space3DHandoff ?? preparePlanar2DToSpace3DHandoff(project)
+    : null;
+  const space3DEntry = space3DEntryRequest ? <Space3DEntryDialog
     language={project.settings.language}
-    origin={space3DEntryOrigin}
+    origin={space3DEntryRequest.origin}
     projectName={project.name}
-    onCancel={() => setSpace3DEntryOrigin(null)}
+    handoff={space3DEntryRequest.handoff}
+    onCancel={cancelSpace3DEntry}
     onProceed={proceedToSpace3D}
   /> : null;
   const launchedImport = launchedFile ? <Suspense fallback={null}><PortableImportCenter
@@ -125,7 +152,7 @@ const AppShell = () => {
       <Suspense fallback={<div className="workspace-loading" role="status" aria-label={t('space3d.loading')}><strong>FusionStructure</strong><LoaderCircle className="spin" size={22} /></div>}>
         <Space3DWorkspace
           language={project.settings.language}
-          sourceProject={space3dOrigin === 'workspace' ? project : undefined}
+          handoff={routeHandoff}
           onOpenHome={() => navigate('welcome', 'space3d')}
           onOpen2D={() => navigate('welcome', 'solver2d')}
         />

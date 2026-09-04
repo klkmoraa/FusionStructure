@@ -59,9 +59,9 @@ issues existentes; los demás códigos siguen siendo fallos de programación y
 se relanzan.
 
 La frontera de Space3D prohíbe dependencias hacia `src/engine` y `src/types`
-en todos sus archivos. La única excepción documentada es
-`space3d/data/bridge2d.ts`, que permanece fuera de este cambio porque es el
-puente explícito de compatibilidad 2D y no se modificó aquí.
+en todos sus archivos. El antiguo `space3d/data/bridge2d.ts` ya no es una
+excepción: el puente vive en `src/integrations/planar2dToSpace3d.ts` y sólo
+alcanza las fachadas públicas `src/solver2d/public.ts` y `src/space3d/public.ts`.
 
 ## Persistencia y compatibilidad
 
