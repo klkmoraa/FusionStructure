@@ -17,6 +17,7 @@ Esta documentación describe una aplicación experimental que está construyénd
 11. [Solver 3D · superficie de trabajo](solver3d-workspace.md)
 12. [ADR 0003 · Foundation de unidades](adr/0003-foundation-units-boundary.md)
 13. [ADR 0004 · Foundation de álgebra lineal](adr/0004-foundation-linear-algebra-boundary.md)
+14. [ADR 0006 · Handoff externo 2D → Space 3D](adr/0006-external-planar-space3d-handoff.md)
 
 ## Documentos canónicos
 
@@ -35,6 +36,7 @@ Esta documentación describe una aplicación experimental que está construyénd
 | [Solver 3D · superficie de trabajo](solver3d-workspace.md) | Registra estados, contratos de datos y límites del rediseño del workspace espacial. |
 | [ADR 0003 · Foundation de unidades](adr/0003-foundation-units-boundary.md) | Fija la frontera neutral de IDs, factores, conversión, persistencia y rollback de unidades. |
 | [ADR 0004 · Foundation de álgebra lineal](adr/0004-foundation-linear-algebra-boundary.md) | Fija la frontera neutral de matrices, factorización, tolerancias, errores numéricos y compatibilidad. |
+| [ADR 0006 · Handoff externo 2D → Space 3D](adr/0006-external-planar-space3d-handoff.md) | Fija la propuesta versionada, reporte de pérdidas, rollback y fachadas públicas de la integración entre productos. |
 | [Reglas persistentes](../AGENTS.md) | Define la autoridad, la calidad mínima, la ausencia de áreas protegidas y las reglas de cierre. |
 
 ## Estado de una afirmación
