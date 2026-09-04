@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "c1824c016e163cf22652565ea486f3a1c0928c5b",
+  "scope": "Existing committed files below fixture or test-data directories at the baseline; TypeScript fixture builders are source code and are not duplicated here.",
+  "digestAlgorithm": "sha256",
+  "fixtures": [
+    {
+      "path": "src/import/dxf/fixtures/block-insert.dxf",
+      "gitBlobOid": "031bee7f3f085b7f288a0830a4100aa4ca90fb61",
+      "bytes": 221,
+      "sha256": "24e5505fefc152dad58f87f847320909ced3ffb7f06b7ad3ae84734e415114fc"
+    },
+    {
+      "path": "src/import/dxf/fixtures/classic-polyline.dxf",
+      "gitBlobOid": "34b28fcd854af22010abd0527d127503c380f57a",
+      "bytes": 173,
+      "sha256": "868c90e2e7d1f125bc0b17464855c44e7d38e0cda61e3db56f06848b17d29222"
+    },
+    {
+      "path": "src/import/dxf/fixtures/closed-lwpolyline-m.dxf",
+      "gitBlobOid": "7081cd0c4ffe4477b6d8d818729f24972dd774a6",
+      "bytes": 176,
+      "sha256": "d287a37358c1115bdb987002237ea26625a395ab142934a9c5245b37a88e4092"
+    },
+    {
+      "path": "src/import/dxf/fixtures/line-mm-r2013.dxf",
+      "gitBlobOid": "784a59dfafc47641364c3d0f0cf23c36a093f881",
+      "bytes": 182,
+      "sha256": "f5fcf7bb04a6742e056be4dabb48d40acc876f22115daeb9b4d6a3c5f0a1874e"
+    },
+    {
+      "path": "src/import/dxf/fixtures/line-units-missing.dxf",
+      "gitBlobOid": "041f6d4e089644540eb418e62614ba53656503d8",
+      "bytes": 119,
+      "sha256": "cd32c402866798dad47377f8f051db2da108502ed044ad04c82fd78240d9a42b"
+    },
+    {
+      "path": "src/import/dxf/fixtures/mixed-line-circle.dxf",
+      "gitBlobOid": "8282664aeced97b3b87bbd7f0f07612a50fd462a",
+      "bytes": 153,
+      "sha256": "42bc406eba787990cc6a7bedbf0523a3a22464ef256a8d0c00c563dfa5f577ec"
+    },
+    {
+      "path": "src/import/dxf/fixtures/non-planar-line.dxf",
+      "gitBlobOid": "a62ca0e29911e24a917daf7a289b0909a7a8cac6",
+      "bytes": 129,
+      "sha256": "ec6412d47a3121c93904ac874c4fd4974ca6d699ccc4cec54b533c963401ef11"
+    }
+  ]
+}

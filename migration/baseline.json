@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-09-03T18:27:15-06:00",
+  "baseline": {
+    "commit": "c1824c016e163cf22652565ea486f3a1c0928c5b",
+    "tag": "monolith-cutover-20260903",
+    "tagKind": "annotated",
+    "tagObjectOid": "028dbf915b369439eafd5ea9e53c6e1f6eed92d2",
+    "remote": "https://github.com/klkmoraa/FusionStructure.git",
+    "remoteVerification": {
+      "verifiedAt": "2026-09-03T18:27:13-06:00",
+      "tagRefOid": "028dbf915b369439eafd5ea9e53c6e1f6eed92d2",
+      "dereferencedCommit": "c1824c016e163cf22652565ea486f3a1c0928c5b",
+      "command": "git ls-remote origin refs/tags/monolith-cutover-20260903 refs/tags/monolith-cutover-20260903^{}"
+    }
+  },
+  "historicalEvidence": {
+    "originalAuditCommit": "4a7ad17f2aef8e9e74bc556ca184f9b079dde12a",
+    "role": "historical-evidence-only",
+    "implementationBase": false
+  },
+  "toolchain": {
+    "node": "v24.19.0",
+    "npm": "11.17.0",
+    "nodeVersionFile": ".nvmrc",
+    "nodeVersionFileValue": "24"
+  },
+  "packageLock": {
+    "path": "package-lock.json",
+    "digestAlgorithm": "sha256",
+    "sha256": "61b64479295b6954aaf01d9d70e17794c2ad46724dbbcac4258eaf3af7539aec",
+    "bytes": 101937,
+    "source": "git blob at baseline commit"
+  },
+  "tree": {
+    "gitObjectFormat": "sha1",
+    "gitTreeOid": "423b4db77f7c17f3a8458279cbd8abdbfa96ddfd",
+    "canonicalInventoryAlgorithm": "sha256(git ls-tree -r -z BASELINE)",
+    "canonicalInventorySha256": "5df58c0d0f2ff30ca485c5dfef3c4769c761bbeaf3f548c4b625a051796ac5d4"
+  },
+  "ci": {
+    "provider": "github-actions",
+    "workflow": "CI",
+    "runId": 33807212560,
+    "event": "push",
+    "headBranch": "main",
+    "headSha": "c1824c016e163cf22652565ea486f3a1c0928c5b",
+    "status": "completed",
+    "conclusion": "success",
+    "createdAt": "2026-09-03T21:18:21Z",
+    "updatedAt": "2026-09-03T21:19:53Z",
+    "url": "https://github.com/klkmoraa/FusionStructure/actions/runs/33807212560"
+  },
+  "tests": {
+    "command": "npm.cmd run test",
+    "baselineSourceTestFiles": 34,
+    "baselineTestCases": 159,
+    "passedSourceTestFiles": 34,
+    "passedTestCases": 159,
+    "failedSourceTestFiles": 0,
+    "failedTestCases": 0,
+    "observedAt": "2026-09-03T18:29:25-06:00"
+  },
+  "assets": {
+    "inventoryFile": "migration/assets-inventory.json",
+    "count": 185,
+    "totalBytes": 68746745,
+    "inventorySha256": "842a4e18d8cc44c79e09584d8051588c060508db5d20e43916cc5c1e9ce0883d"
+  }
+}
