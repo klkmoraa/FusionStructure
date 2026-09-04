@@ -18,7 +18,7 @@ No incorpora modelos 2D, 3D, interfaz, stores ni resultados de ningún motor. Un
 
 ## Integridad y preservación
 
-`canonicalizeProjectFormatJson` ordena las claves JSON de forma recursiva y rechaza valores que no son JSON. `writeProjectFormatPackage` emite esos bytes canónicos para el manifiesto. Cada descriptor de archivo usa SHA-256 hexadecimal en minúsculas sobre los bytes exactos del archivo, no sobre texto normalizado.
+`canonicalizeProjectFormatJson` ordena las claves JSON de forma recursiva y devuelve un resultado discriminado: `{ ok: true, value }` para bytes canónicos o `{ ok: false, issue }` para una entrada no serializable. No lanza para arreglos dispersos, getters, ciclos ni valores fuera de JSON. `readProjectFormatPackage`, `writeProjectFormatPackage` y `migrateProjectFormatManifest` convierten esos hallazgos en informes estructurados. `writeProjectFormatPackage` emite los bytes canónicos del manifiesto cuando el resultado es válido. Cada descriptor de archivo usa SHA-256 hexadecimal en minúsculas sobre los bytes exactos del archivo, no sobre texto normalizado.
 
 Las extensiones son opacas: la frontera no intenta abrirlas ni convertirlas. `readProjectFormatPackage` y `writeProjectFormatPackage` copian los `Uint8Array` de extensiones declaradas byte por byte. Por ello una extensión desconocida puede sobrevivir a una lectura/escritura válida aunque el consumidor no conozca su media type.
 
