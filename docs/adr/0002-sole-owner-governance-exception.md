@@ -20,7 +20,7 @@ Los controles compensatorios obligatorios son:
 
 1. Política operativa de cero pushes directos rutinarios a `main`: los cambios ordinarios se presentan mediante Pull Request. La capacidad administrativa de bypass sigue existiendo y no se oculta.
 2. Protección remota de Pull Request: una aprobación, revisiones de CODEOWNERS, invalidación de revisiones obsoletas, aprobación tras el último push y conversaciones resueltas.
-3. CI actual: el contexto estricto `Puerta de calidad` debe estar ligado a la app de GitHub Actions `15368`, y el gate debe observar un último run exitoso de `CI` para un push a `main`.
+3. CI actual: el contexto estricto `Puerta de calidad` debe estar ligado a la app de GitHub Actions `15368`. El gate obtiene el SHA vivo de `main` y exige para ese mismo SHA un run `CI` de push completado/exitoso y su check run `Puerta de calidad` completado/exitoso; una corrida verde histórica no autoriza el preflight.
 4. Artefacto de revisión independiente: el gate consulta y expone el review registrado; si no puede verificarlo, falla.
 5. Decisión de bypass registrada: el gate expone el enlace a esta ADR, `enforceAdmins:false`, `ownerBypassRetained:true` y `enforcementNonBypassable:false`.
 6. Evidencia fresca: `npm run migration:verify-governance` usa solamente lecturas `GET` vía `gh api`, no acepta otro repositorio o rama por parámetros y falla cerrado si `gh`, autenticación o cualquiera de las respuestas no está disponible. Sólo su salida efímera puede marcar el preflight de separación como permitido; `migration/github-governance-current.json` conserva `repositorySplit.allowed:false`.
