@@ -215,8 +215,8 @@
     },
     "web": {
       "repository": "klkmoraa/fusionstructure-web",
-      "releaseTag": "v0.1.1",
-      "commit": "7d1c2096ff087a321b9d909d13adb9404a686ce7",
+      "releaseTag": "v0.1.2",
+      "commit": "ad263c5cc3dbf777bdb36297e6e2f66b05b5d89a",
       "pagesUrl": "https://klkmoraa.github.io/fusionstructure-web/",
       "contractVersions": {
         "projectFormat": null,
@@ -225,21 +225,30 @@
       "gate": {
         "command": "npm.cmd run check",
         "result": "passed",
-        "testFiles": 1,
-        "tests": 24
+        "testFiles": 3,
+        "tests": 59
+      },
+      "pagesDeployment": {
+        "commit": "e082bc0741bdbbb3bf512c7de4f23cc8c4adab19",
+        "status": "built",
+        "smoke": "HTTP 200 page and asset; bundle links Solver 2D GitHub Pages"
       },
       "paths": [
         {
-          "source": "src/features/welcome",
-          "target": "src/features/welcome"
+          "source": "src/features/welcome/FusionLanding.tsx",
+          "target": "src/features/welcome/FusionLanding.tsx"
+        },
+        {
+          "source": "src/features/welcome/fusionLanding.css",
+          "target": "src/features/welcome/fusionLanding.css"
         },
         {
           "source": "public/assets/brand",
           "target": "public/assets/brand"
         },
         {
-          "source": "public/assets/landing",
-          "target": "public/assets/landing"
+          "source": "public/assets/landing/clay-tools",
+          "target": "public/assets/landing/clay-tools"
         },
         {
           "source": "brandbook-site",
@@ -249,7 +258,8 @@
           "source": "motion",
           "target": "motion"
         }
-      ]
+      ],
+      "synchronizedAt": "2026-09-04T20:03:32.005Z"
     }
   }
 }

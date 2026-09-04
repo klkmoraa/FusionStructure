@@ -48,7 +48,14 @@ const ownedTargetsByProduct = {
     'src/features/workspace',
   ],
   space3d: ['src/space3d', 'src/features/space3d'],
-  web: ['src/features/welcome', 'public/assets/brand', 'public/assets/landing', 'brandbook-site', 'motion'],
+  web: [
+    'src/features/welcome/FusionLanding.tsx',
+    'src/features/welcome/fusionLanding.css',
+    'public/assets/brand',
+    'public/assets/landing/clay-tools',
+    'brandbook-site',
+    'motion',
+  ],
 };
 
 const toPosix = (value) => value.split(sep).join('/').replace(/^\.\//, '').replace(/\/$/, '');

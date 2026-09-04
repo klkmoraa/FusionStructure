@@ -99,6 +99,23 @@ test('rejects overlapping ownership across products', () => {
   assert.throws(() => validateReleaseManifest(overlapping), /overlapping target/);
 });
 
+test('keeps Web ownership narrower than mixed principal directories', () => {
+  const webManifest = structuredClone(manifest);
+  webManifest.products.web = {
+    ...structuredClone(manifest.products.fstructure),
+    repository: 'klkmoraa/fusionstructure-web',
+    paths: [{ source: 'src/features/welcome', target: 'src/features/welcome' }],
+  };
+  assert.throws(() => validateReleaseManifest(webManifest), /not owned/);
+
+  webManifest.products.web.paths = [
+    { source: 'src/features/welcome/FusionLanding.tsx', target: 'src/features/welcome/FusionLanding.tsx' },
+    { source: 'src/features/welcome/fusionLanding.css', target: 'src/features/welcome/fusionLanding.css' },
+    { source: 'public/assets/landing/clay-tools', target: 'public/assets/landing/clay-tools' },
+  ];
+  assert.doesNotThrow(() => validateReleaseManifest(webManifest));
+});
+
 test('requires traceable contracts, gate evidence, commit and public URL fields', () => {
   for (const missingField of ['commit', 'contractVersions', 'gate']) {
     const incomplete = structuredClone(manifest);
