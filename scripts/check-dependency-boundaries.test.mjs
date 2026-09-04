@@ -8,6 +8,8 @@ import { checkDependencyBoundaries } from './check-dependency-boundaries.mjs';
 
 const config = {
   schemaVersion: 1,
+  globalScopes: ['src'],
+  forbiddenPackages: ['@fusionstructure/foundation', '@fusionstructure/fstructure'],
   rules: [{ id: 'fixture', scope: ['src/space3d'], forbidden: ['src/types.ts'], exceptions: [] }],
 };
 
@@ -39,4 +41,22 @@ test('fails closed for non-literal dynamic imports', () => {
   const diagnostics = checkDependencyBoundaries({ root, configPath: resolve(root, 'migration.json') });
   assert.equal(diagnostics.length, 1);
   assert.equal(diagnostics[0].code, 'FSDEP-001');
+});
+
+test('rejects archived Foundation and sibling package imports', () => {
+  const root = fixtureRoot();
+  writeFileSync(resolve(root, 'src', 'bad-external.ts'), "import { toDisplay } from '@fusionstructure/foundation/units';\n");
+  const diagnostics = checkDependencyBoundaries({ root, configPath: resolve(root, 'migration.json') });
+  assert.equal(diagnostics.length, 1);
+  assert.equal(diagnostics[0].code, 'FSDEP-004');
+  assert.equal(diagnostics[0].target, '@fusionstructure/foundation/units');
+});
+
+test('rejects archived Foundation and sibling package dependencies', () => {
+  const root = fixtureRoot();
+  writeFileSync(resolve(root, 'package.json'), JSON.stringify({ dependencies: { '@fusionstructure/fstructure': '^1.0.0' } }));
+  const diagnostics = checkDependencyBoundaries({ root, configPath: resolve(root, 'migration.json') });
+  assert.equal(diagnostics.length, 1);
+  assert.equal(diagnostics[0].code, 'FSDEP-005');
+  assert.equal(diagnostics[0].target, '@fusionstructure/fstructure');
 });

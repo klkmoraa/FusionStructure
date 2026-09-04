@@ -20,7 +20,10 @@ Esta documentación describe una aplicación experimental que está construyénd
 14. [ADR 0005 · Puerta de dependencias](adr/0005-dependency-boundaries-gate.md)
 15. [ADR 0006 · Handoff externo 2D → Space 3D](adr/0006-external-planar-space3d-handoff.md)
 16. [ADR 0007 · Corte físico de la primera ola multirepo](adr/0007-physical-repositories-cutover.md)
-17. [Evidencia del corte físico](../migration/physical-repositories-20260904.json)
+17. [ADR 0008 · Foundations locales y sincronización por release](adr/0008-local-foundations-and-release-sync.md)
+18. [Flujo rápido por repositorio](flujo-repositorios.md)
+19. [Manifiesto de releases](../migration/product-releases.json)
+20. [Evidencia del corte físico](../migration/physical-repositories-20260904.json)
 
 ## Documentos canónicos
 
@@ -42,6 +45,9 @@ Esta documentación describe una aplicación experimental que está construyénd
 | [ADR 0006 · Handoff externo 2D → Space 3D](adr/0006-external-planar-space3d-handoff.md) | Fija la propuesta versionada, reporte de pérdidas, rollback y fachadas públicas de la integración entre productos. |
 | [ADR 0005 · Puerta de dependencias](adr/0005-dependency-boundaries-gate.md) | Declara y ejecuta los límites 2D/3D cubiertos durante la migración y el comportamiento fail-closed del parser AST. |
 | [ADR 0007 · Corte físico multirepo](adr/0007-physical-repositories-cutover.md) | Registra los repositorios públicos, tags, gates, protección y límites del corte 2026-09-04. |
+| [ADR 0008 · Foundations locales y sincronización por release](adr/0008-local-foundations-and-release-sync.md) | Sustituye la dependencia runtime central por Foundations mínimas locales y fija el mecanismo de actualización del principal. |
+| [Flujo rápido por repositorio](flujo-repositorios.md) | Describe el trabajo diario independiente y la sincronización del principal sólo al publicar releases. |
+| [Manifiesto de releases](../migration/product-releases.json) | Registra repositorio, tag, commit, ownership, contratos, Pages y resultado del gate de cada snapshot. |
 | [Evidencia del corte físico](../migration/physical-repositories-20260904.json) | SHA remotos, corpus preservados, resultados de validación y deuda de CI por permiso OAuth. |
 | [Reglas persistentes](../AGENTS.md) | Define la autoridad, la calidad mínima, la ausencia de áreas protegidas y las reglas de cierre. |
 

@@ -15,9 +15,11 @@ Desde el corte `monolith-cutover-20260904`, este repositorio conserva gobierno, 
 - [FStructure](https://github.com/klkmoraa/fstructure) — solver 2D, `v0.1.1`.
 - [FusionStructure Space3D](https://github.com/klkmoraa/fusionstructure-space3d) — solver 3D experimental, `v0.1.1`.
 - [FusionStructure Web](https://github.com/klkmoraa/fusionstructure-web) — portal y marca, `v0.1.1`.
-- [FusionStructure Foundation](https://github.com/klkmoraa/fusionstructure-foundation) — contratos neutrales y esquema, `v0.1.1`.
+- [FusionStructure Foundation](https://github.com/klkmoraa/fusionstructure-foundation) — archivo histórico; `v0.1.1` es su último corte y no debe usarse como dependencia.
 
-La evidencia de SHA, corpus, gates y protección está en [migration/physical-repositories-20260904.json](migration/physical-repositories-20260904.json) y la decisión en [ADR 0007](docs/adr/0007-physical-repositories-cutover.md). Los cuatro repositorios nuevos están protegidos, pero todavía no declaran status checks porque el token de publicación no tiene permiso `workflow`; esa deuda está documentada y no se presenta como CI activo.
+Cada producto mantiene ahora la Foundation mínima que necesita. Ninguno depende de `@fusionstructure/foundation` ni de internals de un producto hermano. Este repositorio conserva su Foundation completa para integración y compatibilidad, y recibe productos únicamente por releases cerradas. La decisión vigente está en [ADR 0008](docs/adr/0008-local-foundations-and-release-sync.md), el flujo diario en [docs/flujo-repositorios.md](docs/flujo-repositorios.md) y el snapshot de releases en [migration/product-releases.json](migration/product-releases.json).
+
+La evidencia histórica de SHA, corpus, gates y protección del corte está en [migration/physical-repositories-20260904.json](migration/physical-repositories-20260904.json) y la decisión original en [ADR 0007](docs/adr/0007-physical-repositories-cutover.md). Los repositorios de producto están protegidos, pero todavía no declaran status checks porque el token de publicación no tiene permiso `workflow`; esa deuda está documentada y no se presenta como CI activo.
 
 En este momento hay código para:
 

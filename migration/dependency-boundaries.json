@@ -1,6 +1,13 @@
 {
   "schemaVersion": 1,
   "scope": "phase-3-product-boundaries",
+  "globalScopes": ["src"],
+  "forbiddenPackages": [
+    "@fusionstructure/foundation",
+    "@fusionstructure/fstructure",
+    "@fusionstructure/space3d",
+    "@fusionstructure/web"
+  ],
   "rules": [
     {
       "id": "space3d-no-2d-internals",

@@ -60,7 +60,9 @@ Prioridad: diseñar el esquema extensible antes de añadir pantallas independien
 
 ## Corte multirepo 2026-09-04
 
-La primera ola ya está publicada y protegida en GitHub: Foundation (`v0.1.1`, con `v0.1.0` conservado como corte inicial), FStructure (`v0.1.1`, con `v0.1.0` como corte inicial), Space3D (`v0.1.1`, con `v0.1.0` como corte inicial) y Web (`v0.1.1`, con `v0.1.0` como corte inicial). Este repositorio conserva el monolito de corte, la matriz de compatibilidad, los ADRs y la evidencia. Los corpus 2D/3D no se eliminaron ni se sustituyeron por una afirmación de equivalencia.
+La primera ola ya está publicada y protegida en GitHub: FStructure (`v0.1.1`, con `v0.1.0` como corte inicial), Space3D (`v0.1.1`, con `v0.1.0` como corte inicial) y Web (`v0.1.1`, con `v0.1.0` como corte inicial). Foundation `v0.1.1` queda como último corte histórico y deja de ser una dependencia activa. Cada producto contiene ahora sólo la Foundation local que necesita. Este repositorio conserva el monolito de corte, su Foundation completa, la matriz de compatibilidad, los ADRs y la evidencia. Los corpus 2D/3D no se eliminaron ni se sustituyeron por una afirmación de equivalencia.
+
+El desarrollo diario ocurre en el repositorio propietario. `FusionStructure` importa snapshots cerrados desde tags GitHub mediante `npm run sync:product`; no consume clones locales ni replica cada PR. El snapshot exacto y sus contratos están en `migration/product-releases.json`.
 
 El gate local completo pasó en cada extracción. La protección de `main` exige PR, una aprobación, revisión obsoleta descartada, aprobación del último push, conversaciones resueltas, historial lineal y sin force-push/deletion. Los nuevos repositorios aún no tienen workflow de CI en su tip publicado porque el token OAuth disponible no permite escribir workflows; instalar esos workflows con una credencial autorizada es la siguiente decisión operativa.
 
