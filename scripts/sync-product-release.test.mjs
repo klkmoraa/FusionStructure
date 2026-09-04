@@ -6,6 +6,7 @@ import test from 'node:test';
 
 import {
   assertCleanWorktree,
+  assertRecordedCommit,
   assertResolvedTag,
   assertRepositoryIdentity,
   buildSyncPlan,
@@ -43,6 +44,23 @@ test('requires the fetched ref to resolve from a real tag to HEAD', () => {
     () => assertResolvedTag({ ref: 'v0.1.1', tagCommit: '1111111111111111111111111111111111111111', headCommit: commit }),
     /does not resolve/,
   );
+});
+
+test('rejects a recorded tag that was moved to a different commit', () => {
+  const recorded = '4bb9728577af858e3b3d759936780476bedcba61';
+  assert.doesNotThrow(() => assertRecordedCommit({ recordedRef: 'v0.1.1', requestedRef: 'v0.1.1', recordedCommit: recorded, fetchedCommit: recorded }));
+  assert.throws(() => assertRecordedCommit({
+    recordedRef: 'v0.1.1',
+    requestedRef: 'v0.1.1',
+    recordedCommit: recorded,
+    fetchedCommit: '1111111111111111111111111111111111111111',
+  }), /moved/);
+  assert.doesNotThrow(() => assertRecordedCommit({
+    recordedRef: 'v0.1.1',
+    requestedRef: 'v0.1.2',
+    recordedCommit: recorded,
+    fetchedCommit: '1111111111111111111111111111111111111111',
+  }));
 });
 
 test('rejects an unknown product before any fetch', () => {

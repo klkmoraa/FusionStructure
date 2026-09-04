@@ -93,6 +93,12 @@ export const assertResolvedTag = ({ ref, tagCommit, headCommit }) => {
   }
 };
 
+export const assertRecordedCommit = ({ recordedRef, requestedRef, recordedCommit, fetchedCommit }) => {
+  if (recordedRef === requestedRef && recordedCommit !== fetchedCommit) {
+    throw new Error(`Recorded release tag ${requestedRef} moved from ${recordedCommit} to ${fetchedCommit}; refusing silent replacement.`);
+  }
+};
+
 const validatePath = (path, label) => {
   if (typeof path !== 'string' || path.length === 0 || path.startsWith('/') || path.includes('..') || path.includes('\\')) {
     throw new Error(`${label} must be a safe repository-relative POSIX path: ${String(path)}`);
@@ -250,6 +256,12 @@ export const syncProductRelease = ({ root = defaultRoot, manifestPath = defaultM
       windowsHide: true,
     });
     assertResolvedTag({ ref: plan.ref, tagCommit: tagResult.status === 0 ? tagResult.stdout.trim() : '', headCommit: commit });
+    assertRecordedCommit({
+      recordedRef: manifest.products[product].releaseTag,
+      requestedRef: plan.ref,
+      recordedCommit: manifest.products[product].commit,
+      fetchedCommit: commit,
+    });
     const synchronizedPaths = [...plan.paths];
     if (!dryRun) {
       const resolvedManifestPath = resolve(manifestPath);
