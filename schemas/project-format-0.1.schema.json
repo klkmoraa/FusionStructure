@@ -89,12 +89,12 @@
     "packagePath": {
       "type": "string",
       "minLength": 1,
-      "pattern": "^(?!/)(?!.*\\\\)(?!.*:)(?!.*(?:^|/)\\.\\.?/)(?!.*(?:^|/)\\.\\.?$)[^\\u0000-\\u001F\\u007F]+$"
+      "pattern": "^(?!\\s)(?!.*\\s$)(?!/)(?!.*\\\\)(?!.*:)(?!.*//)(?!.*(?:^|/)\\.\\.?/)(?!.*(?:^|/)\\.\\.?$)[^\\u0000-\\u001F\\u007F]+$"
     },
     "timestamp": {
       "type": "string",
       "format": "date-time",
-      "pattern": "Z$"
+      "pattern": "^(?:\\d{4}-(?:(?:01|03|05|07|08|10|12)-(?:0[1-9]|[12]\\d|3[01])|(?:04|06|09|11)-(?:0[1-9]|[12]\\d|30)|02-(?:0[1-9]|1\\d|2[0-8]))|(?:\\d{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00|0000)-02-29)T(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d{3})?Z$"
     },
     "project": {
       "type": "object",
@@ -146,11 +146,7 @@
     "dependency": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "mediaType", "version", "sha256"],
-      "anyOf": [
-        { "required": ["uri"] },
-        { "required": ["path"] }
-      ],
+      "required": ["id", "mediaType", "version", "sha256", "path"],
       "properties": {
         "id": { "$ref": "#/$defs/identifier" },
         "mediaType": { "$ref": "#/$defs/mediaType" },

@@ -10,7 +10,7 @@ El manifiesto establece:
 
 - identidad estable del proyecto y marcas de tiempo UTC;
 - unidades predeterminadas y contextos de coordenadas declarados;
-- productor, referencia de esquema `application/schema+json`, dependencias y sus SHA-256;
+- productor, referencia de esquema `application/schema+json`, dependencias locales y sus SHA-256;
 - metadatos de revisiones, activos y descriptores de extensiones;
 - referencias de payload por `path`, media type y SHA-256.
 
@@ -22,7 +22,9 @@ No incorpora modelos 2D, 3D, interfaz, stores ni resultados de ningún motor. Un
 
 Las extensiones son opacas: la frontera no intenta abrirlas ni convertirlas. `readProjectFormatPackage` y `writeProjectFormatPackage` copian los `Uint8Array` de extensiones declaradas byte por byte. Por ello una extensión desconocida puede sobrevivir a una lectura/escritura válida aunque el consumidor no conozca su media type.
 
-La validación devuelve informes estructurados, no excepciones para entrada inválida. Rechaza rutas absolutas, traversal, separadores Windows y rutas de unidad; IDs o rutas duplicadas; hashes inválidos o que no coinciden; archivos sin descriptor; manifiestos malformados; y cualquier downgrade destructivo desde v0.1. Una migración a otra versión requiere un adaptador explícito.
+La validación devuelve informes estructurados, no excepciones para entrada inválida. Rechaza rutas absolutas, traversal, separadores Windows, rutas de unidad, separadores repetidos y espacios exteriores; IDs o rutas duplicadas; hashes inválidos o que no coinciden; archivos sin descriptor; arreglos dispersos, getters, valores no serializables y manifiestos malformados; y cualquier downgrade destructivo desde v0.1. Las marcas de tiempo deben ser ISO-8601 UTC con el patrón exacto del esquema. Una migración a otra versión requiere un adaptador explícito.
+
+Cada dependencia debe incluir un `path` relativo a bytes dentro del paquete y el SHA-256 de esos bytes. Un `uri` puede acompañarlo como locator de procedencia, pero una dependencia sólo con URI se rechaza como `unverifiable-dependency`: esta frontera no hace fetch ni afirma que verificó hashes remotos.
 
 ## Escritura segura y almacenamiento
 
@@ -40,4 +42,4 @@ Si el destino es de sólo lectura, está bloqueado o no admite sustitución ató
 
 ## Relación con el portable 2D existente
 
-El portable 2D existente conserva exactamente su MIME `application/vnd.fusionstructure.project+json` y su `formatVersion: 1`. `src/project-format/legacy2d.ts` sólo lo reconoce como una costura de migración externa (`external-adapter-required`); no lo transforma, no lo llama universal y no cambia la implementación portable actual.
+El portable 2D existente conserva su contrato propio con `format: "fusionstructure-portable"` (y el legado `"structureco-portable"`) y `formatVersion: 1`. `src/project-format/legacy2d.ts` lo reconoce exclusivamente por esos campos, sin requerir ni añadir un media type, como una costura de migración externa (`external-adapter-required`); no lo transforma, no lo llama universal y no cambia la implementación portable actual.
