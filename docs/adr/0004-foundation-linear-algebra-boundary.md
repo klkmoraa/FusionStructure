@@ -31,8 +31,17 @@ ni `src/types`. Las pruebas de frontera rechazan import estático, `import type`
 Se conserva la política previa: umbral sparse de 60, eliminación de ecuaciones
 de una variable, reordenamiento RCM, límite de fill, LDLT sin pivote, fallback
 LU con pivotaje parcial escalado, estimación de Hager y refinamiento iterativo.
-La ruta elegida, los resultados y los campos de diagnóstico mantienen el
-contrato anterior.
+LDLT sólo se intenta cuando la matriz es numéricamente simétrica con tolerancia
+relativa; una matriz no simétrica usa LU denso con el motivo
+`non-symmetric`, por lo que su solve transpuesta nunca reutiliza una solve
+sólo válida para una matriz simétrica.
+
+`factorizeLinearSystem` valida y copia profundamente la matriz antes de elegir
+la ruta. La factorización conserva ese snapshot: mutar después las filas del
+llamador no altera ni `solve` ni `solveTranspose`. Las operaciones públicas que
+requieren forma rectangular o longitud de vector compatible rechazan entradas
+inválidas con `LinearAlgebraError` clasificado, en vez de propagar `NaN` o
+`undefined`.
 
 `src/engine/math.ts` queda como adaptador de compatibilidad marcado
 `@deprecated`. Reexporta la API histórica y traduce los errores neutros a los
