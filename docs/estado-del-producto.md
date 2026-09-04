@@ -4,7 +4,7 @@
 
 - Fecha de revisión: 2026-09-04.
 - Rama revisada: `main`.
-- Commit revisado: `a2d95e4559976ee298c888e85cabba62d201011f`.
+- Commit revisado: `48c3b84d3cab12a003b8c95fdb59d1149a2adc28`.
 - Versión declarada en `package.json`: `0.8.2`.
 - El repositorio es público y su código se encuentra en una etapa experimental.
 - No se presenta el concepto ni la implementación como tecnología patentada, certificada, propietaria o lista para obra.
