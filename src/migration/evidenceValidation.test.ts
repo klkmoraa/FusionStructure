@@ -10,11 +10,14 @@ const validatorPath = resolve(repoRoot, 'scripts', 'validate-migration-evidence.
 const liveGovernanceVerifierPath = resolve(repoRoot, 'scripts', 'verify-current-github-governance.mjs');
 const migrationDirectory = resolve(repoRoot, 'migration');
 const currentGovernanceRecordPath = resolve(migrationDirectory, 'github-governance-current.json');
+const currentMainSha = 'c1824c016e163cf22652565ea486f3a1c0928c5b';
 const githubGovernanceEndpoints = {
   repository: 'repos/klkmoraa/FusionStructure',
+  branch: 'repos/klkmoraa/FusionStructure/branches/main',
   branchProtection: 'repos/klkmoraa/FusionStructure/branches/main/protection',
   rulesets: 'repos/klkmoraa/FusionStructure/rulesets',
-  workflowRuns: 'repos/klkmoraa/FusionStructure/actions/workflows/ci.yml/runs?branch=main&event=push&status=completed&per_page=1',
+  workflowRuns: 'repos/klkmoraa/FusionStructure/actions/workflows/ci.yml/runs?branch=main&event=push&per_page=100',
+  checkRuns: `repos/klkmoraa/FusionStructure/commits/${currentMainSha}/check-runs?per_page=100`,
   reviews: 'repos/klkmoraa/FusionStructure/pulls/15/reviews',
 };
 const recordNames = [
@@ -43,6 +46,10 @@ const liveGovernanceResponses = () => ({
     private: false,
     default_branch: 'main',
   },
+  [githubGovernanceEndpoints.branch]: {
+    name: 'main',
+    commit: { sha: currentMainSha },
+  },
   [githubGovernanceEndpoints.branchProtection]: {
     required_status_checks: {
       strict: true,
@@ -70,8 +77,18 @@ const liveGovernanceResponses = () => ({
       status: 'completed',
       conclusion: 'success',
       head_branch: 'main',
-      head_sha: 'c1824c016e163cf22652565ea486f3a1c0928c5b',
+      head_sha: currentMainSha,
       html_url: 'https://github.com/klkmoraa/FusionStructure/actions/runs/33807212560',
+    }],
+  },
+  [githubGovernanceEndpoints.checkRuns]: {
+    check_runs: [{
+      id: 100820432263,
+      name: 'Puerta de calidad',
+      status: 'completed',
+      conclusion: 'success',
+      app: { id: 15368 },
+      html_url: 'https://github.com/klkmoraa/FusionStructure/actions/runs/33807212560/job/100820432263',
     }],
   },
   [githubGovernanceEndpoints.reviews]: [{
@@ -210,6 +227,43 @@ describe('migration evidence validator', () => {
 
     expect(result.status).toBe(1);
     expect(result.stderr).toContain('Current GitHub governance verification could not query');
+  });
+
+  test('rejects a stale successful CI run that does not cover the current main HEAD', () => {
+    const responses = liveGovernanceResponses();
+    (responses[githubGovernanceEndpoints.workflowRuns] as Record<string, any>)
+      .workflow_runs[0].head_sha = 'stale-sha-not-current-main';
+
+    const result = runLiveGovernanceVerifier(responses);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('current main HEAD');
+  });
+
+  test.each([
+    ['queued', 'queued', null],
+    ['in progress', 'in_progress', null],
+    ['failed', 'completed', 'failure'],
+  ])('rejects a %s CI run for the current main HEAD', (_label, status, conclusion) => {
+    const responses = liveGovernanceResponses();
+    const run = (responses[githubGovernanceEndpoints.workflowRuns] as Record<string, any>).workflow_runs[0];
+    run.status = status;
+    run.conclusion = conclusion;
+
+    const result = runLiveGovernanceVerifier(responses);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('current main HEAD CI run must be completed and successful');
+  });
+
+  test('rejects a current CI run when its required check run is absent', () => {
+    const responses = liveGovernanceResponses();
+    (responses[githubGovernanceEndpoints.checkRuns] as Record<string, any>).check_runs = [];
+
+    const result = runLiveGovernanceVerifier(responses);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('Puerta de calidad check run');
   });
 
   test('does not silently pass when the GitHub CLI is unavailable', () => {

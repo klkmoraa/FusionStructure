@@ -20,9 +20,11 @@ const expectedReviewArtifact = Object.freeze({
 });
 const endpoints = Object.freeze({
   repository: `repos/${repository}`,
+  branch: `repos/${repository}/branches/${branch}`,
   branchProtection: `repos/${repository}/branches/${branch}/protection`,
   rulesets: `repos/${repository}/rulesets`,
-  workflowRuns: `repos/${repository}/actions/workflows/ci.yml/runs?branch=${branch}&event=push&status=completed&per_page=1`,
+  workflowRuns: `repos/${repository}/actions/workflows/ci.yml/runs?branch=${branch}&event=push&per_page=100`,
+  checkRuns: (commit) => `repos/${repository}/commits/${commit}/check-runs?per_page=100`,
   reviews: `repos/${repository}/pulls/15/reviews`,
 });
 
@@ -188,6 +190,16 @@ const verifyRepository = (response) => {
   };
 };
 
+const verifyCurrentBranchHead = (response) => {
+  const currentBranch = asRecord(response, 'Current main branch');
+  if (currentBranch.name !== branch) throw verificationError(`branch must remain ${branch}`);
+  const commit = asRecord(currentBranch.commit, 'Current main branch commit');
+  if (typeof commit.sha !== 'string' || !/^[0-9a-f]{40}$/i.test(commit.sha)) {
+    throw verificationError('current main HEAD must be a full Git SHA');
+  }
+  return commit.sha;
+};
+
 const verifyBranchProtection = (response) => {
   const protection = asRecord(response, 'Branch protection');
   const statusChecks = asRecord(protection.required_status_checks, 'required status checks');
@@ -249,17 +261,26 @@ const verifyRulesets = (response) => {
   };
 };
 
-const verifyCurrentCi = (response) => {
+const verifyCurrentCi = (response, currentHeadSha) => {
   const runs = asArray(asRecord(response, 'Workflow runs').workflow_runs, 'Workflow runs.workflow_runs');
-  const latestRun = asRecord(runs[0], 'Latest completed CI workflow run');
+  const currentHeadRuns = runs.filter((run) => isRecord(run)
+    && run.name === 'CI'
+    && run.event === 'push'
+    && run.head_branch === branch
+    && run.head_sha === currentHeadSha);
+  if (currentHeadRuns.length === 0) {
+    throw verificationError('current main HEAD has no CI workflow run');
+  }
+  const latestRun = asRecord(currentHeadRuns[0], 'Latest CI workflow run for current main HEAD');
   if (latestRun.name !== 'CI'
     || latestRun.event !== 'push'
     || latestRun.status !== 'completed'
     || latestRun.conclusion !== 'success'
     || latestRun.head_branch !== branch
+    || latestRun.head_sha !== currentHeadSha
     || typeof latestRun.id !== 'number'
     || typeof latestRun.html_url !== 'string') {
-    throw verificationError('current CI does not have a successful completed main push run');
+    throw verificationError('current main HEAD CI run must be completed and successful');
   }
   return {
     verified: true,
@@ -268,7 +289,32 @@ const verifyCurrentCi = (response) => {
     appId: requiredCheck.appId,
     runId: latestRun.id,
     url: latestRun.html_url,
-    headSha: latestRun.head_sha,
+    headSha: currentHeadSha,
+  };
+};
+
+const verifyRequiredCheckRun = (response, currentHeadSha) => {
+  const checkRuns = asArray(asRecord(response, 'Current main HEAD check runs').check_runs, 'Current main HEAD check runs.check_runs');
+  const requiredRun = checkRuns.find((run) => isRecord(run)
+    && run.name === requiredCheck.context
+    && isRecord(run.app)
+    && run.app.id === requiredCheck.appId);
+  if (!requiredRun) {
+    throw verificationError(`current main HEAD is missing the ${requiredCheck.context} check run from GitHub Actions app ${requiredCheck.appId}`);
+  }
+  if (requiredRun.status !== 'completed' || requiredRun.conclusion !== 'success') {
+    throw verificationError(`${requiredCheck.context} check run for current main HEAD must be completed and successful`);
+  }
+  if (typeof requiredRun.id !== 'number' || typeof requiredRun.html_url !== 'string') {
+    throw verificationError(`${requiredCheck.context} check run for current main HEAD is incomplete`);
+  }
+  return {
+    verified: true,
+    context: requiredCheck.context,
+    appId: requiredCheck.appId,
+    headSha: currentHeadSha,
+    checkRunId: requiredRun.id,
+    url: requiredRun.html_url,
   };
 };
 
@@ -299,9 +345,14 @@ export const verifyCurrentGithubGovernance = ({
   if (typeof requestJson !== 'function') throw verificationError('requestJson must be a function');
   const soleOwnerException = assertStaticRecordIsNonAuthorizing(currentRecord);
   const repositoryEvidence = verifyRepository(queryCurrentGithub(requestJson, endpoints.repository));
+  const currentHeadSha = verifyCurrentBranchHead(queryCurrentGithub(requestJson, endpoints.branch));
   const branchProtection = verifyBranchProtection(queryCurrentGithub(requestJson, endpoints.branchProtection));
   const rulesets = verifyRulesets(queryCurrentGithub(requestJson, endpoints.rulesets));
-  const currentCi = verifyCurrentCi(queryCurrentGithub(requestJson, endpoints.workflowRuns));
+  const currentCi = verifyCurrentCi(queryCurrentGithub(requestJson, endpoints.workflowRuns), currentHeadSha);
+  const requiredCheckRun = verifyRequiredCheckRun(
+    queryCurrentGithub(requestJson, endpoints.checkRuns(currentHeadSha)),
+    currentHeadSha,
+  );
   const independentReviewArtifact = verifyIndependentReviewArtifact(queryCurrentGithub(requestJson, endpoints.reviews));
   const verifiedAt = now();
   if (!(verifiedAt instanceof Date) || Number.isNaN(verifiedAt.getTime())) throw verificationError('now must return a valid Date');
@@ -330,6 +381,7 @@ export const verifyCurrentGithubGovernance = ({
         noDirectPushes: soleOwnerException.compensatingControls.noDirectPushes,
         pullRequestRequired: true,
         currentCi,
+        requiredCheckRun,
         independentReviewArtifact,
       },
     },
