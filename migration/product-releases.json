@@ -187,8 +187,8 @@
     },
     "space3d": {
       "repository": "klkmoraa/fusionstructure-space3d",
-      "releaseTag": "v0.1.1",
-      "commit": "165e438e89a7db373c8c3a921c5307abb95d58ee",
+      "releaseTag": "v0.1.2",
+      "commit": "29dcf93844fdb1cd5500473bdc729895af4f8dba",
       "pagesUrl": null,
       "contractVersions": {
         "projectFormat": "0.1",
@@ -197,6 +197,7 @@
       "gate": {
         "command": "npm.cmd run check",
         "result": "passed",
+        "architectureTests": 5,
         "testFiles": 10,
         "tests": 82
       },
@@ -209,7 +210,8 @@
           "source": "src/features/space3d",
           "target": "src/features/space3d"
         }
-      ]
+      ],
+      "synchronizedAt": "2026-09-04T20:03:05.374Z"
     },
     "web": {
       "repository": "klkmoraa/fusionstructure-web",
