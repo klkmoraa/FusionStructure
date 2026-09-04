@@ -158,6 +158,46 @@ const diagnosticsFor = ({ root, config, compilerOptions = tsCompilerOptions(root
       }
     }
   }
+
+  const forbiddenPackages = config.forbiddenPackages ?? [];
+  const packageMatches = (specifier) => forbiddenPackages.find((packageName) => specifier === packageName || specifier.startsWith(`${packageName}/`));
+  const globalFiles = new Set((config.globalScopes ?? []).flatMap((scope) => sourceFiles(root, scope)));
+  for (const filePath of globalFiles) {
+    for (const reference of importReferences(readFileSync(filePath, 'utf8'), filePath)) {
+      if (reference.specifier === null) continue;
+      const forbiddenPackage = packageMatches(reference.specifier);
+      if (forbiddenPackage) {
+        diagnostics.push({
+          code: 'FSDEP-004',
+          rule: 'local-foundation-only',
+          file: relativePath(root, filePath),
+          line: reference.line,
+          target: reference.specifier,
+          message: `${reference.kind} reaches forbidden package ${forbiddenPackage}`,
+        });
+      }
+    }
+  }
+
+  const packagePath = resolve(root, 'package.json');
+  if (existsSync(packagePath)) {
+    const packageJson = JSON.parse(readFileSync(packagePath, 'utf8'));
+    for (const dependencyGroup of ['dependencies', 'devDependencies', 'peerDependencies', 'optionalDependencies']) {
+      for (const dependency of Object.keys(packageJson[dependencyGroup] ?? {})) {
+        const forbiddenPackage = packageMatches(dependency);
+        if (forbiddenPackage) {
+          diagnostics.push({
+            code: 'FSDEP-005',
+            rule: 'local-foundation-only',
+            file: 'package.json',
+            line: 1,
+            target: dependency,
+            message: `${dependencyGroup} declares forbidden package ${forbiddenPackage}`,
+          });
+        }
+      }
+    }
+  }
   return diagnostics;
 };
 
@@ -170,7 +210,7 @@ const main = () => {
   const options = parseArguments(process.argv.slice(2));
   const diagnostics = checkDependencyBoundaries({ root: options.root, configPath: options.config });
   if (options.json) console.log(JSON.stringify(diagnostics, null, 2));
-  else if (diagnostics.length === 0) console.log('Dependency boundary gate passed (Space3D and external handoff).');
+  else if (diagnostics.length === 0) console.log('Dependency boundary gate passed (local Foundation, Space3D and external handoff).');
   else {
     console.error(`Dependency boundary gate failed with ${diagnostics.length} diagnostic(s):`);
     for (const diagnostic of diagnostics) {

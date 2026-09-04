@@ -1,0 +1,265 @@
+{
+  "schemaVersion": 1,
+  "policy": "Product repositories are the daily source of truth. This repository imports immutable GitHub release tags only.",
+  "archivedFoundation": {
+    "repository": "klkmoraa/fusionstructure-foundation",
+    "lastReleaseTag": "v0.1.1",
+    "commit": "29d4ee9a8815358cf795d0c380e84f13f41eaa3b",
+    "archived": true,
+    "archivedAt": "2026-09-04T19:31:57Z",
+    "retirementCommit": "03c736a7c40d762ebba880ed5e23963408d0f49d",
+    "pullRequest": "https://github.com/klkmoraa/fusionstructure-foundation/pull/1",
+    "runtimeDependencyAllowed": false
+  },
+  "products": {
+    "fstructure": {
+      "repository": "klkmoraa/fstructure",
+      "releaseTag": "v0.1.2",
+      "commit": "20f5124be8296f929bdb038c749224987cee1cdd",
+      "pagesUrl": "https://klkmoraa.github.io/fstructure/",
+      "contractVersions": {
+        "projectFormat": "0.1",
+        "algorithm": "fusionstructure-direct-2d/v1"
+      },
+      "gate": {
+        "command": "npm.cmd run check",
+        "result": "passed",
+        "architectureTests": 14,
+        "testFiles": 33,
+        "tests": 171
+      },
+      "pagesDeployment": {
+        "commit": "c51deb7260567efb9285c056ac9b56daba16185e",
+        "status": "built",
+        "smoke": "HTTP 200 page and hashed JavaScript asset"
+      },
+      "paths": [
+        {
+          "source": "src/ai",
+          "target": "src/ai"
+        },
+        {
+          "source": "src/analysis-methods",
+          "target": "src/analysis-methods"
+        },
+        {
+          "source": "src/analytics",
+          "target": "src/analytics"
+        },
+        {
+          "source": "src/commands",
+          "target": "src/commands"
+        },
+        {
+          "source": "src/data",
+          "target": "src/data"
+        },
+        {
+          "source": "src/design",
+          "target": "src/design"
+        },
+        {
+          "source": "src/education",
+          "target": "src/education"
+        },
+        {
+          "source": "src/engine",
+          "target": "src/engine"
+        },
+        {
+          "source": "src/graphics",
+          "target": "src/graphics"
+        },
+        {
+          "source": "src/import",
+          "target": "src/import"
+        },
+        {
+          "source": "src/runtime",
+          "target": "src/runtime"
+        },
+        {
+          "source": "src/storage",
+          "target": "src/storage"
+        },
+        {
+          "source": "src/store",
+          "target": "src/store"
+        },
+        {
+          "source": "src/utils",
+          "target": "src/utils"
+        },
+        {
+          "source": "src/workers",
+          "target": "src/workers"
+        },
+        {
+          "source": "src/types.ts",
+          "target": "src/types.ts"
+        },
+        {
+          "source": "src/pdfjs-browser.d.ts",
+          "target": "src/pdfjs-browser.d.ts"
+        },
+        {
+          "source": "src/features/ai",
+          "target": "src/features/ai"
+        },
+        {
+          "source": "src/features/bom",
+          "target": "src/features/bom"
+        },
+        {
+          "source": "src/features/bulk-edit",
+          "target": "src/features/bulk-edit"
+        },
+        {
+          "source": "src/features/canvas",
+          "target": "src/features/canvas"
+        },
+        {
+          "source": "src/features/classroom",
+          "target": "src/features/classroom"
+        },
+        {
+          "source": "src/features/datasheet",
+          "target": "src/features/datasheet"
+        },
+        {
+          "source": "src/features/design",
+          "target": "src/features/design"
+        },
+        {
+          "source": "src/features/import-export",
+          "target": "src/features/import-export"
+        },
+        {
+          "source": "src/features/inspector",
+          "target": "src/features/inspector"
+        },
+        {
+          "source": "src/features/library",
+          "target": "src/features/library"
+        },
+        {
+          "source": "src/features/model-doctor",
+          "target": "src/features/model-doctor"
+        },
+        {
+          "source": "src/features/pdf-preview",
+          "target": "src/features/pdf-preview"
+        },
+        {
+          "source": "src/features/project-hub",
+          "target": "src/features/project-hub"
+        },
+        {
+          "source": "src/features/results",
+          "target": "src/features/results"
+        },
+        {
+          "source": "src/features/revision-comparison",
+          "target": "src/features/revision-comparison"
+        },
+        {
+          "source": "src/features/shell",
+          "target": "src/features/shell"
+        },
+        {
+          "source": "src/features/structural-assets",
+          "target": "src/features/structural-assets"
+        },
+        {
+          "source": "src/features/structure-generator",
+          "target": "src/features/structure-generator"
+        },
+        {
+          "source": "src/features/view",
+          "target": "src/features/view"
+        },
+        {
+          "source": "src/features/workspace",
+          "target": "src/features/workspace"
+        }
+      ],
+      "synchronizedAt": "2026-09-04T20:01:53.849Z"
+    },
+    "space3d": {
+      "repository": "klkmoraa/fusionstructure-space3d",
+      "releaseTag": "v0.1.2",
+      "commit": "29dcf93844fdb1cd5500473bdc729895af4f8dba",
+      "pagesUrl": null,
+      "contractVersions": {
+        "projectFormat": "0.1",
+        "algorithm": "space-frame-euler-bernoulli-linear-v1"
+      },
+      "gate": {
+        "command": "npm.cmd run check",
+        "result": "passed",
+        "architectureTests": 5,
+        "testFiles": 10,
+        "tests": 82
+      },
+      "paths": [
+        {
+          "source": "src/space3d",
+          "target": "src/space3d"
+        },
+        {
+          "source": "src/features/space3d",
+          "target": "src/features/space3d"
+        }
+      ],
+      "synchronizedAt": "2026-09-04T20:03:05.374Z"
+    },
+    "web": {
+      "repository": "klkmoraa/fusionstructure-web",
+      "releaseTag": "v0.1.2",
+      "commit": "ad263c5cc3dbf777bdb36297e6e2f66b05b5d89a",
+      "pagesUrl": "https://klkmoraa.github.io/fusionstructure-web/",
+      "contractVersions": {
+        "projectFormat": null,
+        "algorithm": "portal-catalog-v1"
+      },
+      "gate": {
+        "command": "npm.cmd run check",
+        "result": "passed",
+        "testFiles": 3,
+        "tests": 59
+      },
+      "pagesDeployment": {
+        "commit": "e082bc0741bdbbb3bf512c7de4f23cc8c4adab19",
+        "status": "built",
+        "smoke": "HTTP 200 page and asset; bundle links Solver 2D GitHub Pages"
+      },
+      "paths": [
+        {
+          "source": "src/features/welcome/FusionLanding.tsx",
+          "target": "src/features/welcome/FusionLanding.tsx"
+        },
+        {
+          "source": "src/features/welcome/fusionLanding.css",
+          "target": "src/features/welcome/fusionLanding.css"
+        },
+        {
+          "source": "public/assets/brand",
+          "target": "public/assets/brand"
+        },
+        {
+          "source": "public/assets/landing/clay-tools",
+          "target": "public/assets/landing/clay-tools"
+        },
+        {
+          "source": "brandbook-site",
+          "target": "brandbook-site"
+        },
+        {
+          "source": "motion",
+          "target": "motion"
+        }
+      ],
+      "synchronizedAt": "2026-09-04T20:05:13.889Z"
+    }
+  }
+}

@@ -22,7 +22,9 @@ Esta regla es técnica y de proceso. No significa que desaparezcan la licencia M
 
 ## Calidad mínima
 
-Antes de cerrar un cambio relevante:
+Durante el trabajo diario se ejecutan las pruebas focalizadas del cambio. El gate completo `npm run check` se reserva para cerrar una release o sincronizar una release al repositorio principal.
+
+Antes de cerrar una release o una sincronización relevante:
 
 - ejecutar `npm run check`;
 - leer el resultado completo;
@@ -32,6 +34,14 @@ Antes de cerrar un cambio relevante:
 - no afirmar cumplimiento normativo, exactitud estructural o preparación para obra sin evidencia específica.
 
 La ausencia de una prueba no es evidencia de que la función funcione.
+
+## Foundation local y límites entre repositorios
+
+- `src/foundation` y `src/project-format` son la Foundation local de este repositorio y pertenecen exclusivamente a `FusionStructure`.
+- Está prohibido depender de `@fusionstructure/foundation` o importar código interno de `fstructure`, `fusionstructure-space3d` o `fusionstructure-web`.
+- Los productos hermanos sólo se incorporan mediante releases GitHub inmutables y las rutas declaradas en `migration/product-releases.json`.
+- Los contratos compartidos declaran `schemaVersion` y, cuando producen resultados, `algorithmVersion`. Un cambio incompatible crea una versión nueva; no reemplaza silenciosamente una versión existente.
+- Una modificación interna de la Foundation de un producto se prueba y revisa sólo en el repositorio propietario. El principal se actualiza únicamente cuando ese producto publica una release.
 
 ## Dirección de producto
 

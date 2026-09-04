@@ -5,6 +5,8 @@
 - **Contexto:** las fronteras de Foundation, FStructure 2D, Space3D y Web ya tenían contratos, allowlists, corpus y gates propios dentro del monolito.
 - **Decisión:** extraer esos cuatro dominios desde `monolith-cutover-20260904` mediante `git filter-repo`, publicar cada resultado en un repositorio GitHub público independiente y conservar `FusionStructure` como repositorio de gobierno, compatibilidad y trazabilidad. No se usan submódulos.
 
+> El corte físico permanece como evidencia histórica. [ADR 0008](0008-local-foundations-and-release-sync.md) sustituye la distribución de Foundation: el repositorio central pasa a archivo histórico y los productos quedan autónomos.
+
 ## Resultados
 
 | Dominio | Repositorio | Tag | Gate local |

@@ -4,6 +4,8 @@
 - Fecha: 2026-09-03
 - Baseline: `c1824c016e163cf22652565ea486f3a1c0928c5b`
 
+> La distribución de Foundation descrita aquí fue sustituida por [ADR 0008](0008-local-foundations-and-release-sync.md). Los límites entre productos permanecen vigentes, pero cada repositorio conserva su Foundation mínima local.
+
 ## Contexto
 
 FusionStructure sigue siendo un monolito experimental. El producto contiene un Solver 2D disponible, un Solver 3D experimental, una superficie web de plataforma y capacidades planeadas. El audit original observó un repositorio privado y respuestas HTTP 403 al consultar protección de rama y rulesets; ese hecho permanece inmutable en `migration/github-governance.json` como procedencia histórica, no como estado actual.
