@@ -19,6 +19,8 @@ Esta documentación describe una aplicación experimental que está construyénd
 13. [ADR 0004 · Foundation de álgebra lineal](adr/0004-foundation-linear-algebra-boundary.md)
 14. [ADR 0005 · Puerta de dependencias](adr/0005-dependency-boundaries-gate.md)
 15. [ADR 0006 · Handoff externo 2D → Space 3D](adr/0006-external-planar-space3d-handoff.md)
+16. [ADR 0007 · Corte físico de la primera ola multirepo](adr/0007-physical-repositories-cutover.md)
+17. [Evidencia del corte físico](../migration/physical-repositories-20260904.json)
 
 ## Documentos canónicos
 
@@ -39,6 +41,8 @@ Esta documentación describe una aplicación experimental que está construyénd
 | [ADR 0004 · Foundation de álgebra lineal](adr/0004-foundation-linear-algebra-boundary.md) | Fija la frontera neutral de matrices, factorización, tolerancias, errores numéricos y compatibilidad. |
 | [ADR 0006 · Handoff externo 2D → Space 3D](adr/0006-external-planar-space3d-handoff.md) | Fija la propuesta versionada, reporte de pérdidas, rollback y fachadas públicas de la integración entre productos. |
 | [ADR 0005 · Puerta de dependencias](adr/0005-dependency-boundaries-gate.md) | Declara y ejecuta los límites 2D/3D cubiertos durante la migración y el comportamiento fail-closed del parser AST. |
+| [ADR 0007 · Corte físico multirepo](adr/0007-physical-repositories-cutover.md) | Registra los repositorios públicos, tags, gates, protección y límites del corte 2026-09-04. |
+| [Evidencia del corte físico](../migration/physical-repositories-20260904.json) | SHA remotos, corpus preservados, resultados de validación y deuda de CI por permiso OAuth. |
 | [Reglas persistentes](../AGENTS.md) | Define la autoridad, la calidad mínima, la ausencia de áreas protegidas y las reglas de cierre. |
 
 ## Estado de una afirmación

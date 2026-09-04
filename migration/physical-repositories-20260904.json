@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-09-04T15:44:05Z",
+  "source": {
+    "repository": "https://github.com/klkmoraa/FusionStructure",
+    "cutoverTag": "monolith-cutover-20260904",
+    "cutoverCommit": "700a0365352245a1db61f6938fd1bcd72f812fa7",
+    "method": "git-filter-repo with explicit path allowlists",
+    "submodules": false
+  },
+  "repositories": [
+    {
+      "name": "FusionStructure",
+      "role": "governance-and-compatibility",
+      "url": "https://github.com/klkmoraa/FusionStructure",
+      "main": "700a0365352245a1db61f6938fd1bcd72f812fa7",
+      "cutoverTag": "monolith-cutover-20260904",
+      "qualityGate": {
+        "command": "npm.cmd run check",
+        "result": "passed",
+        "testFiles": 48,
+        "tests": 290,
+        "build": "passed"
+      },
+      "ci": {
+        "workflow": "CI",
+        "check": "Puerta de calidad",
+        "runId": 33886906551,
+        "checkRunId": 101068820422,
+        "result": "success"
+      }
+    },
+    {
+      "name": "fusionstructure-foundation",
+      "role": "neutral-contracts",
+      "url": "https://github.com/klkmoraa/fusionstructure-foundation",
+      "main": "a6a1773630e3e764fb778ac5c6a5194ed7cbf2bb",
+      "releaseTag": "v0.1.0",
+      "qualityGate": {
+        "command": "npm.cmd run check",
+        "result": "passed",
+        "testFiles": 3,
+        "tests": 37,
+        "build": "passed"
+      },
+      "protection": {
+        "requiredApprovingReviews": 1,
+        "dismissStaleReviews": true,
+        "requireLastPushApproval": true,
+        "requiredConversationResolution": true,
+        "requiredLinearHistory": true,
+        "allowForcePushes": false,
+        "allowDeletions": false,
+        "enforceAdmins": false,
+        "requiredStatusChecks": []
+      },
+      "currentWorkflowCount": 0
+    },
+    {
+      "name": "fstructure",
+      "role": "solver-2d",
+      "url": "https://github.com/klkmoraa/fstructure",
+      "main": "2a33fc4b166154dd893b12939eb254648524bdb1",
+      "releaseTag": "v0.1.0",
+      "qualityGate": {
+        "command": "npm.cmd run check",
+        "result": "passed",
+        "testFiles": 33,
+        "tests": 171,
+        "build": "passed"
+      },
+      "compatibility": ["migration/solver2d-compatibility-manifest.json", "src/compatibilityArtifactDigest.ts"],
+      "protection": {
+        "requiredApprovingReviews": 1,
+        "dismissStaleReviews": true,
+        "requireLastPushApproval": true,
+        "requiredConversationResolution": true,
+        "requiredLinearHistory": true,
+        "allowForcePushes": false,
+        "allowDeletions": false,
+        "enforceAdmins": false,
+        "requiredStatusChecks": []
+      },
+      "currentWorkflowCount": 0
+    },
+    {
+      "name": "fusionstructure-space3d",
+      "role": "solver-3d",
+      "url": "https://github.com/klkmoraa/fusionstructure-space3d",
+      "main": "765ec065ec1afd21f203c43ae029b0451d92ea6b",
+      "releaseTag": "v0.1.0",
+      "qualityGate": {
+        "command": "npm.cmd run check",
+        "result": "passed",
+        "testFiles": 10,
+        "tests": 82,
+        "build": "passed"
+      },
+      "compatibility": ["migration/space3d-compatibility-manifest.json", "src/compatibilityArtifactDigest.ts"],
+      "protection": {
+        "requiredApprovingReviews": 1,
+        "dismissStaleReviews": true,
+        "requireLastPushApproval": true,
+        "requiredConversationResolution": true,
+        "requiredLinearHistory": true,
+        "allowForcePushes": false,
+        "allowDeletions": false,
+        "enforceAdmins": false,
+        "requiredStatusChecks": []
+      },
+      "currentWorkflowCount": 0
+    },
+    {
+      "name": "fusionstructure-web",
+      "role": "portal-and-brand",
+      "url": "https://github.com/klkmoraa/fusionstructure-web",
+      "main": "28424e1423834e84d3db8eb38283d320927b1cca",
+      "releaseTag": "v0.1.0",
+      "qualityGate": {
+        "command": "npm.cmd run check",
+        "result": "passed",
+        "testFiles": 1,
+        "tests": 24,
+        "build": "passed",
+        "nestedBrandbookBuild": "passed",
+        "nestedMotionCheck": "passed"
+      },
+      "protection": {
+        "requiredApprovingReviews": 1,
+        "dismissStaleReviews": true,
+        "requireLastPushApproval": true,
+        "requiredConversationResolution": true,
+        "requiredLinearHistory": true,
+        "allowForcePushes": false,
+        "allowDeletions": false,
+        "enforceAdmins": false,
+        "requiredStatusChecks": []
+      },
+      "currentWorkflowCount": 0
+    }
+  ],
+  "compatibilityGates": {
+    "solver2d": "Preserved in fstructure migration/solver2d-compatibility-manifest.json and corpus tests.",
+    "solver3d": "Preserved in fusionstructure-space3d migration/space3d-compatibility-manifest.json and corpus tests.",
+    "projectFormat": "Preserved in Foundation schemas/project-format-0.1.schema.json and project-format tests.",
+    "legacyPortable2d": "Remains explicitly legacy and requires an external adapter; no silent rename or downgrade."
+  },
+  "knownLimitations": [
+    "The authenticated GitHub OAuth token lacks the workflow scope. Uploading the extracted CI workflow was rejected by GitHub, so the workflow file was removed from each new repository's published main tip.",
+    "The four new repositories therefore have protection without a required status check until a token or GitHub App with workflow write permission installs their CI workflows.",
+    "The repositories are user-owned, so organization-only dismissal restrictions and code-owner enforcement are not configured; enforceAdmins:false retains the documented sole-owner bypass."
+  ],
+  "reviewArtifacts": [
+    {
+      "kind": "pull-request-review",
+      "repository": "FusionStructure",
+      "pullRequest": 16,
+      "reviewer": "chatgpt-codex-connector[bot]",
+      "state": "COMMENTED",
+      "scope": "Fases 2-3 integration and dependency boundary gate"
+    }
+  ]
+}
