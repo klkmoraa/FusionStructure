@@ -14,8 +14,8 @@
   "products": {
     "fstructure": {
       "repository": "klkmoraa/fstructure",
-      "releaseTag": "v0.1.1",
-      "commit": "4bb9728577af858e3b3d759936780476bedcba61",
+      "releaseTag": "v0.1.2",
+      "commit": "20f5124be8296f929bdb038c749224987cee1cdd",
       "pagesUrl": "https://klkmoraa.github.io/fstructure/",
       "contractVersions": {
         "projectFormat": "0.1",
@@ -24,48 +24,166 @@
       "gate": {
         "command": "npm.cmd run check",
         "result": "passed",
+        "architectureTests": 14,
         "testFiles": 33,
         "tests": 171
       },
+      "pagesDeployment": {
+        "commit": "c51deb7260567efb9285c056ac9b56daba16185e",
+        "status": "built",
+        "smoke": "HTTP 200 page and hashed JavaScript asset"
+      },
       "paths": [
-        { "source": "src/ai", "target": "src/ai" },
-        { "source": "src/analysis-methods", "target": "src/analysis-methods" },
-        { "source": "src/analytics", "target": "src/analytics" },
-        { "source": "src/commands", "target": "src/commands" },
-        { "source": "src/data", "target": "src/data" },
-        { "source": "src/design", "target": "src/design" },
-        { "source": "src/education", "target": "src/education" },
-        { "source": "src/engine", "target": "src/engine" },
-        { "source": "src/graphics", "target": "src/graphics" },
-        { "source": "src/import", "target": "src/import" },
-        { "source": "src/runtime", "target": "src/runtime" },
-        { "source": "src/storage", "target": "src/storage" },
-        { "source": "src/store", "target": "src/store" },
-        { "source": "src/utils", "target": "src/utils" },
-        { "source": "src/workers", "target": "src/workers" },
-        { "source": "src/types.ts", "target": "src/types.ts" },
-        { "source": "src/pdfjs-browser.d.ts", "target": "src/pdfjs-browser.d.ts" },
-        { "source": "src/features/ai", "target": "src/features/ai" },
-        { "source": "src/features/bom", "target": "src/features/bom" },
-        { "source": "src/features/bulk-edit", "target": "src/features/bulk-edit" },
-        { "source": "src/features/canvas", "target": "src/features/canvas" },
-        { "source": "src/features/classroom", "target": "src/features/classroom" },
-        { "source": "src/features/datasheet", "target": "src/features/datasheet" },
-        { "source": "src/features/design", "target": "src/features/design" },
-        { "source": "src/features/import-export", "target": "src/features/import-export" },
-        { "source": "src/features/inspector", "target": "src/features/inspector" },
-        { "source": "src/features/library", "target": "src/features/library" },
-        { "source": "src/features/model-doctor", "target": "src/features/model-doctor" },
-        { "source": "src/features/pdf-preview", "target": "src/features/pdf-preview" },
-        { "source": "src/features/project-hub", "target": "src/features/project-hub" },
-        { "source": "src/features/results", "target": "src/features/results" },
-        { "source": "src/features/revision-comparison", "target": "src/features/revision-comparison" },
-        { "source": "src/features/shell", "target": "src/features/shell" },
-        { "source": "src/features/structural-assets", "target": "src/features/structural-assets" },
-        { "source": "src/features/structure-generator", "target": "src/features/structure-generator" },
-        { "source": "src/features/view", "target": "src/features/view" },
-        { "source": "src/features/workspace", "target": "src/features/workspace" }
-      ]
+        {
+          "source": "src/ai",
+          "target": "src/ai"
+        },
+        {
+          "source": "src/analysis-methods",
+          "target": "src/analysis-methods"
+        },
+        {
+          "source": "src/analytics",
+          "target": "src/analytics"
+        },
+        {
+          "source": "src/commands",
+          "target": "src/commands"
+        },
+        {
+          "source": "src/data",
+          "target": "src/data"
+        },
+        {
+          "source": "src/design",
+          "target": "src/design"
+        },
+        {
+          "source": "src/education",
+          "target": "src/education"
+        },
+        {
+          "source": "src/engine",
+          "target": "src/engine"
+        },
+        {
+          "source": "src/graphics",
+          "target": "src/graphics"
+        },
+        {
+          "source": "src/import",
+          "target": "src/import"
+        },
+        {
+          "source": "src/runtime",
+          "target": "src/runtime"
+        },
+        {
+          "source": "src/storage",
+          "target": "src/storage"
+        },
+        {
+          "source": "src/store",
+          "target": "src/store"
+        },
+        {
+          "source": "src/utils",
+          "target": "src/utils"
+        },
+        {
+          "source": "src/workers",
+          "target": "src/workers"
+        },
+        {
+          "source": "src/types.ts",
+          "target": "src/types.ts"
+        },
+        {
+          "source": "src/pdfjs-browser.d.ts",
+          "target": "src/pdfjs-browser.d.ts"
+        },
+        {
+          "source": "src/features/ai",
+          "target": "src/features/ai"
+        },
+        {
+          "source": "src/features/bom",
+          "target": "src/features/bom"
+        },
+        {
+          "source": "src/features/bulk-edit",
+          "target": "src/features/bulk-edit"
+        },
+        {
+          "source": "src/features/canvas",
+          "target": "src/features/canvas"
+        },
+        {
+          "source": "src/features/classroom",
+          "target": "src/features/classroom"
+        },
+        {
+          "source": "src/features/datasheet",
+          "target": "src/features/datasheet"
+        },
+        {
+          "source": "src/features/design",
+          "target": "src/features/design"
+        },
+        {
+          "source": "src/features/import-export",
+          "target": "src/features/import-export"
+        },
+        {
+          "source": "src/features/inspector",
+          "target": "src/features/inspector"
+        },
+        {
+          "source": "src/features/library",
+          "target": "src/features/library"
+        },
+        {
+          "source": "src/features/model-doctor",
+          "target": "src/features/model-doctor"
+        },
+        {
+          "source": "src/features/pdf-preview",
+          "target": "src/features/pdf-preview"
+        },
+        {
+          "source": "src/features/project-hub",
+          "target": "src/features/project-hub"
+        },
+        {
+          "source": "src/features/results",
+          "target": "src/features/results"
+        },
+        {
+          "source": "src/features/revision-comparison",
+          "target": "src/features/revision-comparison"
+        },
+        {
+          "source": "src/features/shell",
+          "target": "src/features/shell"
+        },
+        {
+          "source": "src/features/structural-assets",
+          "target": "src/features/structural-assets"
+        },
+        {
+          "source": "src/features/structure-generator",
+          "target": "src/features/structure-generator"
+        },
+        {
+          "source": "src/features/view",
+          "target": "src/features/view"
+        },
+        {
+          "source": "src/features/workspace",
+          "target": "src/features/workspace"
+        }
+      ],
+      "synchronizedAt": "2026-09-04T20:01:53.849Z"
     },
     "space3d": {
       "repository": "klkmoraa/fusionstructure-space3d",
@@ -83,8 +201,14 @@
         "tests": 82
       },
       "paths": [
-        { "source": "src/space3d", "target": "src/space3d" },
-        { "source": "src/features/space3d", "target": "src/features/space3d" }
+        {
+          "source": "src/space3d",
+          "target": "src/space3d"
+        },
+        {
+          "source": "src/features/space3d",
+          "target": "src/features/space3d"
+        }
       ]
     },
     "web": {
@@ -103,11 +227,26 @@
         "tests": 24
       },
       "paths": [
-        { "source": "src/features/welcome", "target": "src/features/welcome" },
-        { "source": "public/assets/brand", "target": "public/assets/brand" },
-        { "source": "public/assets/landing", "target": "public/assets/landing" },
-        { "source": "brandbook-site", "target": "brandbook-site" },
-        { "source": "motion", "target": "motion" }
+        {
+          "source": "src/features/welcome",
+          "target": "src/features/welcome"
+        },
+        {
+          "source": "public/assets/brand",
+          "target": "public/assets/brand"
+        },
+        {
+          "source": "public/assets/landing",
+          "target": "public/assets/landing"
+        },
+        {
+          "source": "brandbook-site",
+          "target": "brandbook-site"
+        },
+        {
+          "source": "motion",
+          "target": "motion"
+        }
       ]
     }
   }
