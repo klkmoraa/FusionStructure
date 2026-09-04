@@ -15,7 +15,7 @@ Esta documentación describe una aplicación experimental que está construyénd
 9. [Arquitectura de conectores](arquitectura-conectores.md)
 10. [Sistema visual](sistema-visual.md)
 11. [Solver 3D · superficie de trabajo](solver3d-workspace.md)
-12. [ADR 0002 · Foundation de unidades](adr/0002-foundation-units-boundary.md)
+12. [ADR 0003 · Foundation de unidades](adr/0003-foundation-units-boundary.md)
 
 ## Documentos canónicos
 
@@ -32,7 +32,7 @@ Esta documentación describe una aplicación experimental que está construyénd
 | [Arquitectura de conectores](arquitectura-conectores.md) | Define cómo conectar Revit, AutoCAD, openBIM y futuras aplicaciones sin perder unidades, diferencias ni reversión. |
 | [Sistema visual](sistema-visual.md) | Documenta el sistema visual actual. No se rediseña la interfaz como parte de esta actualización. |
 | [Solver 3D · superficie de trabajo](solver3d-workspace.md) | Registra estados, contratos de datos y límites del rediseño del workspace espacial. |
-| [ADR 0002 · Foundation de unidades](adr/0002-foundation-units-boundary.md) | Fija la frontera neutral de IDs, factores, conversión, persistencia y rollback de unidades. |
+| [ADR 0003 · Foundation de unidades](adr/0003-foundation-units-boundary.md) | Fija la frontera neutral de IDs, factores, conversión, persistencia y rollback de unidades. |
 | [Reglas persistentes](../AGENTS.md) | Define la autoridad, la calidad mínima, la ausencia de áreas protegidas y las reglas de cierre. |
 
 ## Estado de una afirmación

@@ -1,4 +1,4 @@
-# ADR 0002: Foundation neutral para identidades y conversiones de unidades
+# ADR 0003: Foundation neutral para identidades y conversiones de unidades
 
 - Estado: Aceptada
 - Fecha: 2026-09-03
