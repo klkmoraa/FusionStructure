@@ -1,0 +1,36 @@
+# Current accountable owner. Sections document the intended migration domains;
+# CODEOWNERS does not imply branch protection while GitHub returns HTTP 403.
+* @klkmoraa
+
+# Phase 0 migration evidence and architecture decisions
+/migration/ @klkmoraa
+/docs/adr/ @klkmoraa
+/scripts/validate-migration-evidence.mjs @klkmoraa
+/src/migration/ @klkmoraa
+
+# Solver 2D product
+/src/analysis-methods/ @klkmoraa
+/src/commands/ @klkmoraa
+/src/data/ @klkmoraa
+/src/design/ @klkmoraa
+/src/engine/ @klkmoraa
+/src/features/canvas/ @klkmoraa
+/src/features/results/ @klkmoraa
+/src/store/ @klkmoraa
+/src/workers/ @klkmoraa
+
+# Solver 3D product
+/src/space3d/ @klkmoraa
+/src/features/space3d/ @klkmoraa
+
+# Web platform and brand
+/src/features/welcome/ @klkmoraa
+/src/design-system/ @klkmoraa
+/public/ @klkmoraa
+/brandbook-site/ @klkmoraa
+/motion/ @klkmoraa
+
+# Foundation candidates; these remain in the monolith until admitted by ADR 0001
+/src/foundation/ @klkmoraa
+/src/engine/math.ts @klkmoraa
+/src/engine/units.ts @klkmoraa

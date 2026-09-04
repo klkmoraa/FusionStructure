@@ -1,0 +1,947 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "c1824c016e163cf22652565ea486f3a1c0928c5b",
+  "selection": {
+    "description": "All committed static media and font/license assets under artifacts/qa, brandbook-site/public, docs/assets, motion/landing-loop/assets, public/assets, public/fonts, plus public/favicon.svg.",
+    "extensions": [
+      "jpg",
+      "jpeg",
+      "png",
+      "svg",
+      "webm",
+      "mp4",
+      "woff2",
+      "txt"
+    ]
+  },
+  "inventoryDigestAlgorithm": "sha256(path + NUL + gitBlobOid + NUL + decimalBytes + LF, ordered by path)",
+  "inventorySha256": "842a4e18d8cc44c79e09584d8051588c060508db5d20e43916cc5c1e9ce0883d",
+  "totalBytes": 68746745,
+  "assets": [
+    {
+      "path": "artifacts/qa/landing-desktop-final.png",
+      "gitBlobOid": "a778e2ac8b921fa3be02646bd70f483e55115802",
+      "bytes": 111542
+    },
+    {
+      "path": "artifacts/qa/landing-mobile.png",
+      "gitBlobOid": "d47bb5059b57005409894c001b52f9a796706e98",
+      "bytes": 47782
+    },
+    {
+      "path": "artifacts/qa/tool-atlas-connectors.png",
+      "gitBlobOid": "2f82ec7119a68f717351b1bcd4533c1361e96484",
+      "bytes": 150780
+    },
+    {
+      "path": "artifacts/qa/tool-atlas-desktop.png",
+      "gitBlobOid": "665d64ea9a80832605023513a16e827b78b23200",
+      "bytes": 120096
+    },
+    {
+      "path": "artifacts/qa/tool-atlas-mobile.png",
+      "gitBlobOid": "9491a0b8c9f5a03cbbf76528ece659430ff81b31",
+      "bytes": 43158
+    },
+    {
+      "path": "brandbook-site/public/brand/fusionstructure-app-icon.svg",
+      "gitBlobOid": "d65e053d10fbfde3dbdd98b470b906b4662f56f8",
+      "bytes": 380
+    },
+    {
+      "path": "brandbook-site/public/brand/fusionstructure-lockup.svg",
+      "gitBlobOid": "f80a61c6e393e779b623b0bf3eb07e8ac420f94c",
+      "bytes": 617
+    },
+    {
+      "path": "brandbook-site/public/brand/fusionstructure-mark-inverse.svg",
+      "gitBlobOid": "bfae409678819a096e7fd2e6d0fdb5f750fe19ce",
+      "bytes": 251
+    },
+    {
+      "path": "brandbook-site/public/brand/fusionstructure-mark-mono.svg",
+      "gitBlobOid": "90b59f234c05f9c1b8823789189290eb5dcd990c",
+      "bytes": 253
+    },
+    {
+      "path": "brandbook-site/public/brand/fusionstructure-mark.svg",
+      "gitBlobOid": "03a558d9eb2fcdd1a3edf47c03d841fd3bcf33df",
+      "bytes": 243
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/asistencia.svg",
+      "gitBlobOid": "6df7f38e2884352f4f470b48cddaf684905dc9d2",
+      "bytes": 597
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/biblioteca.svg",
+      "gitBlobOid": "126c1109ae5c1c42c241eb8cd12bbaae37f6c027",
+      "bytes": 607
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/calidad.svg",
+      "gitBlobOid": "2026b2d2f9928342af03a231f1ea0b3de35e83e1",
+      "bytes": 593
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-a01.svg",
+      "gitBlobOid": "d458b2cf57ce4f125857590ff720be452db19bda",
+      "bytes": 854
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-a02.svg",
+      "gitBlobOid": "0dff7bb956b801ef6d6915c0b79d807e31e53c00",
+      "bytes": 661
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-a03.svg",
+      "gitBlobOid": "234e8e5889d20d24c5275f298fdacf33c0902995",
+      "bytes": 719
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-a04.svg",
+      "gitBlobOid": "d271da97effb75a2ebada43bc38082061b17e776",
+      "bytes": 749
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-c01.svg",
+      "gitBlobOid": "2ee39936b1bed7cc6a052ebf7f9dab2968598326",
+      "bytes": 686
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-c02.svg",
+      "gitBlobOid": "100b87f67250d5319c3ddd18f18c3c89340b6b27",
+      "bytes": 777
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-c03.svg",
+      "gitBlobOid": "eb3c62a7ea32662b3815ba90e634d080b6618b3f",
+      "bytes": 809
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-i01.svg",
+      "gitBlobOid": "6d5a1aa0d3a09880bd7f35fcec4bcc64dc551b73",
+      "bytes": 759
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-l01.svg",
+      "gitBlobOid": "4283083740331f884119645eb6df8f568cb55b98",
+      "bytes": 772
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-l02.svg",
+      "gitBlobOid": "98e609097f2ab703ba6205aea9f38c035a2cbb1e",
+      "bytes": 656
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-l03.svg",
+      "gitBlobOid": "d2c52aa31fa367a2124cd26c44e7ae27bb7c8018",
+      "bytes": 615
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-l04.svg",
+      "gitBlobOid": "17567afb3bd4edf187f38a53612ce109f8b486bf",
+      "bytes": 682
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-m01.svg",
+      "gitBlobOid": "3eff2ffb5405e4fbe435619e513cd98fe61f8e1d",
+      "bytes": 702
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-m02.svg",
+      "gitBlobOid": "02fc2dea591503be7edc6b9608d4b6aaea81e3e3",
+      "bytes": 699
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-m03.svg",
+      "gitBlobOid": "4a5d937947e42ca48a3cb003507fcc98121a1932",
+      "bytes": 975
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-p01.svg",
+      "gitBlobOid": "36f4fecbb30d01937628c9084fe093884e8376b4",
+      "bytes": 690
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-p02.svg",
+      "gitBlobOid": "f9ab251f4ab741a20c7fbcdf7e3a3e9cb4466b55",
+      "bytes": 690
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/fs-p03.svg",
+      "gitBlobOid": "453534a9453ee309806c18709125e536bb2ee08a",
+      "bytes": 649
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/intercambio.svg",
+      "gitBlobOid": "c3877522299ec4d25e05c984dabcd1c53f403c73",
+      "bytes": 703
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/memoria.svg",
+      "gitBlobOid": "8311ca23c215a18624ca1165c23414ab3fc4471f",
+      "bytes": 682
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/offline.svg",
+      "gitBlobOid": "1b5b202b76f36d564786b05e711b6bd88348dcd4",
+      "bytes": 619
+    },
+    {
+      "path": "brandbook-site/public/brand/tools/proyecto.svg",
+      "gitBlobOid": "52750155bc5e718298d3302c7c09304704dc36ef",
+      "bytes": 620
+    },
+    {
+      "path": "brandbook-site/public/favicon.svg",
+      "gitBlobOid": "4c5faf609aca79b24b7f197e19404ced80e70c07",
+      "bytes": 352
+    },
+    {
+      "path": "brandbook-site/public/mockups/day-mobile-field-review.png",
+      "gitBlobOid": "f67adae400c7fa0ec37192f61a0a8a849da639f3",
+      "bytes": 1297027
+    },
+    {
+      "path": "brandbook-site/public/mockups/day-model-loads.png",
+      "gitBlobOid": "b3bf78aae7e96c806706f091d993d64bf30efa2b",
+      "bytes": 1142906
+    },
+    {
+      "path": "brandbook-site/public/mockups/day-project-hub.png",
+      "gitBlobOid": "b20aff2cdd3f1552c13c7f8a785802d51e0753b6",
+      "bytes": 1019901
+    },
+    {
+      "path": "brandbook-site/public/mockups/day-results-compare.png",
+      "gitBlobOid": "d1928a4c9dd499b497047a18c12c8428b4a72efe",
+      "bytes": 1131871
+    },
+    {
+      "path": "brandbook-site/public/mockups/device-day-studio.png",
+      "gitBlobOid": "51ff987e272581718be1aad6625f5950f55ba3dd",
+      "bytes": 1520888
+    },
+    {
+      "path": "brandbook-site/public/mockups/device-night-studio.png",
+      "gitBlobOid": "3910bfeeba1f1eb1865a675cdf3260e1fe60b0e7",
+      "bytes": 1620753
+    },
+    {
+      "path": "brandbook-site/public/mockups/fusionstructure-desktop-day.png",
+      "gitBlobOid": "182061f01b074378e573aa0440e84d6f298a4c42",
+      "bytes": 1015514
+    },
+    {
+      "path": "brandbook-site/public/mockups/night-decision-trace.png",
+      "gitBlobOid": "d36b386086e14ff8c7e0f2412f1f6a7cfa074c95",
+      "bytes": 1230281
+    },
+    {
+      "path": "brandbook-site/public/mockups/night-mobile-results.png",
+      "gitBlobOid": "7aa573a0b3c6a540cd45d79db46cdf198643c3e4",
+      "bytes": 1170840
+    },
+    {
+      "path": "brandbook-site/public/mockups/night-model-editor.png",
+      "gitBlobOid": "32e630d5ee1b86770bd3f30cb1443ac8307afecf",
+      "bytes": 1125399
+    },
+    {
+      "path": "brandbook-site/public/mockups/night-report-evidence.png",
+      "gitBlobOid": "742a12ce48d845f57965465c3d501ef2e59fe5ab",
+      "bytes": 1285721
+    },
+    {
+      "path": "brandbook-site/public/mockups/night-results-explorer.png",
+      "gitBlobOid": "b13112a0a1fb77f0e0c6b8b4c9d2fd696bb844fd",
+      "bytes": 1178393
+    },
+    {
+      "path": "brandbook-site/public/motion/fusionstructure-brand-motion-poster.png",
+      "gitBlobOid": "cea5ef477115551a9304e42c76a828b040ebabf4",
+      "bytes": 834189
+    },
+    {
+      "path": "brandbook-site/public/motion/fusionstructure-brand-motion.mp4",
+      "gitBlobOid": "b0f89a92dc490eb770b35fcd5438ea913d3c566e",
+      "bytes": 5369705
+    },
+    {
+      "path": "brandbook-site/public/og.png",
+      "gitBlobOid": "a30083a71dea3c8fe6299c82dd0da91e34a7db0f",
+      "bytes": 1119508
+    },
+    {
+      "path": "docs/assets/fusionstructure-lifecycle.jpg",
+      "gitBlobOid": "b83564626bfdf0d4c3b37554d14c655d1fdc69a2",
+      "bytes": 205875
+    },
+    {
+      "path": "docs/assets/fusionstructure-product-vision.jpg",
+      "gitBlobOid": "cba27fc1f0472d3a8bcd93653933172515b88b71",
+      "bytes": 271551
+    },
+    {
+      "path": "docs/assets/landing-concepts/landing-first-viewport.png",
+      "gitBlobOid": "8b55b923403364efc05799641a6d6840a1e2691b",
+      "bytes": 1257950
+    },
+    {
+      "path": "docs/assets/landing-concepts/landing-tools-hub-v2.png",
+      "gitBlobOid": "f1b8d84fe053ceffe21368541273e85d01d0abb2",
+      "bytes": 2170982
+    },
+    {
+      "path": "docs/assets/landing-concepts/tools-directory.png",
+      "gitBlobOid": "ecf50bbb5c55fa94daa496c98448f7ecb971af99",
+      "bytes": 1215002
+    },
+    {
+      "path": "docs/assets/landing-concepts/verification-lifecycle.png",
+      "gitBlobOid": "b9de83a4dc129d6eed520c7c601ae460442e1788",
+      "bytes": 1063638
+    },
+    {
+      "path": "motion/landing-loop/assets/fonts/geist-mono-variable.woff2",
+      "gitBlobOid": "0e746fc18223dfcb107a85502a0abe1b1a02d51a",
+      "bytes": 71596
+    },
+    {
+      "path": "motion/landing-loop/assets/fonts/instrument-sans-variable.woff2",
+      "gitBlobOid": "6cc0b91654167b4f5a8205ecad6edd79cbca3e5b",
+      "bytes": 88784
+    },
+    {
+      "path": "motion/landing-loop/assets/fusion-hero-structure.png",
+      "gitBlobOid": "3be0b0644e807b0e1fc7b8ee63e2df2c1d1c00fe",
+      "bytes": 2066925
+    },
+    {
+      "path": "public/assets/brand/fusionstructure-mark-inverse.svg",
+      "gitBlobOid": "bfae409678819a096e7fd2e6d0fdb5f750fe19ce",
+      "bytes": 251
+    },
+    {
+      "path": "public/assets/brand/fusionstructure-mark.svg",
+      "gitBlobOid": "03a558d9eb2fcdd1a3edf47c03d841fd3bcf33df",
+      "bytes": 243
+    },
+    {
+      "path": "public/assets/brand/solver-2d-lockup.svg",
+      "gitBlobOid": "779529a485a533183f8ec2d261d1ada3c0d9a9e0",
+      "bytes": 612
+    },
+    {
+      "path": "public/assets/brand/solver-2d-mark-inverse.svg",
+      "gitBlobOid": "dc1005e0ebfa3064b57e3a5d1b42e09f27bc7ccf",
+      "bytes": 598
+    },
+    {
+      "path": "public/assets/brand/solver-2d-mark.svg",
+      "gitBlobOid": "e52d1766d5740803c42e29e9114ecebafa0fd2cb",
+      "bytes": 590
+    },
+    {
+      "path": "public/assets/brand/tools/analysis-inverse.svg",
+      "gitBlobOid": "bca9bb6739ebc4d677ee8b443b2bb571d301e9ca",
+      "bytes": 852
+    },
+    {
+      "path": "public/assets/brand/tools/analysis.svg",
+      "gitBlobOid": "fe26396b1e3d5b71b17da907377137faa5bfeab6",
+      "bytes": 852
+    },
+    {
+      "path": "public/assets/brand/tools/civil-inverse.svg",
+      "gitBlobOid": "794f2fe291f29028cfd569724253cf0b6c314b20",
+      "bytes": 681
+    },
+    {
+      "path": "public/assets/brand/tools/civil.svg",
+      "gitBlobOid": "4a474274294360097229776ff6b357817632a29a",
+      "bytes": 681
+    },
+    {
+      "path": "public/assets/brand/tools/connections-inverse.svg",
+      "gitBlobOid": "902fcb7046dd70aaf32ed8e27254fc8eae81a54e",
+      "bytes": 760
+    },
+    {
+      "path": "public/assets/brand/tools/connections.svg",
+      "gitBlobOid": "a97431d87801a76bb2485287c380c9577bc0e741",
+      "bytes": 760
+    },
+    {
+      "path": "public/assets/brand/tools/learning-inverse.svg",
+      "gitBlobOid": "a5d90a567b8682cfd8922ed5c634e0f41b23a51b",
+      "bytes": 770
+    },
+    {
+      "path": "public/assets/brand/tools/learning.svg",
+      "gitBlobOid": "f9c6715a3b11d186479a95d4ffbe45797be1daf7",
+      "bytes": 770
+    },
+    {
+      "path": "public/assets/brand/tools/model-inverse.svg",
+      "gitBlobOid": "3704fbfaa5e8a361371909437cddb7b935de75f1",
+      "bytes": 694
+    },
+    {
+      "path": "public/assets/brand/tools/model.svg",
+      "gitBlobOid": "61eac64b97299159af3fe0419a7596818b6947ce",
+      "bytes": 694
+    },
+    {
+      "path": "public/assets/brand/tools/project-inverse.svg",
+      "gitBlobOid": "51a22730ef8ae6044d4d972e9018cf50c508d972",
+      "bytes": 615
+    },
+    {
+      "path": "public/assets/brand/tools/project.svg",
+      "gitBlobOid": "cc418a6a31b31ccab3ee7592507fc61e906ed0ef",
+      "bytes": 615
+    },
+    {
+      "path": "public/assets/landing/clay-tools/hero-loop.webm",
+      "gitBlobOid": "4b1a0badf0b2270f5c185bf748377f4b04b9cabb",
+      "bytes": 2329319
+    },
+    {
+      "path": "public/assets/landing/fusion-clay-analysis.png",
+      "gitBlobOid": "9685a9f6a4475bc4f0cc7ff5ee6944f8d72fe1e9",
+      "bytes": 956179
+    },
+    {
+      "path": "public/assets/landing/fusion-clay-delivery.png",
+      "gitBlobOid": "19bef07d7eb3d948b7df236e9596c2e2e8f60820",
+      "bytes": 1517357
+    },
+    {
+      "path": "public/assets/landing/fusion-clay-project.png",
+      "gitBlobOid": "c21379e4504b578cb4448515d499698842b03d13",
+      "bytes": 1769411
+    },
+    {
+      "path": "public/assets/landing/fusion-clay-workspace.png",
+      "gitBlobOid": "b58915e12f6f9e854de07ad0b647bfd06496495e",
+      "bytes": 1447985
+    },
+    {
+      "path": "public/assets/structural/day/beam/overhang.png",
+      "gitBlobOid": "0f85c8c7b8b450d84e15062a157845a03c48ad80",
+      "bytes": 63251
+    },
+    {
+      "path": "public/assets/structural/day/beam/simply-supported.png",
+      "gitBlobOid": "ac64261532a189829b7365c776c7e12414582a8f",
+      "bytes": 66393
+    },
+    {
+      "path": "public/assets/structural/day/beam/three-span.png",
+      "gitBlobOid": "53b6467fc538b7bd97757be498ce403ed968a065",
+      "bytes": 80813
+    },
+    {
+      "path": "public/assets/structural/day/beam/two-span.png",
+      "gitBlobOid": "7d11fbe389ebea02098f747a3b640a0b28a74633",
+      "bytes": 75411
+    },
+    {
+      "path": "public/assets/structural/day/cantilever/balcony.png",
+      "gitBlobOid": "f1c51e2f34fb957e5e61b2a42b6aced353919aae",
+      "bytes": 42920
+    },
+    {
+      "path": "public/assets/structural/day/cantilever/double.png",
+      "gitBlobOid": "818c0a7c7e78a61b60f4440dc99c68cedcaaefa8",
+      "bytes": 43392
+    },
+    {
+      "path": "public/assets/structural/day/cantilever/stepped.png",
+      "gitBlobOid": "6d1d33a197fc9c5c6e15779eba5ed0a528013313",
+      "bytes": 38946
+    },
+    {
+      "path": "public/assets/structural/day/cantilever/wall.png",
+      "gitBlobOid": "f48b8ed1b4a1a3a5b7a6848fb95f3dcdec5f7b33",
+      "bytes": 38149
+    },
+    {
+      "path": "public/assets/structural/day/connection/base-plate.png",
+      "gitBlobOid": "b5fe9830e933fc74a7417763ae5554e99ecad233",
+      "bytes": 47013
+    },
+    {
+      "path": "public/assets/structural/day/connection/pinned.png",
+      "gitBlobOid": "b0c2aa5ecc85f94f1ceab554a1ac4d2be61c9edb",
+      "bytes": 40197
+    },
+    {
+      "path": "public/assets/structural/day/connection/rigid.png",
+      "gitBlobOid": "4a1c68116014afced264a92d99f2d24b8e503b47",
+      "bytes": 39616
+    },
+    {
+      "path": "public/assets/structural/day/connection/splice.png",
+      "gitBlobOid": "0e7231f10382f4cdb0db3c123c72494046e231a2",
+      "bytes": 54200
+    },
+    {
+      "path": "public/assets/structural/day/load/applied-moment.png",
+      "gitBlobOid": "8d5ffdbe66dd3ae12b9a2da3dee9246e6871fd77",
+      "bytes": 58149
+    },
+    {
+      "path": "public/assets/structural/day/load/distributed.png",
+      "gitBlobOid": "07c48bcfaf4e5696c42f0825a3b5d24a2ca573db",
+      "bytes": 68162
+    },
+    {
+      "path": "public/assets/structural/day/load/point.png",
+      "gitBlobOid": "a79552ae9196b95fdf8c97ebac215d1ca36a775d",
+      "bytes": 40146
+    },
+    {
+      "path": "public/assets/structural/day/load/varying.png",
+      "gitBlobOid": "92593f5327cbb02a74b026991f98e39e4f4cb357",
+      "bytes": 56765
+    },
+    {
+      "path": "public/assets/structural/day/portal/industrial-pitched.png",
+      "gitBlobOid": "1ae664bacc664a80b367d511d2bd89920c8b572c",
+      "bytes": 94602
+    },
+    {
+      "path": "public/assets/structural/day/portal/single-bay.png",
+      "gitBlobOid": "474bc73c0e8496c6a24ab1001d847e76ced252bf",
+      "bytes": 85423
+    },
+    {
+      "path": "public/assets/structural/day/portal/two-bay.png",
+      "gitBlobOid": "4a0e3a70d6f32ab57e8b3b4218796244778a898e",
+      "bytes": 92969
+    },
+    {
+      "path": "public/assets/structural/day/portal/two-story.png",
+      "gitBlobOid": "11d3c85378b28105dd5e9719f7c52d8fa1e20a37",
+      "bytes": 77647
+    },
+    {
+      "path": "public/assets/structural/day/section/box.png",
+      "gitBlobOid": "61e3aa630648ca007184daba56c75d5f65e47b77",
+      "bytes": 59159
+    },
+    {
+      "path": "public/assets/structural/day/section/circular.png",
+      "gitBlobOid": "1edc00fd507954b22bdec4600be503276712d840",
+      "bytes": 37156
+    },
+    {
+      "path": "public/assets/structural/day/section/i-profile.png",
+      "gitBlobOid": "180feb05d4e0efa3053df8f0d47c174ab5ec7523",
+      "bytes": 55358
+    },
+    {
+      "path": "public/assets/structural/day/section/rectangular.png",
+      "gitBlobOid": "fc0994d41c2caa8d4575239904cd2cb7035299bf",
+      "bytes": 41103
+    },
+    {
+      "path": "public/assets/structural/day/slab/flat-slab.png",
+      "gitBlobOid": "bdba7e136746db0a9e9048ebb3739ea5a8b0fc78",
+      "bytes": 58939
+    },
+    {
+      "path": "public/assets/structural/day/slab/one-way.png",
+      "gitBlobOid": "5a65dd30c65801ad16266ab2dbc20c45d7d013d5",
+      "bytes": 58097
+    },
+    {
+      "path": "public/assets/structural/day/slab/two-way.png",
+      "gitBlobOid": "c6d5870b19f787f7e93229ed957a08ddd021e7c5",
+      "bytes": 58542
+    },
+    {
+      "path": "public/assets/structural/day/slab/waffle.png",
+      "gitBlobOid": "e7b0262ebf461f5629951da9e2826da752e13ed4",
+      "bytes": 61539
+    },
+    {
+      "path": "public/assets/structural/day/space-frame/industrial-shed.png",
+      "gitBlobOid": "3f0c86d26d966d46bb06980048c0bacf9f90d89a",
+      "bytes": 95132
+    },
+    {
+      "path": "public/assets/structural/day/space-frame/multi-bay.png",
+      "gitBlobOid": "2f68104838c2054cb30640a2eb9921c7996928cb",
+      "bytes": 111299
+    },
+    {
+      "path": "public/assets/structural/day/space-frame/single-module.png",
+      "gitBlobOid": "71ec83a6f77cc5e4f6d1e6b18b01bee8df07c61b",
+      "bytes": 96956
+    },
+    {
+      "path": "public/assets/structural/day/space-frame/two-story.png",
+      "gitBlobOid": "cae8aa0a40c4971a821d2124a6582b4908528289",
+      "bytes": 98101
+    },
+    {
+      "path": "public/assets/structural/day/support/fixed.png",
+      "gitBlobOid": "19b3de5d99e77111f9dce95db1f69c43feca55af",
+      "bytes": 41722
+    },
+    {
+      "path": "public/assets/structural/day/support/pin.png",
+      "gitBlobOid": "4c0ea24b00a506a2e79f88b8d483aa547d8705a1",
+      "bytes": 52962
+    },
+    {
+      "path": "public/assets/structural/day/support/roller.png",
+      "gitBlobOid": "d071803ad79c53a9374b71af9c9a4eff464cc798",
+      "bytes": 57486
+    },
+    {
+      "path": "public/assets/structural/day/support/spring.png",
+      "gitBlobOid": "be9ce7d3e5599b0449696549d219b7deccf1e6ca",
+      "bytes": 66556
+    },
+    {
+      "path": "public/assets/structural/day/truss/howe.png",
+      "gitBlobOid": "284b77c1b2eb5d756a80aaedcb1e808a164e87c1",
+      "bytes": 128019
+    },
+    {
+      "path": "public/assets/structural/day/truss/king-post.png",
+      "gitBlobOid": "17346a4f21910411fa934d3f57c3dccb49c691cf",
+      "bytes": 91208
+    },
+    {
+      "path": "public/assets/structural/day/truss/pratt.png",
+      "gitBlobOid": "159e4ccf9c733f7a3adbc526bc57b183153eaa7c",
+      "bytes": 132743
+    },
+    {
+      "path": "public/assets/structural/day/truss/warren.png",
+      "gitBlobOid": "6955a1875cfae13c38c0748c43a25987b56ca893",
+      "bytes": 133511
+    },
+    {
+      "path": "public/assets/structural/night/beam/overhang.png",
+      "gitBlobOid": "28fbcf6e08188e9d10041087149ae8db1bd95a11",
+      "bytes": 69293
+    },
+    {
+      "path": "public/assets/structural/night/beam/simply-supported.png",
+      "gitBlobOid": "515c028ba7f58482c173b47c3641f3620e9a7f0d",
+      "bytes": 75430
+    },
+    {
+      "path": "public/assets/structural/night/beam/three-span.png",
+      "gitBlobOid": "e1fa7524269d6a5564eb9ae386144a8dd8c64880",
+      "bytes": 87517
+    },
+    {
+      "path": "public/assets/structural/night/beam/two-span.png",
+      "gitBlobOid": "4587ba627d28f5756ffd0b6d5997031dc486b05e",
+      "bytes": 83503
+    },
+    {
+      "path": "public/assets/structural/night/cantilever/balcony.png",
+      "gitBlobOid": "97f4aa40cae7fb94b8618768d53575218962bf4b",
+      "bytes": 47058
+    },
+    {
+      "path": "public/assets/structural/night/cantilever/double.png",
+      "gitBlobOid": "23177ef5ed6bcd5d4583f5495ceac75f6d330183",
+      "bytes": 45911
+    },
+    {
+      "path": "public/assets/structural/night/cantilever/stepped.png",
+      "gitBlobOid": "a4c15b56c86d1d1874286eb72f436e0267eec28f",
+      "bytes": 42254
+    },
+    {
+      "path": "public/assets/structural/night/cantilever/wall.png",
+      "gitBlobOid": "d884d600ec4f8731363a6207e6cabf742d90080d",
+      "bytes": 41099
+    },
+    {
+      "path": "public/assets/structural/night/connection/base-plate.png",
+      "gitBlobOid": "62a164e395238fba3950ac810dea89668139f552",
+      "bytes": 50236
+    },
+    {
+      "path": "public/assets/structural/night/connection/pinned.png",
+      "gitBlobOid": "810a55d14922b7e734eec52c90d189fb01f15c72",
+      "bytes": 41206
+    },
+    {
+      "path": "public/assets/structural/night/connection/rigid.png",
+      "gitBlobOid": "7b3d1c87dd04540f25e0aa8c53111b9d2eb176b4",
+      "bytes": 41574
+    },
+    {
+      "path": "public/assets/structural/night/connection/splice.png",
+      "gitBlobOid": "980995daf72775b668ac8650daec364954423344",
+      "bytes": 57523
+    },
+    {
+      "path": "public/assets/structural/night/load/applied-moment.png",
+      "gitBlobOid": "be6006db9543fb2f7bc0371f66c3f17ff9164827",
+      "bytes": 60726
+    },
+    {
+      "path": "public/assets/structural/night/load/distributed.png",
+      "gitBlobOid": "c56ef92d82499e54e7317b18c6923eb1c6866fe2",
+      "bytes": 69939
+    },
+    {
+      "path": "public/assets/structural/night/load/point.png",
+      "gitBlobOid": "45b320a5edf446f985b3c2c90fea128e6ce1fba7",
+      "bytes": 42242
+    },
+    {
+      "path": "public/assets/structural/night/load/varying.png",
+      "gitBlobOid": "7fec834b0dff185de308de420f8d52eb1d0d69c1",
+      "bytes": 58742
+    },
+    {
+      "path": "public/assets/structural/night/portal/industrial-pitched.png",
+      "gitBlobOid": "77475d4f48b14ee4721fdbbd40b34056656e14c4",
+      "bytes": 101902
+    },
+    {
+      "path": "public/assets/structural/night/portal/single-bay.png",
+      "gitBlobOid": "005935c216fdaddd1a23259d0343128fb688a928",
+      "bytes": 94509
+    },
+    {
+      "path": "public/assets/structural/night/portal/two-bay.png",
+      "gitBlobOid": "17a0ddfaf0ef20104c69648b170298a4efa09cfc",
+      "bytes": 103000
+    },
+    {
+      "path": "public/assets/structural/night/portal/two-story.png",
+      "gitBlobOid": "686a474464234ee21fc4b2e0f70ee8e89defd193",
+      "bytes": 85403
+    },
+    {
+      "path": "public/assets/structural/night/section/box.png",
+      "gitBlobOid": "c2df5a5a9cf0891829f8106455eca27fcab937d8",
+      "bytes": 62228
+    },
+    {
+      "path": "public/assets/structural/night/section/circular.png",
+      "gitBlobOid": "671dea758ae43f68539125eb97ff58fb25ad6b3b",
+      "bytes": 43508
+    },
+    {
+      "path": "public/assets/structural/night/section/i-profile.png",
+      "gitBlobOid": "ebc0840b7cb4dbecf475c185238d0e44f96ed96f",
+      "bytes": 58832
+    },
+    {
+      "path": "public/assets/structural/night/section/rectangular.png",
+      "gitBlobOid": "a1119a97e2da97ce06ed02f77ce491ccef429279",
+      "bytes": 44453
+    },
+    {
+      "path": "public/assets/structural/night/slab/flat-slab.png",
+      "gitBlobOid": "704d37cb1d461ad271d0fae39d8281a62054d737",
+      "bytes": 66069
+    },
+    {
+      "path": "public/assets/structural/night/slab/one-way.png",
+      "gitBlobOid": "f68d6a9288ae314095e638a0004c647fa374750c",
+      "bytes": 63765
+    },
+    {
+      "path": "public/assets/structural/night/slab/two-way.png",
+      "gitBlobOid": "27dfaa18afdcd129fc0be380a08cc1983fd9394f",
+      "bytes": 63785
+    },
+    {
+      "path": "public/assets/structural/night/slab/waffle.png",
+      "gitBlobOid": "ccbdafe902d21771d7f1a6cecc150b58846807f1",
+      "bytes": 67327
+    },
+    {
+      "path": "public/assets/structural/night/space-frame/industrial-shed.png",
+      "gitBlobOid": "4a3ac919ec2f87c79591216c3ff3524d9e646708",
+      "bytes": 101018
+    },
+    {
+      "path": "public/assets/structural/night/space-frame/multi-bay.png",
+      "gitBlobOid": "8c9ce4e3dfbfb08e2526c951b17830c8e9ad895b",
+      "bytes": 118137
+    },
+    {
+      "path": "public/assets/structural/night/space-frame/single-module.png",
+      "gitBlobOid": "719cc1580f66eb5c3428d554794d9c8aa63c5257",
+      "bytes": 103469
+    },
+    {
+      "path": "public/assets/structural/night/space-frame/two-story.png",
+      "gitBlobOid": "9a99cbdd1b5b64b0ac535a3a3f1615750f05f23a",
+      "bytes": 104585
+    },
+    {
+      "path": "public/assets/structural/night/support/fixed.png",
+      "gitBlobOid": "9af937f0ebfc34506797174475117c538e401e00",
+      "bytes": 43749
+    },
+    {
+      "path": "public/assets/structural/night/support/pin.png",
+      "gitBlobOid": "c11d64b20644309c0dac4598e79abf75ca62bec6",
+      "bytes": 59198
+    },
+    {
+      "path": "public/assets/structural/night/support/roller.png",
+      "gitBlobOid": "153b043cf11606104afec28ab2e0f12a5fb099fb",
+      "bytes": 63048
+    },
+    {
+      "path": "public/assets/structural/night/support/spring.png",
+      "gitBlobOid": "a00e05e7ce74f32ab84f5c005f2ef41866a80f7f",
+      "bytes": 71104
+    },
+    {
+      "path": "public/assets/structural/night/truss/howe.png",
+      "gitBlobOid": "ab7c460da35176c404e43572c3c65b4df94699e4",
+      "bytes": 137715
+    },
+    {
+      "path": "public/assets/structural/night/truss/king-post.png",
+      "gitBlobOid": "5209375686d02f329be63339b9a971adc29b16ee",
+      "bytes": 100077
+    },
+    {
+      "path": "public/assets/structural/night/truss/pratt.png",
+      "gitBlobOid": "7b61936d326fca39ed914d035c2ca1280c52572e",
+      "bytes": 138430
+    },
+    {
+      "path": "public/assets/structural/night/truss/warren.png",
+      "gitBlobOid": "9a22601f9ee5e068d70fea7589785e7647238760",
+      "bytes": 139025
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-a01-solver-2d.png",
+      "gitBlobOid": "047ddfd4685980dc1704243bc485f57c7365fa1b",
+      "bytes": 965563
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-a02-solver-3d.png",
+      "gitBlobOid": "e0ba4c9210e9046c7cfd7eb00cef34c05b7a53b2",
+      "bytes": 1308630
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-a03-elementos-finitos.png",
+      "gitBlobOid": "b1d2ee916a14e7b93b75f20c486dda09f2afb0b9",
+      "bytes": 1482377
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-a04-diseno-materiales.png",
+      "gitBlobOid": "d30c288095e33afdd28946cb9824b018c5ab3675",
+      "bytes": 1134509
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-c01-terreno.png",
+      "gitBlobOid": "7da6404d733ec1ba8fdc9672cd9881190df34742",
+      "bytes": 1572528
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-c02-geotecnia.png",
+      "gitBlobOid": "545bf350c319faa864eb5be9cbc78b188be8e6b5",
+      "bytes": 1628287
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-c03-agua-drenaje.png",
+      "gitBlobOid": "b726f1984dd2106adbad1121a983f89341dd8b78",
+      "bytes": 1726989
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-i01-conectores.png",
+      "gitBlobOid": "ce4c93c7d52a52609b2bc393e7f849ce6a5c081a",
+      "bytes": 1249237
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-l01-aula-estructural.png",
+      "gitBlobOid": "dd726e1e2cbbf5d4e7d595813feabefe25ad4fca",
+      "bytes": 1149306
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-l02-taller-investigacion.png",
+      "gitBlobOid": "7188dc6653596c2f449eebdd7c63adb701b956a4",
+      "bytes": 1239189
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-l03-laboratorio-reproducible.png",
+      "gitBlobOid": "cbd56821996ad7c9a696e36ad0d18562d72e7705",
+      "bytes": 1261715
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-l04-tutoria-trayectoria.png",
+      "gitBlobOid": "23d91f979dce838c70b3eefcc181a8157d7c0a4c",
+      "bytes": 1410443
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-m01-dibujo-cad.png",
+      "gitBlobOid": "d0d86e6544eb768e8289cd23e980eb120b614944",
+      "bytes": 953269
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-m02-modelo-bim.png",
+      "gitBlobOid": "8083a243d13abd53eb517a3fa2b5574026662f75",
+      "bytes": 1665923
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-m03-detallado.png",
+      "gitBlobOid": "ad94e7a549eaa995165a1101317589b8bc4c0c20",
+      "bytes": 1225359
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-p01-documentos.png",
+      "gitBlobOid": "f232e85d7870e12a28b7f7abae883b6bbe4d2d3f",
+      "bytes": 1276444
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-p02-cantidades-costos.png",
+      "gitBlobOid": "432172cde16e275d7356f6a095d15f0762bff515",
+      "bytes": 1335188
+    },
+    {
+      "path": "public/assets/tool-mockups/fs-p03-programa-campo.png",
+      "gitBlobOid": "7cc83a3bb35fb4df558041931b065e76d07ba779",
+      "bytes": 1304424
+    },
+    {
+      "path": "public/favicon.svg",
+      "gitBlobOid": "4c5faf609aca79b24b7f197e19404ced80e70c07",
+      "bytes": 352
+    },
+    {
+      "path": "public/fonts/OFL-Geist.txt",
+      "gitBlobOid": "dac9ac2fb6177460421ca7b7d091e78a83ddd68e",
+      "bytes": 4383
+    },
+    {
+      "path": "public/fonts/OFL-Instrument-Sans.txt",
+      "gitBlobOid": "d41633cc1209e83ba21211954b1b9f356758e5e6",
+      "bytes": 4402
+    },
+    {
+      "path": "public/fonts/geist-mono-variable.woff2",
+      "gitBlobOid": "0e746fc18223dfcb107a85502a0abe1b1a02d51a",
+      "bytes": 71596
+    },
+    {
+      "path": "public/fonts/instrument-sans-variable.woff2",
+      "gitBlobOid": "6cc0b91654167b4f5a8205ecad6edd79cbca3e5b",
+      "bytes": 88784
+    }
+  ]
+}

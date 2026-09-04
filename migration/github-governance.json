@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-09-03T18:27:15-06:00",
+  "repository": "klkmoraa/FusionStructure",
+  "visibility": "private",
+  "enforcement": {
+    "branchProtection": {
+      "endpoint": "GET /repos/klkmoraa/FusionStructure/branches/main/protection",
+      "httpStatus": 403,
+      "message": "Upgrade to GitHub Pro or make this repository public to enable this feature.",
+      "documentationUrl": "https://docs.github.com/rest/branches/branch-protection#get-branch-protection",
+      "enforced": false
+    },
+    "rulesets": {
+      "endpoint": "GET /repos/klkmoraa/FusionStructure/rulesets",
+      "httpStatus": 403,
+      "message": "Upgrade to GitHub Pro or make this repository public to enable this feature.",
+      "documentationUrl": "https://docs.github.com/rest/repos/rules#get-all-repository-rulesets",
+      "enforced": false
+    }
+  },
+  "interimRule": {
+    "repositorySplitAllowed": false,
+    "reason": "No split while branch protection or ruleset enforcement is unavailable.",
+    "simulatedEnforcement": false,
+    "repositoryMadePublic": false,
+    "planPurchased": false
+  },
+  "repositoriesCreatedOrPushed": [],
+  "note": "CODEOWNERS records accountability only; it does not enforce protected review."
+}
