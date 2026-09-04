@@ -2,11 +2,21 @@ import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSy
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 import { afterEach, describe, expect, test } from 'vitest';
 
 const repoRoot = resolve(import.meta.dirname, '..', '..');
 const validatorPath = resolve(repoRoot, 'scripts', 'validate-migration-evidence.mjs');
+const liveGovernanceVerifierPath = resolve(repoRoot, 'scripts', 'verify-current-github-governance.mjs');
 const migrationDirectory = resolve(repoRoot, 'migration');
+const currentGovernanceRecordPath = resolve(migrationDirectory, 'github-governance-current.json');
+const githubGovernanceEndpoints = {
+  repository: 'repos/klkmoraa/FusionStructure',
+  branchProtection: 'repos/klkmoraa/FusionStructure/branches/main/protection',
+  rulesets: 'repos/klkmoraa/FusionStructure/rulesets',
+  workflowRuns: 'repos/klkmoraa/FusionStructure/actions/workflows/ci.yml/runs?branch=main&event=push&status=completed&per_page=1',
+  reviews: 'repos/klkmoraa/FusionStructure/pulls/15/reviews',
+};
 const recordNames = [
   'assets-inventory.json',
   'baseline.json',
@@ -26,6 +36,78 @@ const runValidator = (...args: string[]) => spawnSync(process.execPath, [validat
   cwd: repoRoot,
   encoding: 'utf8',
 });
+
+const liveGovernanceResponses = () => ({
+  [githubGovernanceEndpoints.repository]: {
+    full_name: 'klkmoraa/FusionStructure',
+    private: false,
+    default_branch: 'main',
+  },
+  [githubGovernanceEndpoints.branchProtection]: {
+    required_status_checks: {
+      strict: true,
+      contexts: ['Puerta de calidad'],
+      checks: [{ context: 'Puerta de calidad', app_id: 15368 }],
+    },
+    required_pull_request_reviews: {
+      required_approving_review_count: 1,
+      dismiss_stale_reviews: true,
+      require_code_owner_reviews: true,
+      require_last_push_approval: true,
+    },
+    required_conversation_resolution: { enabled: true },
+    required_linear_history: { enabled: true },
+    allow_force_pushes: { enabled: false },
+    allow_deletions: { enabled: false },
+    enforce_admins: { enabled: false },
+  },
+  [githubGovernanceEndpoints.rulesets]: [],
+  [githubGovernanceEndpoints.workflowRuns]: {
+    workflow_runs: [{
+      id: 33807212560,
+      name: 'CI',
+      event: 'push',
+      status: 'completed',
+      conclusion: 'success',
+      head_branch: 'main',
+      head_sha: 'c1824c016e163cf22652565ea486f3a1c0928c5b',
+      html_url: 'https://github.com/klkmoraa/FusionStructure/actions/runs/33807212560',
+    }],
+  },
+  [githubGovernanceEndpoints.reviews]: [{
+    id: 5106815679,
+    state: 'COMMENTED',
+    user: { login: 'chatgpt-codex-connector[bot]' },
+    commit_id: '9941ae8540bde4110d6820c3ffe6b76a51b2bd75',
+    html_url: 'https://github.com/klkmoraa/FusionStructure/pull/15#pullrequestreview-5106815679',
+  }],
+});
+
+const runLiveGovernanceVerifier = (
+  responses: Record<string, unknown>,
+  unavailable = false,
+  currentRecord = JSON.parse(readFileSync(currentGovernanceRecordPath, 'utf8')),
+) => {
+  const source = [
+    `import { verifyCurrentGithubGovernance } from ${JSON.stringify(pathToFileURL(liveGovernanceVerifierPath).href)};`,
+    `const responses = ${JSON.stringify(responses)};`,
+    `const currentRecord = ${JSON.stringify(currentRecord)};`,
+    'const result = verifyCurrentGithubGovernance({',
+    '  currentRecord,',
+    "  now: () => new Date('2026-09-04T04:12:00.000Z'),",
+    '  requestJson(endpoint) {',
+    `    if (${JSON.stringify(unavailable)}) throw new Error('GitHub CLI (gh) is unavailable');`,
+    "    if (!Object.hasOwn(responses, endpoint)) throw new Error(`Missing fixture for ${endpoint}`);",
+    '    return responses[endpoint];',
+    '  },',
+    '});',
+    'process.stdout.write(JSON.stringify(result));',
+  ].join('\n');
+  return spawnSync(process.execPath, ['--input-type=module', '--eval', source], {
+    cwd: repoRoot,
+    encoding: 'utf8',
+  });
+};
 
 const copyRecords = () => {
   const directory = makeTemporaryDirectory();
@@ -62,6 +144,120 @@ describe('migration evidence validator', () => {
     expect(result.stdout).toMatch(/Migration evidence valid:/);
   });
 
+  test('accepts the required GitHub Actions app binding alongside the status-check context', () => {
+    const directory = mutateRecord('github-governance-current.json', (record) => {
+      record.enforcement.branchProtection.requiredStatusChecks.checks = [{
+        context: 'Puerta de calidad',
+        appId: 15368,
+      }];
+    });
+
+    const result = runValidator('--records-dir', directory);
+
+    expect(result.status, result.stderr).toBe(0);
+  });
+
+  test('accepts a static governance snapshot only when it keeps split authorization for the fresh live gate', () => {
+    const directory = mutateRecord('github-governance-current.json', (record) => {
+      record.repositorySplit.allowed = false;
+      record.repositorySplit.requiresFreshLiveVerification = true;
+      record.repositorySplit.liveVerificationCommand = 'npm run migration:verify-governance';
+    });
+
+    const result = runValidator('--records-dir', directory);
+
+    expect(result.status, result.stderr).toBe(0);
+  });
+
+  test('authorizes a repository split only in fresh live evidence from the GitHub API', () => {
+    const result = runLiveGovernanceVerifier(liveGovernanceResponses());
+
+    expect(result.status, result.stderr).toBe(0);
+    expect(JSON.parse(result.stdout)).toMatchObject({
+      verifiedAt: '2026-09-04T04:12:00.000Z',
+      repositorySplit: {
+        allowed: true,
+        staticRecordAllowed: false,
+        authorization: 'fresh-live-verification-only',
+      },
+      enforcement: {
+        branchProtection: {
+          requiredStatusChecks: {
+            checks: [{ context: 'Puerta de calidad', appId: 15368 }],
+          },
+        },
+      },
+      soleOwnerException: {
+        enforceAdmins: false,
+        enforcementNonBypassable: false,
+        compensatingControls: {
+          pullRequestRequired: true,
+          currentCi: {
+            verified: true,
+            runId: 33807212560,
+          },
+          independentReviewArtifact: {
+            verified: true,
+            id: 5106815679,
+          },
+        },
+      },
+    });
+  });
+
+  test('fails closed when fresh GitHub API evidence is unavailable', () => {
+    const result = runLiveGovernanceVerifier(liveGovernanceResponses(), true);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('Current GitHub governance verification could not query');
+  });
+
+  test('does not silently pass when the GitHub CLI is unavailable', () => {
+    const source = [
+      `import { createGithubApiRequester } from ${JSON.stringify(pathToFileURL(liveGovernanceVerifierPath).href)};`,
+      "const requestJson = createGithubApiRequester({ spawn: () => ({ error: Object.assign(new Error('missing'), { code: 'ENOENT' }) }) });",
+      `requestJson(${JSON.stringify(githubGovernanceEndpoints.repository)});`,
+    ].join('\n');
+    const result = spawnSync(process.execPath, ['--input-type=module', '--eval', source], {
+      cwd: repoRoot,
+      encoding: 'utf8',
+    });
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('GitHub CLI (gh) is unavailable');
+  });
+
+  test('rejects live governance evidence when the required check is bound to another app', () => {
+    const responses = liveGovernanceResponses();
+    (responses[githubGovernanceEndpoints.branchProtection] as Record<string, any>)
+      .required_status_checks.checks[0].app_id = 1;
+
+    const result = runLiveGovernanceVerifier(responses);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('Puerta de calidad must be bound to GitHub Actions app 15368');
+  });
+
+  test('rejects live governance evidence without the recorded independent review artifact', () => {
+    const responses = liveGovernanceResponses();
+    responses[githubGovernanceEndpoints.reviews] = [];
+
+    const result = runLiveGovernanceVerifier(responses);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('Recorded independent review artifact is unavailable');
+  });
+
+  test('rejects a live gate when the recorded no-direct-push control is incomplete', () => {
+    const currentRecord = JSON.parse(readFileSync(currentGovernanceRecordPath, 'utf8')) as Record<string, any>;
+    delete currentRecord.soleOwnerException.compensatingControls.noDirectPushes;
+
+    const result = runLiveGovernanceVerifier(liveGovernanceResponses(), false, currentRecord);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('static no-direct-push control is incomplete');
+  });
+
   test('rejects a claimed public split gate when its required review evidence is weakened', () => {
     expectRecordsRejected(
       mutateRecord('github-governance-current.json', (record) => {
@@ -73,7 +269,11 @@ describe('migration evidence validator', () => {
 
   test.each([
     ['required status check', (record: Record<string, any>) => { record.enforcement.branchProtection.requiredStatusChecks.contexts = []; }],
+    ['status-check app binding', (record: Record<string, any>) => { record.enforcement.branchProtection.requiredStatusChecks.checks[0].appId = 1; }],
+    ['static split authorization', (record: Record<string, any>) => { record.repositorySplit.allowed = true; }],
+    ['fresh live verification requirement', (record: Record<string, any>) => { record.repositorySplit.requiresFreshLiveVerification = false; }],
     ['repository creation', (record: Record<string, any>) => { record.repositoriesCreatedOrPushed = ['fusionstructure-solver-2d']; }],
+    ['sole-owner enforce-admins exception', (record: Record<string, any>) => { record.enforcement.branchProtection.enforceAdmins = true; }],
     ['owner bypass disclosure', (record: Record<string, any>) => { record.enforcement.branchProtection.ownerBypassRetained = false; }],
   ])('rejects a current public/protected gate with altered %s evidence', (_label, mutate) => {
     expectRecordsRejected(
