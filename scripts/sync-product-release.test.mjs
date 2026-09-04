@@ -1,4 +1,7 @@
 import { strict as assert } from 'node:assert';
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { resolve } from 'node:path';
 import test from 'node:test';
 
 import {
@@ -6,6 +9,7 @@ import {
   assertResolvedTag,
   assertRepositoryIdentity,
   buildSyncPlan,
+  synchronizeMappedPaths,
   validateReleaseManifest,
   validateReleaseRef,
 } from './sync-product-release.mjs';
@@ -62,6 +66,9 @@ test('rejects bootstrap and local Foundation targets', () => {
 
   reserved.products.fstructure.paths = [{ source: 'src/foundation', target: 'src/foundation' }];
   assert.throws(() => validateReleaseManifest(reserved), /reserved target/);
+
+  reserved.products.fstructure.paths = [{ source: 'scripts', target: 'scripts' }];
+  assert.throws(() => validateReleaseManifest(reserved), /not owned/);
 });
 
 test('rejects overlapping ownership across products', () => {
@@ -95,4 +102,30 @@ test('builds a deterministic copy plan for a known product', () => {
   assert.equal(plan.repository, 'klkmoraa/fstructure');
   assert.equal(plan.ref, 'v0.1.1');
   assert.deepEqual(plan.paths, [{ source: 'src/engine', target: 'src/engine' }]);
+});
+
+test('preflights every source before replacing any destination', () => {
+  const fixtureRoot = mkdtempSync(resolve(tmpdir(), 'fusionstructure-sync-test-'));
+  const sourceRoot = resolve(fixtureRoot, 'source');
+  const targetRoot = resolve(fixtureRoot, 'target');
+  const transactionRoot = resolve(fixtureRoot, 'transaction');
+  mkdirSync(resolve(sourceRoot, 'src/engine'), { recursive: true });
+  mkdirSync(resolve(targetRoot, 'src/engine'), { recursive: true });
+  writeFileSync(resolve(sourceRoot, 'src/engine/value.ts'), 'new\n');
+  writeFileSync(resolve(targetRoot, 'src/engine/value.ts'), 'old\n');
+
+  try {
+    assert.throws(() => synchronizeMappedPaths({
+      sourceRoot,
+      targetRoot,
+      transactionRoot,
+      mappings: [
+        { source: 'src/engine', target: 'src/engine' },
+        { source: 'src/missing', target: 'src/missing' },
+      ],
+    }), /missing allowlisted path/);
+    assert.equal(readFileSync(resolve(targetRoot, 'src/engine/value.ts'), 'utf8'), 'old\n');
+  } finally {
+    rmSync(fixtureRoot, { recursive: true, force: true });
+  }
 });

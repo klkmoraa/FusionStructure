@@ -2,13 +2,14 @@ import {
   cpSync,
   existsSync,
   lstatSync,
+  mkdirSync,
   mkdtempSync,
   readFileSync,
   readdirSync,
+  renameSync,
   rmSync,
   writeFileSync,
 } from 'node:fs';
-import { tmpdir } from 'node:os';
 import { dirname, relative, resolve, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -33,6 +34,22 @@ const reservedTargets = [
   'tsconfig.node.json',
   'vite.config.ts',
 ];
+const ownedTargetsByProduct = {
+  fstructure: [
+    'src/ai', 'src/analysis-methods', 'src/analytics', 'src/commands', 'src/data', 'src/design',
+    'src/education', 'src/engine', 'src/graphics', 'src/import', 'src/runtime', 'src/storage',
+    'src/store', 'src/utils', 'src/workers', 'src/types.ts', 'src/pdfjs-browser.d.ts',
+    'src/features/ai', 'src/features/bom', 'src/features/bulk-edit', 'src/features/canvas',
+    'src/features/classroom', 'src/features/datasheet', 'src/features/design',
+    'src/features/import-export', 'src/features/inspector', 'src/features/library',
+    'src/features/model-doctor', 'src/features/pdf-preview', 'src/features/project-hub',
+    'src/features/results', 'src/features/revision-comparison', 'src/features/shell',
+    'src/features/structural-assets', 'src/features/structure-generator', 'src/features/view',
+    'src/features/workspace',
+  ],
+  space3d: ['src/space3d', 'src/features/space3d'],
+  web: ['src/features/welcome', 'public/assets/brand', 'public/assets/landing', 'brandbook-site', 'motion'],
+};
 
 const toPosix = (value) => value.split(sep).join('/').replace(/^\.\//, '').replace(/\/$/, '');
 const pathsOverlap = (left, right) => left === right || left.startsWith(`${right}/`) || right.startsWith(`${left}/`);
@@ -107,6 +124,8 @@ export const validateReleaseManifest = (manifest) => {
       throw new Error(`${product} pagesUrl must be a GitHub Pages HTTPS URL or null when unpublished.`);
     }
     if (!Array.isArray(record.paths) || record.paths.length === 0) throw new Error(`${product} must declare at least one owned path.`);
+    const allowedTargets = ownedTargetsByProduct[product];
+    if (!allowedTargets) throw new Error(`${product} has no fixed ownership allowlist in sync:product.`);
     for (const mapping of record.paths) {
       const source = validatePath(mapping.source, `${product} source`);
       const target = validatePath(mapping.target, `${product} target`);
@@ -115,6 +134,9 @@ export const validateReleaseManifest = (manifest) => {
       }
       const collision = ownedTargets.find((entry) => pathsOverlap(entry.target, target));
       if (collision) throw new Error(`${product} has overlapping target ${target} with ${collision.product}:${collision.target}.`);
+      if (source !== target || !allowedTargets.includes(target)) {
+        throw new Error(`${product} path ${source} -> ${target} is not owned by that product.`);
+      }
       ownedTargets.push({ product, source, target });
     }
   }
@@ -149,15 +171,50 @@ const assertNoSymbolicLinks = (path) => {
   for (const entry of readdirSync(path)) assertNoSymbolicLinks(resolve(path, entry));
 };
 
-const copyMappedPath = ({ sourceRoot, targetRoot, mapping, dryRun }) => {
-  const source = resolve(sourceRoot, mapping.source);
-  const target = resolve(targetRoot, mapping.target);
-  if (!isInside(sourceRoot, source) || !isInside(targetRoot, target)) throw new Error(`Mapped path escapes its repository: ${mapping.source}`);
-  if (!existsSync(source)) throw new Error(`Release is missing allowlisted path: ${mapping.source}`);
-  assertNoSymbolicLinks(source);
+export const synchronizeMappedPaths = ({ sourceRoot, targetRoot, transactionRoot, mappings, dryRun = false }) => {
+  const stagedRoot = resolve(transactionRoot, 'staged');
+  const backupRoot = resolve(transactionRoot, 'backup');
+  const prepared = mappings.map((mapping) => {
+    const source = resolve(sourceRoot, mapping.source);
+    const target = resolve(targetRoot, mapping.target);
+    const staged = resolve(stagedRoot, mapping.target);
+    const backup = resolve(backupRoot, mapping.target);
+    if (!isInside(sourceRoot, source) || !isInside(targetRoot, target) || !isInside(stagedRoot, staged) || !isInside(backupRoot, backup)) {
+      throw new Error(`Mapped path escapes its repository: ${mapping.source}`);
+    }
+    if (!existsSync(source)) throw new Error(`Release is missing allowlisted path: ${mapping.source}`);
+    assertNoSymbolicLinks(source);
+    return { source, target, staged, backup };
+  });
+
   if (dryRun) return;
-  rmSync(target, { recursive: true, force: true });
-  cpSync(source, target, { recursive: true, errorOnExist: true, force: false });
+  for (const entry of prepared) {
+    mkdirSync(dirname(entry.staged), { recursive: true });
+    cpSync(entry.source, entry.staged, { recursive: true, errorOnExist: true, force: false });
+  }
+
+  const applied = [];
+  try {
+    for (const entry of prepared) {
+      const hadTarget = existsSync(entry.target);
+      mkdirSync(dirname(entry.target), { recursive: true });
+      if (hadTarget) {
+        mkdirSync(dirname(entry.backup), { recursive: true });
+        renameSync(entry.target, entry.backup);
+      }
+      applied.push({ ...entry, hadTarget });
+      renameSync(entry.staged, entry.target);
+    }
+  } catch (error) {
+    for (const entry of applied.reverse()) {
+      rmSync(entry.target, { recursive: true, force: true });
+      if (entry.hadTarget && existsSync(entry.backup)) {
+        mkdirSync(dirname(entry.target), { recursive: true });
+        renameSync(entry.backup, entry.target);
+      }
+    }
+    throw error;
+  }
 };
 
 const parseArguments = (argumentsList) => {
@@ -181,7 +238,7 @@ export const syncProductRelease = ({ root = defaultRoot, manifestPath = defaultM
   assertCleanWorktree(command('git', ['status', '--porcelain'], repositoryRoot));
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
   const plan = buildSyncPlan(manifest, product, ref);
-  const temporaryRoot = mkdtempSync(resolve(tmpdir(), 'fusionstructure-release-sync-'));
+  const temporaryRoot = mkdtempSync(resolve(dirname(repositoryRoot), '.fusionstructure-release-sync-'));
   const sourceRoot = resolve(temporaryRoot, 'source');
   try {
     command('git', ['clone', '--quiet', '--filter=blob:none', '--depth', '1', '--branch', plan.ref, `https://github.com/${plan.repository}.git`, sourceRoot], temporaryRoot);
@@ -193,7 +250,13 @@ export const syncProductRelease = ({ root = defaultRoot, manifestPath = defaultM
       windowsHide: true,
     });
     assertResolvedTag({ ref: plan.ref, tagCommit: tagResult.status === 0 ? tagResult.stdout.trim() : '', headCommit: commit });
-    for (const mapping of plan.paths) copyMappedPath({ sourceRoot, targetRoot: repositoryRoot, mapping, dryRun });
+    synchronizeMappedPaths({
+      sourceRoot,
+      targetRoot: repositoryRoot,
+      transactionRoot: resolve(temporaryRoot, 'transaction'),
+      mappings: plan.paths,
+      dryRun,
+    });
     if (!dryRun) {
       manifest.products[product] = {
         ...manifest.products[product],
