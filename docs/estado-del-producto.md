@@ -2,11 +2,11 @@
 
 ## Fotografía
 
-- Fecha de revisión: 2026-08-31.
+- Fecha de revisión: 2026-09-04.
 - Rama revisada: `main`.
-- Commit revisado antes de esta actualización: `8aca078`.
+- Commit revisado: `700a0365352245a1db61f6938fd1bcd72f812fa7`.
 - Versión declarada en `package.json`: `0.8.2`.
-- El repositorio es privado y su código se encuentra en una etapa experimental.
+- El repositorio es público y su código se encuentra en una etapa experimental.
 - No se presenta el concepto ni la implementación como tecnología patentada, certificada, propietaria o lista para obra.
 - Esta fotografía se obtuvo leyendo el árbol y los archivos del repositorio. La ejecución de la aplicación en un navegador y la puerta de CI deben considerarse verificaciones separadas.
 
@@ -32,7 +32,7 @@ La superficie actual es suficiente para hablar de una herramienta estructural ex
 
 ### 1. Cobertura numérica todavía pequeña
 
-La documentación existente registra 19 archivos de prueba y 73 pruebas automatizadas. Eso puede proteger fronteras de datos importantes, pero no demuestra la corrección general del solver, de Space 3D, de la memoria PDF ni de todos los flujos de interfaz.
+La puerta actual cubre 48 archivos de prueba y 290 pruebas automatizadas en el monolito. Eso protege fronteras importantes, pero no demuestra la corrección general del solver, de Space 3D, de la memoria PDF ni de todos los flujos de interfaz.
 
 Prioridad: construir una suite numérica independiente con casos manuales, oráculos externos, invariantes de equilibrio, unidades y regresiones por dominio.
 
@@ -57,6 +57,12 @@ La importación DXF actual es un subconjunto; JSON, SVG, PNG, CSV y PDF cubren i
 El núcleo conoce muy bien entidades estructurales, pero todavía no representa con la misma profundidad contexto, arquitectura, civil, instalaciones, costos, programa, incidencias o activos.
 
 Prioridad: diseñar el esquema extensible antes de añadir pantallas independientes.
+
+## Corte multirepo 2026-09-04
+
+La primera ola ya está publicada y protegida en GitHub: Foundation (`v0.1.0`), FStructure (`v0.1.0`), Space3D (`v0.1.0`) y Web (`v0.1.0`). Este repositorio conserva el monolito de corte, la matriz de compatibilidad, los ADRs y la evidencia. Los corpus 2D/3D no se eliminaron ni se sustituyeron por una afirmación de equivalencia.
+
+El gate local completo pasó en cada extracción. La protección de `main` exige PR, una aprobación, revisión obsoleta descartada, aprobación del último push, conversaciones resueltas, historial lineal y sin force-push/deletion. Los nuevos repositorios aún no tienen workflow de CI en su tip publicado porque el token OAuth disponible no permite escribir workflows; instalar esos workflows con una credencial autorizada es la siguiente decisión operativa.
 
 ## Decisión de esta actualización
 
