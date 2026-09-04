@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-09-03T21:46:22-06:00",
+  "repository": {
+    "endpoint": "GET /repos/klkmoraa/FusionStructure",
+    "httpStatus": 200,
+    "fullName": "klkmoraa/FusionStructure",
+    "visibility": "public",
+    "defaultBranch": "main"
+  },
+  "enforcement": {
+    "branchProtection": {
+      "endpoint": "GET /repos/klkmoraa/FusionStructure/branches/main/protection",
+      "httpStatus": 200,
+      "enforced": true,
+      "requiredStatusChecks": {
+        "strict": true,
+        "contexts": [
+          "Puerta de calidad"
+        ]
+      },
+      "requiredPullRequestReviews": {
+        "requiredApprovingReviewCount": 1,
+        "dismissStaleReviews": true,
+        "requireCodeOwnerReviews": true,
+        "requireLastPushApproval": true
+      },
+      "requiredConversationResolution": true,
+      "requiredLinearHistory": true,
+      "allowForcePushes": false,
+      "allowDeletions": false,
+      "enforceAdmins": false,
+      "ownerBypassRetained": true
+    },
+    "rulesets": {
+      "endpoint": "GET /repos/klkmoraa/FusionStructure/rulesets",
+      "httpStatus": 200,
+      "activeRulesetCount": 0,
+      "activeEnforcement": "branch-protection"
+    }
+  },
+  "repositorySplit": {
+    "allowed": true,
+    "simulatedEnforcement": false,
+    "requiresCurrentGovernanceValidation": true
+  },
+  "repositoriesCreatedOrPushed": [],
+  "note": "Branch protection is the active enforcement. Administrators, including the repository owner, retain bypass because enforceAdmins is false."
+}

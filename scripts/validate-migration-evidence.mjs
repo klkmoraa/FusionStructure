@@ -11,6 +11,7 @@ const requiredRecordNames = [
   'baseline.json',
   'fixture-digests.json',
   'github-governance.json',
+  'github-governance-current.json',
 ];
 const requiredEntryFields = [
   'id',
@@ -59,6 +60,77 @@ const requiredAssetSelectionDescription = 'All committed static media and font/l
 const requiredAssetExtensions = ['jpg', 'jpeg', 'png', 'svg', 'webm', 'mp4', 'woff2', 'txt'];
 const requiredFixtureScope = 'Existing committed files below fixture or test-data directories at the baseline; TypeScript fixture builders are source code and are not duplicated here.';
 const requiredGovernanceNote = 'CODEOWNERS records accountability only; it does not enforce protected review.';
+const requiredHistoricalGovernance = {
+  schemaVersion: 1,
+  observedAt: '2026-09-03T18:27:15-06:00',
+  repository: 'klkmoraa/FusionStructure',
+  visibility: 'private',
+  enforcement: {
+    branchProtection: {
+      endpoint: 'GET /repos/klkmoraa/FusionStructure/branches/main/protection',
+      httpStatus: 403,
+      message: requiredGithubLimitationMessage,
+      documentationUrl: 'https://docs.github.com/rest/branches/branch-protection#get-branch-protection',
+      enforced: false,
+    },
+    rulesets: {
+      endpoint: 'GET /repos/klkmoraa/FusionStructure/rulesets',
+      httpStatus: 403,
+      message: requiredGithubLimitationMessage,
+      documentationUrl: 'https://docs.github.com/rest/repos/rules#get-all-repository-rulesets',
+      enforced: false,
+    },
+  },
+  interimRule: {
+    repositorySplitAllowed: false,
+    reason: 'No split while branch protection or ruleset enforcement is unavailable.',
+    simulatedEnforcement: false,
+    repositoryMadePublic: false,
+    planPurchased: false,
+  },
+  repositoriesCreatedOrPushed: [],
+  note: requiredGovernanceNote,
+};
+const requiredCurrentRepository = {
+  endpoint: 'GET /repos/klkmoraa/FusionStructure',
+  httpStatus: 200,
+  fullName: 'klkmoraa/FusionStructure',
+  visibility: 'public',
+  defaultBranch: 'main',
+};
+const requiredCurrentBranchProtection = {
+  endpoint: 'GET /repos/klkmoraa/FusionStructure/branches/main/protection',
+  httpStatus: 200,
+  enforced: true,
+  requiredConversationResolution: true,
+  requiredLinearHistory: true,
+  allowForcePushes: false,
+  allowDeletions: false,
+  enforceAdmins: false,
+  ownerBypassRetained: true,
+};
+const requiredCurrentStatusChecks = {
+  strict: true,
+  contexts: ['Puerta de calidad'],
+};
+const requiredCurrentPullRequestReviews = {
+  requiredApprovingReviewCount: 1,
+  dismissStaleReviews: true,
+  requireCodeOwnerReviews: true,
+  requireLastPushApproval: true,
+};
+const requiredCurrentRulesets = {
+  endpoint: 'GET /repos/klkmoraa/FusionStructure/rulesets',
+  httpStatus: 200,
+  activeRulesetCount: 0,
+  activeEnforcement: 'branch-protection',
+};
+const requiredCurrentRepositorySplit = {
+  allowed: true,
+  simulatedEnforcement: false,
+  requiresCurrentGovernanceValidation: true,
+};
+const requiredCurrentGovernanceNote = 'Branch protection is the active enforcement. Administrators, including the repository owner, retain bypass because enforceAdmins is false.';
 
 const parseArguments = (argumentsList) => {
   const options = {
@@ -173,14 +245,6 @@ const runGit = (root, args, encoding = 'utf8') => {
   return result.stdout;
 };
 
-const gitPathExists = (root, commit, sourcePath) => {
-  const result = spawnSync('git', ['cat-file', '-e', `${commit}:${sourcePath}`], {
-    cwd: root,
-    encoding: 'utf8',
-  });
-  return result.status === 0;
-};
-
 const sha256 = (value) => createHash('sha256').update(value).digest('hex');
 
 const parseTreeEntries = (root, commit) => {
@@ -197,11 +261,26 @@ const fixturePathPattern = /(?:^|\/)(?:fixtures?|test-data)\//;
 
 const hasExactFields = (record, requiredFields) => record && Object.entries(requiredFields)
   .every(([key, value]) => record[key] === value);
+const hasExactStructure = (record, expected) => {
+  if (Array.isArray(expected)) {
+    return Array.isArray(record)
+      && record.length === expected.length
+      && expected.every((value, index) => hasExactStructure(record[index], value));
+  }
+  if (expected && typeof expected === 'object') {
+    if (!record || typeof record !== 'object' || Array.isArray(record)) return false;
+    const recordKeys = Object.keys(record).sort();
+    const expectedKeys = Object.keys(expected).sort();
+    return recordKeys.length === expectedKeys.length
+      && expectedKeys.every((key, index) => recordKeys[index] === key && hasExactStructure(record[key], expected[key]));
+  }
+  return record === expected;
+};
 const isIsoTimestamp = (value) => typeof value === 'string'
   && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(value)
   && Number.isFinite(Date.parse(value));
 
-const validateManifest = (manifest, root, baselineCommit) => {
+const validateManifestStructure = (manifest, baselineCommit) => {
   if (manifest.schema_version !== 1) throw new Error('path-manifest.yml schema_version must be 1');
   if (manifest.baseline_commit !== baselineCommit) throw new Error('Manifest baseline_commit does not match baseline.json');
   if (!Array.isArray(manifest.entries) || manifest.entries.length === 0) throw new Error('Manifest entries must not be empty');
@@ -216,25 +295,39 @@ const validateManifest = (manifest, root, baselineCommit) => {
     if (!allowedStatuses.has(entry.status)) throw new Error(`Unsupported manifest status for ${entry.id}: ${entry.status}`);
     if (typeof entry.migration_wave !== 'number' || entry.migration_wave < 0) throw new Error(`Invalid migration_wave for ${entry.id}`);
     if (isAbsolute(entry.source_path) || entry.source_path.split('/').includes('..')) throw new Error(`Unsafe manifest source path: ${entry.source_path}`);
-    if (entry.status !== 'planned' && !gitPathExists(root, baselineCommit, entry.source_path)) {
+  }
+};
+
+const validateManifestSources = (manifest, baselineCommit, baselineTreeEntries) => {
+  const baselinePaths = new Set();
+  for (const entry of baselineTreeEntries) {
+    let path = entry.path;
+    baselinePaths.add(path);
+    while (path.includes('/')) {
+      path = path.slice(0, path.lastIndexOf('/'));
+      baselinePaths.add(path);
+    }
+  }
+  for (const entry of manifest.entries) {
+    if (entry.status !== 'planned' && !baselinePaths.has(entry.source_path)) {
       throw new Error(`${entry.source_path} is absent from baseline ${baselineCommit}; mark it planned or correct the path`);
     }
   }
 };
 
-const validateBaseline = (baseline, root) => {
+const validateBaselineRecord = (baseline) => {
   const commit = baseline?.baseline?.commit;
   const tag = baseline?.baseline?.tag;
   if (baseline?.schemaVersion !== 1) throw new Error('baseline.json schemaVersion must be 1');
   if (!isIsoTimestamp(baseline.recordedAt)) throw new Error('baseline.json recordedAt must be an ISO timestamp');
   if (commit !== requiredBaselineCommit) throw new Error(`Baseline commit must equal ${requiredBaselineCommit}`);
   if (tag !== requiredBaselineTag) throw new Error(`Baseline tag must equal ${requiredBaselineTag}`);
-  if (baseline.baseline.tagKind !== 'annotated') throw new Error('Baseline tag kind must be annotated');
-  if (baseline.baseline.tagObjectOid !== requiredTagObjectOid) throw new Error('Baseline tag object OID does not match the required annotated tag');
-  if (baseline.baseline.remote !== requiredRemote) throw new Error('Baseline remote does not match the required repository');
-  if (baseline.baseline.remoteVerification?.tagRefOid !== requiredTagObjectOid) throw new Error('Remote tag object OID does not match the required annotated tag');
-  if (baseline.baseline.remoteVerification?.dereferencedCommit !== requiredBaselineCommit) throw new Error('Remote tag dereference does not match the required baseline');
-  if (baseline.baseline.remoteVerification?.command !== requiredRemoteVerificationCommand || !isIsoTimestamp(baseline.baseline.remoteVerification?.verifiedAt)) {
+  if (baseline.baseline?.tagKind !== 'annotated') throw new Error('Baseline tag kind must be annotated');
+  if (baseline.baseline?.tagObjectOid !== requiredTagObjectOid) throw new Error('Baseline tag object OID does not match the required annotated tag');
+  if (baseline.baseline?.remote !== requiredRemote) throw new Error('Baseline remote does not match the required repository');
+  if (baseline.baseline?.remoteVerification?.tagRefOid !== requiredTagObjectOid) throw new Error('Remote tag object OID does not match the required annotated tag');
+  if (baseline.baseline?.remoteVerification?.dereferencedCommit !== requiredBaselineCommit) throw new Error('Remote tag dereference does not match the required baseline');
+  if (baseline.baseline?.remoteVerification?.command !== requiredRemoteVerificationCommand || !isIsoTimestamp(baseline.baseline?.remoteVerification?.verifiedAt)) {
     throw new Error('Remote tag verification evidence is incomplete');
   }
   if (baseline?.historicalEvidence?.originalAuditCommit !== requiredOriginalAuditCommit) {
@@ -243,7 +336,24 @@ const validateBaseline = (baseline, root) => {
   if (baseline.historicalEvidence.role !== 'historical-evidence-only' || baseline.historicalEvidence.implementationBase !== false) {
     throw new Error('Original audit commit must remain historical evidence only');
   }
+  if (!hasExactFields(baseline.toolchain, requiredToolchain) || typeof baseline.toolchain?.nodeVersionFileValue !== 'string') {
+    throw new Error('baseline.json toolchain evidence is incomplete');
+  }
+  if (baseline.packageLock?.path !== 'package-lock.json' || baseline.packageLock?.digestAlgorithm !== 'sha256' || baseline.packageLock?.source !== 'git blob at baseline commit') {
+    throw new Error('baseline.json package-lock evidence is incomplete');
+  }
+  if (baseline.tree?.gitObjectFormat !== 'sha1' || baseline.tree?.canonicalInventoryAlgorithm !== 'sha256(git ls-tree -r -z BASELINE)') {
+    throw new Error('baseline.json tree evidence is incomplete');
+  }
+  if (!hasExactFields(baseline.ci, requiredCiEvidence)) throw new Error('baseline.json CI evidence is incomplete');
+  if (!hasExactFields(baseline.tests, requiredTestEvidence) || !isIsoTimestamp(baseline.tests?.observedAt)) {
+    throw new Error('Baseline test counts do not match the frozen evidence');
+  }
+};
 
+const validateBaselineGitEvidence = (baseline, root) => {
+  const commit = baseline.baseline.commit;
+  const tag = baseline.baseline.tag;
   runGit(root, ['cat-file', '-e', `${requiredBaselineCommit}^{commit}`]);
   runGit(root, ['cat-file', '-e', `${requiredOriginalAuditCommit}^{commit}`]);
   if (runGit(root, ['cat-file', '-t', tag]).trim() !== 'tag') throw new Error(`${tag} is not an annotated tag`);
@@ -251,33 +361,24 @@ const validateBaseline = (baseline, root) => {
   if (runGit(root, ['rev-parse', `${tag}^{}`]).trim() !== commit) throw new Error(`${tag} does not dereference to baseline commit`);
 
   const nodeVersionFile = runGit(root, ['show', `${commit}:${requiredToolchain.nodeVersionFile}`]);
-  if (!hasExactFields(baseline.toolchain, requiredToolchain) || baseline.toolchain.nodeVersionFileValue !== nodeVersionFile.trim()) {
+  if (baseline.toolchain.nodeVersionFileValue !== nodeVersionFile.trim()) {
     throw new Error('baseline.json toolchain evidence is incomplete');
   }
 
   const packageLock = runGit(root, ['show', `${commit}:package-lock.json`], 'buffer');
-  if (baseline.packageLock.path !== 'package-lock.json' || baseline.packageLock.digestAlgorithm !== 'sha256' || baseline.packageLock.source !== 'git blob at baseline commit') {
-    throw new Error('baseline.json package-lock evidence is incomplete');
-  }
   if (sha256(packageLock) !== baseline.packageLock.sha256) throw new Error('Baseline package-lock SHA-256 does not match');
   if (packageLock.length !== baseline.packageLock.bytes) throw new Error('Baseline package-lock byte count does not match');
-  if (baseline.tree.gitObjectFormat !== 'sha1' || baseline.tree.canonicalInventoryAlgorithm !== 'sha256(git ls-tree -r -z BASELINE)') {
-    throw new Error('baseline.json tree evidence is incomplete');
-  }
   if (runGit(root, ['rev-parse', `${commit}^{tree}`]).trim() !== baseline.tree.gitTreeOid) throw new Error('Baseline Git tree OID does not match');
   const treeListing = runGit(root, ['ls-tree', '-r', '-z', commit], 'buffer');
   if (sha256(treeListing) !== baseline.tree.canonicalInventorySha256) throw new Error('Baseline canonical tree inventory SHA-256 does not match');
-
-  if (!hasExactFields(baseline.ci, requiredCiEvidence)) throw new Error('baseline.json CI evidence is incomplete');
-  if (!hasExactFields(baseline.tests, requiredTestEvidence) || !isIsoTimestamp(baseline.tests.observedAt)) {
-    throw new Error('Baseline test counts do not match the frozen evidence');
-  }
-  const baselineTestFileCount = parseTreeEntries(root, commit)
+  const baselineTreeEntries = parseTreeEntries(root, commit);
+  const baselineTestFileCount = baselineTreeEntries
     .filter((entry) => /^src\/.*\.(?:test|spec)\.(?:ts|tsx)$/.test(entry.path)).length;
   if (baselineTestFileCount !== baseline.tests.baselineSourceTestFiles) throw new Error('Baseline source test-file count does not match the baseline tree');
+  return baselineTreeEntries;
 };
 
-const validateAssets = (record, baseline, root) => {
+const validateAssetRecord = (record) => {
   if (record?.schemaVersion !== 1
     || record.baselineCommit !== requiredBaselineCommit
     || record.selection?.description !== requiredAssetSelectionDescription
@@ -285,7 +386,10 @@ const validateAssets = (record, baseline, root) => {
     || record.inventoryDigestAlgorithm !== 'sha256(path + NUL + gitBlobOid + NUL + decimalBytes + LF, ordered by path)') {
     throw new Error('Asset inventory evidence is incomplete');
   }
-  const expected = parseTreeEntries(root, baseline.baseline.commit)
+};
+
+const validateAssetsAgainstBaseline = (record, baseline, baselineTreeEntries) => {
+  const expected = baselineTreeEntries
     .filter((entry) => assetPathPattern.test(entry.path))
     .map(({ path, gitBlobOid, bytes }) => ({ path, gitBlobOid, bytes }));
   if (JSON.stringify(record.assets) !== JSON.stringify(expected)) throw new Error('Asset inventory does not match the baseline tree');
@@ -298,12 +402,15 @@ const validateAssets = (record, baseline, root) => {
   }
 };
 
-const validateFixtures = (record, baseline, root) => {
+const validateFixtureRecord = (record) => {
   if (record?.schemaVersion !== 1 || record.scope !== requiredFixtureScope || record.digestAlgorithm !== 'sha256' || !Array.isArray(record.fixtures)) {
     throw new Error('fixture-digests.json evidence is incomplete');
   }
   if (record.baselineCommit !== requiredBaselineCommit) throw new Error('Fixture baselineCommit does not match the required baseline');
-  const expected = parseTreeEntries(root, requiredBaselineCommit).filter((entry) => fixturePathPattern.test(entry.path));
+};
+
+const validateFixturesAgainstBaseline = (record, baselineTreeEntries, root) => {
+  const expected = baselineTreeEntries.filter((entry) => fixturePathPattern.test(entry.path));
   if (record.fixtures.length !== expected.length || record.fixtures.some((fixture, index) => fixture.path !== expected[index]?.path)) {
     throw new Error('Fixture inventory does not match the complete baseline selection');
   }
@@ -318,36 +425,32 @@ const validateFixtures = (record, baseline, root) => {
   }
 };
 
-const validateGovernance = (governance) => {
-  const expectedBranchProtection = {
-    endpoint: 'GET /repos/klkmoraa/FusionStructure/branches/main/protection',
-    httpStatus: 403,
-    message: requiredGithubLimitationMessage,
-    documentationUrl: 'https://docs.github.com/rest/branches/branch-protection#get-branch-protection',
-    enforced: false,
+const validateHistoricalGovernance = (governance) => {
+  if (!hasExactStructure(governance, requiredHistoricalGovernance)) {
+    throw new Error('GitHub governance record must preserve the exact HTTP 403 no-split limitation');
+  }
+};
+
+const validateCurrentGovernance = (governance) => {
+  const { observedAt, ...record } = governance ?? {};
+  const expected = {
+    schemaVersion: 1,
+    repository: requiredCurrentRepository,
+    enforcement: {
+      branchProtection: {
+        ...requiredCurrentBranchProtection,
+        requiredStatusChecks: requiredCurrentStatusChecks,
+        requiredPullRequestReviews: requiredCurrentPullRequestReviews,
+      },
+      rulesets: requiredCurrentRulesets,
+    },
+    repositorySplit: requiredCurrentRepositorySplit,
+    repositoriesCreatedOrPushed: [],
+    note: requiredCurrentGovernanceNote,
   };
-  const expectedRulesets = {
-    endpoint: 'GET /repos/klkmoraa/FusionStructure/rulesets',
-    httpStatus: 403,
-    message: requiredGithubLimitationMessage,
-    documentationUrl: 'https://docs.github.com/rest/repos/rules#get-all-repository-rulesets',
-    enforced: false,
-  };
-  const valid = governance?.schemaVersion === 1
-    && isIsoTimestamp(governance.observedAt)
-    && governance.repository === 'klkmoraa/FusionStructure'
-    && governance.visibility === 'private'
-    && hasExactFields(governance.enforcement?.branchProtection, expectedBranchProtection)
-    && hasExactFields(governance.enforcement?.rulesets, expectedRulesets)
-    && governance.interimRule?.repositorySplitAllowed === false
-    && governance.interimRule?.reason === 'No split while branch protection or ruleset enforcement is unavailable.'
-    && governance.interimRule?.simulatedEnforcement === false
-    && governance.interimRule?.repositoryMadePublic === false
-    && governance.interimRule?.planPurchased === false
-    && Array.isArray(governance.repositoriesCreatedOrPushed)
-    && governance.repositoriesCreatedOrPushed.length === 0
-    && governance.note === requiredGovernanceNote;
-  if (!valid) throw new Error('GitHub governance record must preserve the exact HTTP 403 no-split limitation');
+  if (!isIsoTimestamp(observedAt) || !hasExactStructure(record, expected)) {
+    throw new Error('Current GitHub governance record must preserve the observed public protected gate');
+  }
 };
 
 export const validateMigrationEvidence = (argumentsList = []) => {
@@ -359,12 +462,19 @@ export const validateMigrationEvidence = (argumentsList = []) => {
 
   const baseline = records.get('baseline.json');
   const manifest = parsePathManifest(readFileSync(options.manifest, 'utf8'));
-  validateBaseline(baseline, options.root);
-  validateManifest(manifest, options.root, baseline.baseline.commit);
-  validateAssets(records.get('assets-inventory.json'), baseline, options.root);
-  validateFixtures(records.get('fixture-digests.json'), baseline, options.root);
+  const assets = records.get('assets-inventory.json');
+  const fixtures = records.get('fixture-digests.json');
+  validateBaselineRecord(baseline);
+  validateManifestStructure(manifest, baseline.baseline.commit);
+  validateAssetRecord(assets);
+  validateFixtureRecord(fixtures);
+  validateHistoricalGovernance(records.get('github-governance.json'));
+  validateCurrentGovernance(records.get('github-governance-current.json'));
 
-  validateGovernance(records.get('github-governance.json'));
+  const baselineTreeEntries = validateBaselineGitEvidence(baseline, options.root);
+  validateManifestSources(manifest, baseline.baseline.commit, baselineTreeEntries);
+  validateAssetsAgainstBaseline(assets, baseline, baselineTreeEntries);
+  validateFixturesAgainstBaseline(fixtures, baselineTreeEntries, options.root);
 
   return {
     jsonRecordCount: records.size,
