@@ -112,6 +112,10 @@ const requiredCurrentBranchProtection = {
 const requiredCurrentStatusChecks = {
   strict: true,
   contexts: ['Puerta de calidad'],
+  checks: [{
+    context: 'Puerta de calidad',
+    appId: 15368,
+  }],
 };
 const requiredCurrentPullRequestReviews = {
   requiredApprovingReviewCount: 1,
@@ -126,11 +130,55 @@ const requiredCurrentRulesets = {
   activeEnforcement: 'branch-protection',
 };
 const requiredCurrentRepositorySplit = {
-  allowed: true,
+  allowed: false,
   simulatedEnforcement: false,
   requiresCurrentGovernanceValidation: true,
+  requiresFreshLiveVerification: true,
+  liveVerificationCommand: 'npm run migration:verify-governance',
 };
-const requiredCurrentGovernanceNote = 'Branch protection is the active enforcement. Administrators, including the repository owner, retain bypass because enforceAdmins is false.';
+const requiredCurrentSoleOwnerException = {
+  authorizedWorkstream: 'multi-repository migration governance',
+  authorizedBy: 'klkmoraa (repository owner)',
+  decisionRecord: 'docs/adr/0002-sole-owner-governance-exception.md',
+  ownerBypassDecision: {
+    recordedAt: '2026-09-03T22:10:00-06:00',
+    decision: 'Retain enforceAdmins:false for the sole-owner repository; this is a bypassable exception, not non-bypassable enforcement.',
+  },
+  enforceAdmins: false,
+  ownerBypassRetained: true,
+  compensatingControls: {
+    noDirectPushes: {
+      policy: 'Routine changes to main are submitted through pull requests; direct pushes are prohibited by this workstream policy.',
+      remoteLimitation: 'The sole owner can bypass branch protection because enforceAdmins is false.',
+    },
+    pullRequest: {
+      required: true,
+      minimumApprovingReviews: 1,
+      dismissStaleReviews: true,
+      requireCodeOwnerReviews: true,
+      requireLastPushApproval: true,
+    },
+    currentCi: {
+      workflow: 'CI',
+      requiredStatusCheck: {
+        context: 'Puerta de calidad',
+        appId: 15368,
+      },
+      latestSuccessfulRun: {
+        runId: 33807212560,
+        url: 'https://github.com/klkmoraa/FusionStructure/actions/runs/33807212560',
+      },
+    },
+    independentReviewArtifact: {
+      kind: 'pull-request-review',
+      url: 'https://github.com/klkmoraa/FusionStructure/pull/15#pullrequestreview-5106815679',
+      reviewer: 'chatgpt-codex-connector[bot]',
+      state: 'COMMENTED',
+      commit: '9941ae8540bde4110d6820c3ffe6b76a51b2bd75',
+    },
+  },
+};
+const requiredCurrentGovernanceNote = 'Branch protection is active, but this snapshot never authorizes a split. A fresh live verification is required, and enforceAdmins:false remains a documented sole-owner exception.';
 
 const parseArguments = (argumentsList) => {
   const options = {
@@ -445,6 +493,7 @@ const validateCurrentGovernance = (governance) => {
       rulesets: requiredCurrentRulesets,
     },
     repositorySplit: requiredCurrentRepositorySplit,
+    soleOwnerException: requiredCurrentSoleOwnerException,
     repositoriesCreatedOrPushed: [],
     note: requiredCurrentGovernanceNote,
   };
