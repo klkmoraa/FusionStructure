@@ -5,6 +5,10 @@
     "repository": "klkmoraa/fusionstructure-foundation",
     "lastReleaseTag": "v0.1.1",
     "commit": "29d4ee9a8815358cf795d0c380e84f13f41eaa3b",
+    "archived": true,
+    "archivedAt": "2026-09-04T19:31:57Z",
+    "retirementCommit": "03c736a7c40d762ebba880ed5e23963408d0f49d",
+    "pullRequest": "https://github.com/klkmoraa/fusionstructure-foundation/pull/1",
     "runtimeDependencyAllowed": false
   },
   "products": {

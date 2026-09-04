@@ -67,6 +67,15 @@ export const assertCleanWorktree = (status) => {
   }
 };
 
+export const assertResolvedTag = ({ ref, tagCommit, headCommit }) => {
+  if (!/^[0-9a-f]{40}$/.test(tagCommit ?? '')) {
+    throw new Error(`Release ref is not an available Git tag: ${ref}`);
+  }
+  if (tagCommit !== headCommit) {
+    throw new Error(`Release tag ${ref} does not resolve to fetched HEAD ${headCommit}.`);
+  }
+};
+
 const validatePath = (path, label) => {
   if (typeof path !== 'string' || path.length === 0 || path.startsWith('/') || path.includes('..') || path.includes('\\')) {
     throw new Error(`${label} must be a safe repository-relative POSIX path: ${String(path)}`);
@@ -178,6 +187,12 @@ export const syncProductRelease = ({ root = defaultRoot, manifestPath = defaultM
     command('git', ['clone', '--quiet', '--filter=blob:none', '--depth', '1', '--branch', plan.ref, `https://github.com/${plan.repository}.git`, sourceRoot], temporaryRoot);
     assertRepositoryIdentity(command('git', ['remote', 'get-url', 'origin'], sourceRoot), plan.repository);
     const commit = command('git', ['rev-parse', 'HEAD'], sourceRoot);
+    const tagResult = spawnSync('git', ['rev-parse', '--verify', `refs/tags/${plan.ref}^{commit}`], {
+      cwd: sourceRoot,
+      encoding: 'utf8',
+      windowsHide: true,
+    });
+    assertResolvedTag({ ref: plan.ref, tagCommit: tagResult.status === 0 ? tagResult.stdout.trim() : '', headCommit: commit });
     for (const mapping of plan.paths) copyMappedPath({ sourceRoot, targetRoot: repositoryRoot, mapping, dryRun });
     if (!dryRun) {
       manifest.products[product] = {

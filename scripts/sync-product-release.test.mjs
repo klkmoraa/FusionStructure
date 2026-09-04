@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import {
   assertCleanWorktree,
+  assertResolvedTag,
   assertRepositoryIdentity,
   buildSyncPlan,
   validateReleaseManifest,
@@ -28,6 +29,16 @@ test('accepts immutable semantic release tags and rejects branches', () => {
   assert.equal(validateReleaseRef('v1.2.3'), 'v1.2.3');
   assert.equal(validateReleaseRef('v1.2.3-beta.2'), 'v1.2.3-beta.2');
   assert.throws(() => validateReleaseRef('main'), /semantic release tag/);
+});
+
+test('requires the fetched ref to resolve from a real tag to HEAD', () => {
+  const commit = '4bb9728577af858e3b3d759936780476bedcba61';
+  assert.doesNotThrow(() => assertResolvedTag({ ref: 'v0.1.1', tagCommit: commit, headCommit: commit }));
+  assert.throws(() => assertResolvedTag({ ref: 'v0.1.1', tagCommit: '', headCommit: commit }), /tag/);
+  assert.throws(
+    () => assertResolvedTag({ ref: 'v0.1.1', tagCommit: '1111111111111111111111111111111111111111', headCommit: commit }),
+    /does not resolve/,
+  );
 });
 
 test('rejects an unknown product before any fetch', () => {
