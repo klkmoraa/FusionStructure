@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "observedAt": "2026-09-04T15:44:05Z",
+  "observedAt": "2026-09-04T15:53:59Z",
   "source": {
     "repository": "https://github.com/klkmoraa/FusionStructure",
     "cutoverTag": "monolith-cutover-20260904",
@@ -34,8 +34,9 @@
       "name": "fusionstructure-foundation",
       "role": "neutral-contracts",
       "url": "https://github.com/klkmoraa/fusionstructure-foundation",
-      "main": "a6a1773630e3e764fb778ac5c6a5194ed7cbf2bb",
-      "releaseTag": "v0.1.0",
+      "main": "29d4ee9a8815358cf795d0c380e84f13f41eaa3b",
+      "releaseTag": "v0.1.1",
+      "previousReleaseTag": "v0.1.0",
       "qualityGate": {
         "command": "npm.cmd run check",
         "result": "passed",
@@ -148,6 +149,7 @@
   "knownLimitations": [
     "The authenticated GitHub OAuth token lacks the workflow scope. Uploading the extracted CI workflow was rejected by GitHub, so the workflow file was removed from each new repository's published main tip.",
     "The four new repositories therefore have protection without a required status check until a token or GitHub App with workflow write permission installs their CI workflows.",
+    "Foundation v0.1.1 was published through an owner-admin bypass for a packaging-only fix after its initial v0.1.0 extraction; the bypass was recorded by GitHub and no history was rewritten.",
     "The repositories are user-owned, so organization-only dismissal restrictions and code-owner enforcement are not configured; enforceAdmins:false retains the documented sole-owner bypass."
   ],
   "reviewArtifacts": [

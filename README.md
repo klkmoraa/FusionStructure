@@ -15,7 +15,7 @@ Desde el corte `monolith-cutover-20260904`, este repositorio conserva gobierno, 
 - [FStructure](https://github.com/klkmoraa/fstructure) — solver 2D, `v0.1.0`.
 - [FusionStructure Space3D](https://github.com/klkmoraa/fusionstructure-space3d) — solver 3D experimental, `v0.1.0`.
 - [FusionStructure Web](https://github.com/klkmoraa/fusionstructure-web) — portal y marca, `v0.1.0`.
-- [FusionStructure Foundation](https://github.com/klkmoraa/fusionstructure-foundation) — contratos neutrales y esquema, `v0.1.0`.
+- [FusionStructure Foundation](https://github.com/klkmoraa/fusionstructure-foundation) — contratos neutrales y esquema, `v0.1.1`.
 
 La evidencia de SHA, corpus, gates y protección está en [migration/physical-repositories-20260904.json](migration/physical-repositories-20260904.json) y la decisión en [ADR 0007](docs/adr/0007-physical-repositories-cutover.md). Los cuatro repositorios nuevos están protegidos, pero todavía no declaran status checks porque el token de publicación no tiene permiso `workflow`; esa deuda está documentada y no se presenta como CI activo.
 
