@@ -189,7 +189,7 @@
       "repository": "klkmoraa/fusionstructure-space3d",
       "releaseTag": "v0.1.2",
       "commit": "29dcf93844fdb1cd5500473bdc729895af4f8dba",
-      "pagesUrl": null,
+      "pagesUrl": "https://klkmoraa.github.io/fusionstructure-space3d/",
       "contractVersions": {
         "projectFormat": "0.1",
         "algorithm": "space-frame-euler-bernoulli-linear-v1"
@@ -200,6 +200,11 @@
         "architectureTests": 5,
         "testFiles": 10,
         "tests": 82
+      },
+      "pagesDeployment": {
+        "commit": "bad5c82df1e6b30d1bad773a17c416c586372bb2",
+        "status": "built",
+        "smoke": "HTTP 200 page, JavaScript, CSS and Space3D worker"
       },
       "paths": [
         {
