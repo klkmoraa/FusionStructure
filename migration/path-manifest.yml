@@ -7,12 +7,6 @@ entries:
     intended_destination: repository-governance
     migration_wave: 0
     status: retained
-  - id: openai-hosting
-    source_path: .openai
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
-    status: candidate
   - id: root-gitignore
     source_path: .gitignore
     current_owner: repository-governance
@@ -49,267 +43,501 @@ entries:
     intended_destination: repository-governance
     migration_wave: 0
     status: retained
-  - id: artifacts
-    source_path: artifacts
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
-    status: candidate
-  - id: brandbook
-    source_path: brandbook-site
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
-    status: candidate
   - id: docs
     source_path: docs
     current_owner: repository-governance
     intended_destination: repository-governance
     migration_wave: 0
     status: retained
+  - id: artifacts
+    source_path: artifacts
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: openai-hosting
+    source_path: .openai
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: brandbook
+    source_path: brandbook-site
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
   - id: root-index
     source_path: index.html
     current_owner: web-brand
     intended_destination: fusionstructure-web
-    migration_wave: 9
+    migration_wave: 5
     status: candidate
   - id: motion
     source_path: motion
     current_owner: web-brand
     intended_destination: fusionstructure-web
-    migration_wave: 9
+    migration_wave: 5
     status: candidate
   - id: root-netlify
     source_path: netlify.toml
     current_owner: web-brand
     intended_destination: fusionstructure-web
-    migration_wave: 9
-    status: candidate
-  - id: root-package-lock
-    source_path: package-lock.json
-    current_owner: monolith-build
-    intended_destination: repository-builds
-    migration_wave: 8
-    status: candidate
-  - id: root-package
-    source_path: package.json
-    current_owner: monolith-build
-    intended_destination: repository-builds
-    migration_wave: 8
+    migration_wave: 5
     status: candidate
   - id: public
     source_path: public
     current_owner: web-brand
     intended_destination: fusionstructure-web
-    migration_wave: 9
+    migration_wave: 5
     status: candidate
-  - id: reportlab-requirements
-    source_path: requirements-reportlab.txt
-    current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
-    migration_wave: 9
+  - id: root-package-lock
+    source_path: package-lock.json
+    current_owner: monolith-build
+    intended_destination: repository-builds
+    migration_wave: 4
+    status: candidate
+  - id: root-package
+    source_path: package.json
+    current_owner: monolith-build
+    intended_destination: repository-builds
+    migration_wave: 4
     status: candidate
   - id: scripts
     source_path: scripts
     current_owner: monolith-build
     intended_destination: repository-builds
-    migration_wave: 8
-    status: candidate
-  - id: src-root
-    source_path: src
-    current_owner: multi-product-monolith
-    intended_destination: product-boundaries
-    migration_wave: 6
+    migration_wave: 4
     status: candidate
   - id: root-tsconfig-app
     source_path: tsconfig.app.json
     current_owner: monolith-build
     intended_destination: repository-builds
-    migration_wave: 8
+    migration_wave: 4
     status: candidate
   - id: root-tsconfig
     source_path: tsconfig.json
     current_owner: monolith-build
     intended_destination: repository-builds
-    migration_wave: 8
+    migration_wave: 4
     status: candidate
   - id: root-tsconfig-node
     source_path: tsconfig.node.json
     current_owner: monolith-build
     intended_destination: repository-builds
-    migration_wave: 8
+    migration_wave: 4
     status: candidate
   - id: root-vite
     source_path: vite.config.ts
     current_owner: monolith-build
     intended_destination: repository-builds
-    migration_wave: 8
+    migration_wave: 4
     status: candidate
-  - id: solver2d-analysis-methods
-    source_path: src/analysis-methods
+  - id: root-app
+    source_path: src/App.tsx
+    current_owner: platform-assembly
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: root-app-route
+    source_path: src/appRoute.ts
+    current_owner: platform-assembly
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: root-app-version
+    source_path: src/appVersion.ts
+    current_owner: platform-assembly
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: root-main
+    source_path: src/main.tsx
+    current_owner: platform-assembly
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: root-styles
+    source_path: src/styles.css
+    current_owner: platform-assembly
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: root-pdfjs-types
+    source_path: src/pdfjs-browser.d.ts
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: compatibility-artifact-digest
+    source_path: src/compatibilityArtifactDigest.ts
+    current_owner: compatibility-foundation
+    intended_destination: fusionstructure-foundation
+    migration_wave: 2
+    status: planned
+  - id: solver2d-types
+    source_path: src/types.ts
+    current_owner: solver-2d
+    intended_destination: fstructure
     migration_wave: 6
     status: candidate
   - id: solver2d-ai
     source_path: src/ai
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
-    migration_wave: 7
+    intended_destination: fstructure
+    migration_wave: 6
     status: candidate
-  - id: web-analytics
-    source_path: src/analytics
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
+  - id: solver2d-analysis-methods
+    source_path: src/analysis-methods
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
     status: candidate
   - id: solver2d-commands
     source_path: src/commands
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
+    intended_destination: fstructure
     migration_wave: 6
     status: candidate
   - id: solver2d-data
     source_path: src/data
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
+    intended_destination: fstructure
     migration_wave: 6
-    status: candidate
-  - id: web-design-system
-    source_path: src/design-system
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
     status: candidate
   - id: solver2d-design
     source_path: src/design
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
+    intended_destination: fstructure
     migration_wave: 6
-    status: candidate
-  - id: web-education
-    source_path: src/education
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
     status: candidate
   - id: solver2d-engine
     source_path: src/engine
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
+    intended_destination: fstructure
     migration_wave: 6
-    status: candidate
-  - id: shared-features
-    source_path: src/features
-    current_owner: multi-product-monolith
-    intended_destination: product-boundaries
-    migration_wave: 6
-    status: candidate
-  - id: solver2d-canvas
-    source_path: src/features/canvas
-    current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
-    migration_wave: 6
-    status: candidate
-  - id: solver2d-results
-    source_path: src/features/results
-    current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
-    migration_wave: 6
-    status: candidate
-  - id: solver3d-ui
-    source_path: src/features/space3d
-    current_owner: solver-3d
-    intended_destination: fusionstructure-solver-3d
-    migration_wave: 6
-    status: candidate
-  - id: web-shell
-    source_path: src/features/shell
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
-    status: candidate
-  - id: web-welcome
-    source_path: src/features/welcome
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
-    status: candidate
-  - id: web-workspace
-    source_path: src/features/workspace
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
     status: candidate
   - id: solver2d-graphics
     source_path: src/graphics
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
+    intended_destination: fstructure
     migration_wave: 6
-    status: candidate
-  - id: shared-i18n
-    source_path: src/i18n
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
     status: candidate
   - id: solver2d-import
     source_path: src/import
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
-    migration_wave: 7
+    intended_destination: fstructure
+    migration_wave: 6
     status: candidate
-  - id: shared-platform
-    source_path: src/platform
-    current_owner: web-brand
-    intended_destination: fusionstructure-web
-    migration_wave: 9
-    status: candidate
-  - id: shared-runtime
+  - id: solver2d-runtime
     source_path: src/runtime
-    current_owner: multi-product-monolith
-    intended_destination: product-adapters
-    migration_wave: 7
-    status: candidate
-  - id: solver3d-core
-    source_path: src/space3d
-    current_owner: solver-3d
-    intended_destination: fusionstructure-solver-3d
+    current_owner: solver-2d
+    intended_destination: fstructure
     migration_wave: 6
     status: candidate
   - id: solver2d-storage
     source_path: src/storage
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
+    intended_destination: fstructure
     migration_wave: 6
     status: candidate
   - id: solver2d-store
     source_path: src/store
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
+    intended_destination: fstructure
     migration_wave: 6
     status: candidate
   - id: solver2d-utils
     source_path: src/utils
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
+    intended_destination: fstructure
     migration_wave: 6
     status: candidate
   - id: solver2d-workers
     source_path: src/workers
     current_owner: solver-2d
-    intended_destination: fusionstructure-solver-2d
+    intended_destination: fstructure
     migration_wave: 6
+    status: candidate
+  - id: solver2d-features-bom
+    source_path: src/features/bom
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-bulk-edit
+    source_path: src/features/bulk-edit
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-canvas
+    source_path: src/features/canvas
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-classroom
+    source_path: src/features/classroom
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-datasheet
+    source_path: src/features/datasheet
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-design
+    source_path: src/features/design
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-import-export
+    source_path: src/features/import-export
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-inspector
+    source_path: src/features/inspector
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-library
+    source_path: src/features/library
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-model-doctor
+    source_path: src/features/model-doctor
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-pdf-preview
+    source_path: src/features/pdf-preview
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-project-hub
+    source_path: src/features/project-hub
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-results
+    source_path: src/features/results
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-revision-comparison
+    source_path: src/features/revision-comparison
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-structure-generator
+    source_path: src/features/structure-generator
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-view
+    source_path: src/features/view
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-features-workspace
+    source_path: src/features/workspace
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-education
+    source_path: src/education
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-welcome-home
+    source_path: src/features/welcome/Solver2DHome.tsx
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-welcome-home-css
+    source_path: src/features/welcome/solver2dHome.css
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-welcome-entry-test
+    source_path: src/features/welcome/solver2dEntry.test.tsx
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-welcome-new-exercise
+    source_path: src/features/welcome/NewExerciseDialog.tsx
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-welcome-new-exercise-css
+    source_path: src/features/welcome/newExerciseDialog.css
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-welcome-project-hub
+    source_path: src/features/welcome/Phase2ProjectHub.tsx
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-welcome-dxf
+    source_path: src/features/welcome/Phase2DxfAction.tsx
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: reportlab-requirements
+    source_path: requirements-reportlab.txt
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: candidate
+  - id: solver2d-public-facade
+    source_path: src/solver2d
+    current_owner: solver-2d
+    intended_destination: fstructure
+    migration_wave: 6
+    status: planned
+  - id: solver3d-ui
+    source_path: src/features/space3d
+    current_owner: solver-3d
+    intended_destination: fusionstructure-space3d
+    migration_wave: 4
+    status: candidate
+  - id: solver3d-core
+    source_path: src/space3d
+    current_owner: solver-3d
+    intended_destination: fusionstructure-space3d
+    migration_wave: 4
     status: candidate
   - id: foundation-planned
     source_path: src/foundation
-    current_owner: unassigned
+    current_owner: foundation
     intended_destination: fusionstructure-foundation
     migration_wave: 2
     status: planned
-  - id: migration-validation-planned-at-baseline
+  - id: project-format-planned
+    source_path: src/project-format
+    current_owner: foundation
+    intended_destination: fusionstructure-foundation
+    migration_wave: 2
+    status: planned
+  - id: external-handoff-planned
+    source_path: src/integrations
+    current_owner: integration-adapters
+    intended_destination: fusionstructure-foundation
+    migration_wave: 3
+    status: planned
+  - id: src-migration
     source_path: src/migration
     current_owner: repository-governance
     intended_destination: repository-governance
     migration_wave: 0
     status: planned
+  - id: web-analytics
+    source_path: src/analytics
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-design-system
+    source_path: src/design-system
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-i18n
+    source_path: src/i18n
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-platform
+    source_path: src/platform
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-shell
+    source_path: src/features/shell
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-structural-assets
+    source_path: src/features/structural-assets
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-welcome-landing
+    source_path: src/features/welcome/FusionLanding.tsx
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-welcome-landing-css
+    source_path: src/features/welcome/fusionLanding.css
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-welcome-example-presentation
+    source_path: src/features/welcome/examplePresentation.ts
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-welcome-home-session
+    source_path: src/features/welcome/homeSession.ts
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-welcome-screen
+    source_path: src/features/welcome/WelcomeScreen.tsx
+    current_owner: platform-assembly
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-welcome-navigation-test
+    source_path: src/features/welcome/WelcomeNavigation.test.tsx
+    current_owner: platform-assembly
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-welcome-entry
+    source_path: src/features/welcome/welcomeEntry.ts
+    current_owner: platform-assembly
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
+  - id: web-welcome-total-css
+    source_path: src/features/welcome/totalHome.css
+    current_owner: web-brand
+    intended_destination: fusionstructure-web
+    migration_wave: 5
+    status: candidate
