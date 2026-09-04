@@ -32,7 +32,8 @@ Se conserva la política previa: umbral sparse de 60, eliminación de ecuaciones
 de una variable, reordenamiento RCM, límite de fill, LDLT sin pivote, fallback
 LU con pivotaje parcial escalado, estimación de Hager y refinamiento iterativo.
 LDLT sólo se intenta cuando la matriz es numéricamente simétrica con tolerancia
-relativa; una matriz no simétrica usa LU denso con el motivo
+relativa a cada par de entradas, sin un piso absoluto fijo; una matriz no
+simétrica usa LU denso con el motivo
 `non-symmetric`, por lo que su solve transpuesta nunca reutiliza una solve
 sólo válida para una matriz simétrica.
 
