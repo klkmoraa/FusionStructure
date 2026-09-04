@@ -12,6 +12,7 @@ const recordNames = [
   'baseline.json',
   'fixture-digests.json',
   'github-governance.json',
+  'github-governance-current.json',
 ] as const;
 const temporaryDirectories: string[] = [];
 
@@ -61,6 +62,36 @@ describe('migration evidence validator', () => {
     expect(result.stdout).toMatch(/Migration evidence valid:/);
   });
 
+  test('rejects a claimed public split gate when its required review evidence is weakened', () => {
+    expectRecordsRejected(
+      mutateRecord('github-governance-current.json', (record) => {
+        record.enforcement.branchProtection.requiredPullRequestReviews.requiredApprovingReviewCount = 0;
+      }),
+      'Current GitHub governance record must preserve the observed public protected gate',
+    );
+  });
+
+  test.each([
+    ['required status check', (record: Record<string, any>) => { record.enforcement.branchProtection.requiredStatusChecks.contexts = []; }],
+    ['repository creation', (record: Record<string, any>) => { record.repositoriesCreatedOrPushed = ['fusionstructure-solver-2d']; }],
+    ['owner bypass disclosure', (record: Record<string, any>) => { record.enforcement.branchProtection.ownerBypassRetained = false; }],
+  ])('rejects a current public/protected gate with altered %s evidence', (_label, mutate) => {
+    expectRecordsRejected(
+      mutateRecord('github-governance-current.json', mutate),
+      'Current GitHub governance record must preserve the observed public protected gate',
+    );
+  });
+
+  test('requires current governance evidence separately from the immutable historical limitation', () => {
+    const directory = copyRecords();
+    rmSync(resolve(directory, 'github-governance-current.json'));
+
+    const result = runValidator('--records-dir', directory);
+
+    expect(result.status).toBe(1);
+    expect(result.stderr).toContain('Missing required JSON record: github-governance-current.json');
+  });
+
   test('rejects a non-planned manifest source missing from the baseline', () => {
     const directory = makeTemporaryDirectory();
     const manifestPath = resolve(directory, 'missing-source.yml');
@@ -81,6 +112,27 @@ describe('migration evidence validator', () => {
 
     expect(result.status).toBe(1);
     expect(result.stderr).toContain('src/does-not-exist is absent from baseline');
+  });
+
+  test('accepts a retained manifest directory present in the baseline tree', () => {
+    const directory = makeTemporaryDirectory();
+    const manifestPath = resolve(directory, 'baseline-directory.yml');
+    writeFileSync(manifestPath, [
+      'schema_version: 1',
+      'baseline_commit: c1824c016e163cf22652565ea486f3a1c0928c5b',
+      'entries:',
+      '  - id: workflows-directory',
+      '    source_path: .github',
+      '    current_owner: platform',
+      '    intended_destination: fusionstructure-platform',
+      '    migration_wave: 1',
+      '    status: retained',
+      '',
+    ].join('\n'));
+
+    const result = runValidator('--manifest', manifestPath);
+
+    expect(result.status, result.stderr).toBe(0);
   });
 
   test('rejects malformed machine-readable JSON records', () => {
