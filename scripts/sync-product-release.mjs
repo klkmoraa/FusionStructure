@@ -250,22 +250,30 @@ export const syncProductRelease = ({ root = defaultRoot, manifestPath = defaultM
       windowsHide: true,
     });
     assertResolvedTag({ ref: plan.ref, tagCommit: tagResult.status === 0 ? tagResult.stdout.trim() : '', headCommit: commit });
-    synchronizeMappedPaths({
-      sourceRoot,
-      targetRoot: repositoryRoot,
-      transactionRoot: resolve(temporaryRoot, 'transaction'),
-      mappings: plan.paths,
-      dryRun,
-    });
+    const synchronizedPaths = [...plan.paths];
     if (!dryRun) {
+      const resolvedManifestPath = resolve(manifestPath);
+      if (!isInside(repositoryRoot, resolvedManifestPath)) throw new Error('Release manifest must stay inside the synchronized repository.');
       manifest.products[product] = {
         ...manifest.products[product],
         releaseTag: plan.ref,
         commit,
         synchronizedAt: new Date().toISOString(),
       };
-      writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+      const stagedManifestSource = '.fusionstructure-next-product-releases.json';
+      writeFileSync(resolve(sourceRoot, stagedManifestSource), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+      synchronizedPaths.push({
+        source: stagedManifestSource,
+        target: toPosix(relative(repositoryRoot, resolvedManifestPath)),
+      });
     }
+    synchronizeMappedPaths({
+      sourceRoot,
+      targetRoot: repositoryRoot,
+      transactionRoot: resolve(temporaryRoot, 'transaction'),
+      mappings: synchronizedPaths,
+      dryRun,
+    });
     return { ...plan, commit, dryRun };
   } finally {
     rmSync(temporaryRoot, { recursive: true, force: true });
