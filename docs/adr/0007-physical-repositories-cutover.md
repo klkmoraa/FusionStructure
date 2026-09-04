@@ -10,9 +10,9 @@
 | Dominio | Repositorio | Tag | Gate local |
 | --- | --- | --- | --- |
 | Contratos neutrales | [`fusionstructure-foundation`](https://github.com/klkmoraa/fusionstructure-foundation) | `v0.1.1` | 3 archivos / 37 tests |
-| Solver 2D | [`fstructure`](https://github.com/klkmoraa/fstructure) | `v0.1.0` | 33 archivos / 171 tests |
-| Solver 3D | [`fusionstructure-space3d`](https://github.com/klkmoraa/fusionstructure-space3d) | `v0.1.0` | 10 archivos / 82 tests |
-| Portal | [`fusionstructure-web`](https://github.com/klkmoraa/fusionstructure-web) | `v0.1.0` | 1 archivo / 24 tests + brandbook/motion |
+| Solver 2D | [`fstructure`](https://github.com/klkmoraa/fstructure) | `v0.1.1` | 33 archivos / 171 tests |
+| Solver 3D | [`fusionstructure-space3d`](https://github.com/klkmoraa/fusionstructure-space3d) | `v0.1.1` | 10 archivos / 82 tests |
+| Portal | [`fusionstructure-web`](https://github.com/klkmoraa/fusionstructure-web) | `v0.1.1` | 1 archivo / 24 tests + brandbook/motion |
 
 Cada gate ejecutó `npm.cmd run check`; los detalles y SHA exactos están en [`migration/physical-repositories-20260904.json`](../../migration/physical-repositories-20260904.json). Los corpus 2D y 3D, el digest EOL y el esquema Project Format permanecen en sus consumidores o Foundation.
 
