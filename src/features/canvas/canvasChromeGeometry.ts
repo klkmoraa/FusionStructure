@@ -114,6 +114,24 @@ export const expandBoundsForDecoration = (
   };
 };
 
+/** Centers one model point inside the canvas area that remains usable above chrome. */
+export const cameraToCenterPoint = (
+  point: { x: number; y: number },
+  scale: number,
+  viewport: ViewportSize,
+  insets: CanvasSafeInsets = canvasSafeInsetsFor(viewport),
+): CanvasCamera => {
+  const safe = canvasSafeRect(viewport, insets);
+  const safeScale = Number.isFinite(scale) && scale > 0 ? scale : 85;
+  const centerX = safe.x + safe.width / 2;
+  const centerY = safe.y + safe.height / 2;
+  return {
+    scale: safeScale,
+    x: centerX - point.x * safeScale,
+    y: centerY + point.y * safeScale,
+  };
+};
+
 /** Fits model bounds inside the chrome-free rectangle without changing model data. */
 export const cameraToFitBounds = (
   bounds: ModelBounds,

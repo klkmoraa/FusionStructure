@@ -42,7 +42,7 @@ import {
   type ScreenPoint,
 } from './canvasInteraction';
 import { toolFromShortcut } from './toolRegistry';
-import { cameraToFitBounds, canvasSafeInsetsFor, canvasSafeRect, expandBoundsForDecoration } from './canvasChromeGeometry';
+import { cameraToCenterPoint, cameraToFitBounds, canvasSafeInsetsFor, canvasSafeRect, expandBoundsForDecoration } from './canvasChromeGeometry';
 import type { EditorLayerAction, EditorLayerState } from './editorLayers';
 import { CanvasChrome } from './CanvasChrome';
 import { layoutSmartLabels, smartLabelDetailForScale, type SmartLabelCandidate } from './labelLayout';
@@ -801,12 +801,8 @@ export const StructuralCanvas = ({
   }, [canvasMeasured, compactCanvasChrome, compactContextSheetOpen, fitModel]);
 
   const navigateMinimapTo = useCallback((point: ModelPoint) => {
-    updateCamera((current) => ({
-      scale: current.scale,
-      x: size.width / 2 - point.x * current.scale,
-      y: size.height / 2 + point.y * current.scale,
-    }));
-  }, [size.height, size.width, updateCamera]);
+    updateCamera((current) => cameraToCenterPoint(point, current.scale, size));
+  }, [size, updateCamera]);
 
   useEffect(() => {
     if (!hostRef.current) return;
@@ -858,7 +854,10 @@ export const StructuralCanvas = ({
       }
       if (!point) return;
       const scale = Math.max(85, cameraRef.current.scale);
-      updateCamera({ scale, x: size.width / 2 - point.x * scale, y: size.height / 2 + point.y * scale });
+      // Localizar centra dentro del rectángulo que permanece libre de dock,
+      // controles y barra superior; el centro geométrico del SVG puede quedar
+      // visualmente ocupado aunque siga dentro de sus límites.
+      updateCamera(cameraToCenterPoint(point, scale, size));
       showCanvasFeedback(t('canvas.objectCentered', { id: detail.id }));
       // "Localizar" from a peeked Datasheet/Doctor moves DOM focus here: the
       // background stops being inert the moment the surface degrades, and
