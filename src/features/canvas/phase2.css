@@ -2150,8 +2150,8 @@ body:has(.structural-edit-surface) .app-shell .tool-rail.is-floating-dock {
 /* Los extremos son anotaciones del diagrama, no tarjetas: dejan ver la curva
    y el algoritmo de disposición conserva sus guías cuando dos valores cercanos
    necesitan apartarse. */
-.smart-label[data-smart-label^='result:'] rect { fill:none; stroke:none; }
-.smart-label[data-smart-label^='result:'] text { font-size:9px; font-weight:700; }
+.smart-label:is([data-smart-label^='result:'],[data-smart-label^='reaction:']) rect { fill:none; stroke:none; }
+.smart-label:is([data-smart-label^='result:'],[data-smart-label^='reaction:']) text { font-size:9px; font-weight:700; }
 .member-dimension { color:var(--dimension); fill:none; stroke:currentColor; stroke-width:.7; opacity:.58; vector-effect:non-scaling-stroke; }
 .member-dimension-extension { stroke-dasharray:2 4; opacity:.78; }
 .member-dimension-line { stroke-width:.8; stroke-dasharray:3 3; }
