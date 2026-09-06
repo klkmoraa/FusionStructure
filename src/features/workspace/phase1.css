@@ -12,13 +12,8 @@
 @media (max-width:1023px) {
   .app-shell:has(.console) {
     display:flex;
-    /* 60 y no 56: las teclas del riel miden 48px y en 56 quedaban con 4px
-       arriba y abajo, tocando los cantos de la banda. Cuatro píxeles de lienzo
-       a cambio de que una tecla de 48px no se lea recortada contra el borde de
-       la pantalla es un cambio barato. El área segura se suma aparte y es lo
-       que mantiene la banda por encima del indicador de inicio y de la barra
-       inferior de Safari. */
-    --console-band:calc(60px + env(safe-area-inset-bottom));
+    /* Una tecla táctil de 44px más 4px de aire en cada canto. */
+    --console-band:calc(52px + env(safe-area-inset-bottom));
     padding-bottom:var(--console-band);
   }
   .app-shell:has(.console) > .workspace-topbar { flex:0 0 auto; }

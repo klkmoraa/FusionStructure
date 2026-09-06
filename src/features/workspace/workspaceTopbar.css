@@ -381,6 +381,12 @@
   }
 }
 
+/* K0 ya publica el estado de cálculo en la franja inferior. Ocultar aquí ese
+   duplicado deja un solo icono de análisis: el acceso a Resultados. */
+.app-shell[data-shell-class='K0'] .workspace-topbar__status-chip[data-analysis-state] {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .workspace-topbar,
   .workspace-topbar *,

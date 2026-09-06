@@ -31,7 +31,7 @@ export const TOOL_GROUPS: readonly ToolGroupDefinition[] = [
 
 export const TOOL_REGISTRY: readonly ToolDefinition[] = [
   { id: 'select', group: 'navigate', labelKey: 'toolbar.select', shortcut: 'V', activationKey: 'v', mobile: 'primary' },
-  { id: 'pan', group: 'navigate', labelKey: 'toolbar.pan', detailKey: 'toolbar.panDetail', shortcut: 'H', activationKey: 'h', mobile: 'more' },
+  { id: 'pan', group: 'navigate', labelKey: 'toolbar.pan', detailKey: 'toolbar.panDetail', shortcut: 'H', activationKey: 'h', mobile: 'primary' },
   { id: 'node', group: 'create', labelKey: 'toolbar.node', shortcut: 'N', activationKey: 'n', mobile: 'primary' },
   { id: 'member', group: 'create', labelKey: 'toolbar.member', shortcut: 'M', activationKey: 'm', mobile: 'primary' },
   { id: 'support', group: 'create', labelKey: 'toolbar.support', shortcut: 'S', activationKey: 's', mobile: 'primary' },

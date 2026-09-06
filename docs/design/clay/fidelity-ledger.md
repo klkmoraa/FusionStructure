@@ -27,6 +27,8 @@ Referencia de implementación: `concept.png`. La autorización amplia del usuari
 - Se añadió un estado de carga centrado para evitar un texto sin estilo durante la carga diferida del workspace.
 - El dock muestra texto únicamente en la herramienta activa; las demás conservan icono y nombre accesible. Enfocar el dock tampoco despliega la consola lateral.
 - La banda compacta ya no incluye el botón redundante de comandos y conserva todo su ancho cuando se usa con ratón en una ventana estrecha.
+- En móvil, el dock mide 52 px de alto y sus controles táctiles 44 px. Desplazar se añadió a los accesos directos; Cargas y Más agrupan el resto sin llenar la barra de texto.
+- Al abrir una hoja contextual se oculta el riel superior de evidencia y el pórtico se encuadra en el rectángulo libre encima de la hoja. El indicador de análisis duplicado se retiró de la cabecera K0.
 
 ## Evidencia
 
@@ -37,3 +39,5 @@ Referencia de implementación: `concept.png`. La autorización amplia del usuari
 - `workspace-dark.png`: contraste del tema oscuro.
 - `workspace-dock-compact.png` y `workspace-dock-node-active.png`: dock en reposo y después de seleccionar Nodo.
 - `workspace-mobile-dock-fixed.png`: banda compacta estable bajo hover, sin el acceso redundante a comandos.
+- `workspace-mobile-dock-improved.png`: accesos directos compactos para modelar y navegar en 420 px.
+- `workspace-mobile-results-refit.png`: Resultados abierto sin riel de evidencia y canvas reenmarcado.

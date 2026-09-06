@@ -223,6 +223,8 @@ const toolLabelKeys: Record<Tool, TranslationKey> = {
   delete: 'toolbar.delete',
 };
 
+const COMPACT_CONTEXT_SHEETS = ['detail', 'analysisSetup', 'view', 'results'] as const;
+
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
 const nextId = (prefix: string, ids: string[]) => {
@@ -271,6 +273,10 @@ export const StructuralCanvas = ({
   const candidatePickerSurface = surfaceBroker?.stateFor('candidatePicker');
   const generatorSurface = surfaceBroker?.stateFor('generator');
   const compactCanvasChrome = surfaceBroker?.shellClass === 'K0';
+  const compactContextSheetOpen = compactCanvasChrome && COMPACT_CONTEXT_SHEETS.some((surface) => {
+    const state = surfaceBroker?.stateFor(surface);
+    return state?.presentation === 'sheet' && state.status === 'active';
+  });
   const hostRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const coordinateReadoutRef = useRef<HTMLOutputElement>(null);
@@ -683,7 +689,7 @@ export const StructuralCanvas = ({
     coordinateReadoutRef.current.textContent = `X ${formatFixed(toDisplay(point.x, units, 'length'), 3)} · Y ${formatFixed(toDisplay(point.y, units, 'length'), 3)} ${lengthLabel}`;
   }, [lengthLabel, localScreenPoint, units]);
 
-  const fitModel = useCallback((bottomReserve = 0) => {
+  const fitModel = useCallback((bottomReserve = 0, topReserve?: number) => {
     if (!project.nodes.length || !Number.isFinite(size.width) || !Number.isFinite(size.height) || size.width <= 0 || size.height <= 0) return;
     // React supplies a MouseEvent when this callback is handed directly to a
     // button. Only the ACM effect is allowed to provide a numeric reserve.
@@ -699,7 +705,14 @@ export const StructuralCanvas = ({
        seguro se quedaba en unos pocos píxeles de alto y el modelo se encuadraba
        a la escala mínima, encogido hasta ser ilegible justo cuando ACM lo pone
        al lado de sus tres diagramas. */
-    const fitInsets = { ...insets, bottom: Math.max(insets.bottom, safeBottomReserve) };
+    const safeTopReserve = typeof topReserve === 'number' && Number.isFinite(topReserve)
+      ? Math.max(0, topReserve)
+      : insets.top;
+    const fitInsets = {
+      ...insets,
+      top: safeTopReserve,
+      bottom: Math.max(insets.bottom, safeBottomReserve),
+    };
     const bounds = modelBounds(project.nodes);
     const first = cameraToFitBounds(bounds, viewport, fitInsets);
     // Encuadrar los nudos no es encuadrar el dibujo: las cargas se dibujan en
@@ -712,6 +725,49 @@ export const StructuralCanvas = ({
     const decorated = loadDecorationDrawn ? expandBoundsForDecoration(bounds, first.scale) : bounds;
     updateCamera(decorated === bounds ? first : cameraToFitBounds(decorated, viewport, fitInsets));
   }, [loadDecorationDrawn, project.nodes, size, updateCamera]);
+
+  /* Las hojas K0 flotan sobre el canvas y por eso no disparan ResizeObserver
+     en su anfitrión. Al abrirse, medimos su techo real y encuadramos el modelo
+     contra el rectángulo que sigue visible; al cerrarse recuperamos el encuadre
+     completo. El observer también cubre cambios de detent y altura. */
+  useEffect(() => {
+    if (!canvasMeasured || !compactCanvasChrome) return undefined;
+    let sheetObserver: ResizeObserver | null = null;
+    const reframe = () => {
+      const host = hostRef.current;
+      if (!host || !compactContextSheetOpen) {
+        fitModel();
+        return;
+      }
+      const sheet = document.querySelector<HTMLElement>(
+        '[data-surface-presentation="sheet"][data-surface-status="active"]:not([hidden])',
+      );
+      if (!sheet) {
+        fitModel();
+        return;
+      }
+      const hostRect = host.getBoundingClientRect();
+      const sheetRect = sheet.getBoundingClientRect();
+      const bottomReserve = Math.max(0, hostRect.bottom - Math.max(hostRect.top, sheetRect.top) + 12);
+      /* Sin el riel de evidencia, 52px cubren el único control que permanece
+         arriba (Capas) y centran el pórtico en la ventana visible. */
+      fitModel(bottomReserve, 52);
+    };
+    const frame = window.requestAnimationFrame(() => {
+      reframe();
+      if (!compactContextSheetOpen) return;
+      const sheet = document.querySelector<HTMLElement>(
+        '[data-surface-presentation="sheet"][data-surface-status="active"]:not([hidden])',
+      );
+      if (!sheet) return;
+      sheetObserver = new ResizeObserver(reframe);
+      sheetObserver.observe(sheet);
+    });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      sheetObserver?.disconnect();
+    };
+  }, [canvasMeasured, compactCanvasChrome, compactContextSheetOpen, fitModel]);
 
   const navigateMinimapTo = useCallback((point: ModelPoint) => {
     updateCamera((current) => ({
@@ -2423,7 +2479,7 @@ export const StructuralCanvas = ({
   ]);
 
   return (
-    <div className="canvas-host" ref={hostRef}>
+    <div className="canvas-host" ref={hostRef} data-context-sheet-open={compactContextSheetOpen || undefined}>
       <svg
         ref={svgRef}
         className={`structural-canvas tool-${activeTool} interaction-${interaction.kind} ${spacePressed ? 'space-pan-ready' : ''}`}
@@ -2766,7 +2822,7 @@ export const StructuralCanvas = ({
         dispatchLayers={dispatchLayers}
         resultTab={resultTab}
         setResultTab={setResultTab}
-        analysisAvailable={analysis?.success === true}
+        analysisAvailable={analysis?.success === true && !compactContextSheetOpen}
         snapEnabled={view.snap}
         gridEnabled={view.showGrid}
         coordinateReadoutRef={coordinateReadoutRef}
