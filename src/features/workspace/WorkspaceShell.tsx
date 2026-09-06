@@ -72,7 +72,7 @@ const focusStableLauncherIfUnclaimed = (selector: string): void => {
   });
 };
 
-type WorkspaceShellProps = { onOpenHome: () => void; onOpenSpace3D: () => void; projectId: string };
+type WorkspaceShellProps = { onOpenHome: () => void; projectId: string };
 type LayoutController = ReturnType<typeof useWorkspaceLayoutPreferences>;
 type PendingModelDoctorNotification = {
   id: number;
@@ -83,7 +83,6 @@ type PendingModelDoctorNotification = {
 
 const WorkspaceBrokerContent = ({
   onOpenHome,
-  onOpenSpace3D,
   projectId,
   shellRef,
   layoutController,
@@ -476,9 +475,6 @@ const WorkspaceBrokerContent = ({
       onOpenResults={(trigger) => emitWorkspaceCommand('toggle-results', { trigger })}
     />}
     console={<Console
-      onOpenHome={onOpenHome}
-      onOpenSpace3D={onOpenSpace3D}
-      resultsOpen={results.open}
       layoutActions={{
         inspectorCollapsed: !inspectorOpen,
         fullCanvas: layout.fullCanvas,

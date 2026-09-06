@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
-import { ArrowLeft, ArrowRight, Box, Download, Folder, GraduationCap, Home, Image as ImageIcon, LayoutTemplate, LibraryBig, Menu, Moon, Search, Settings, Sun, Trash2, Upload, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, Folder, GraduationCap, Home, LayoutTemplate, LibraryBig, Menu, Moon, Search, Settings, Sun, Trash2, Upload, X } from 'lucide-react';
 import { createBlankProject, exampleProjects } from '../../data/defaultProject';
 import { useProject, useWorkspaceUI } from '../../store/ProjectContext';
 import { exportProjectJson } from '../../utils/export';
@@ -11,9 +11,8 @@ import { ThreeStructuralImage } from '../structural-assets';
 import type { ThreeStructuralAssetId } from '../structural-assets/threeStructuralRender';
 import { FusionLanding } from './FusionLanding';
 import { Solver2DHome } from './Solver2DHome';
-import { Solver2DMark } from '../../design-system/brand';
+import { FusionMark } from '../../design-system/brand';
 import { SOLVER_2D } from '../../design-system/moduleIdentity';
-import { IllustrationStudio } from '../structural-assets/studio/IllustrationStudio';
 import type { ClassroomExerciseTemplateId } from '../../education/exerciseTemplates';
 import { PersonalLibraryView } from '../library/PersonalLibraryView';
 import { readCanvasViewSettings } from '../view/canvasViewSettings';
@@ -36,13 +35,13 @@ interface WelcomeScreenProps {
 }
 
 export type HomeView = 'home' | 'solver2d' | 'projects' | 'templates' | 'library' | 'classroom' | 'import' | 'space3d';
-type NavigationDestination = HomeView | 'studio';
+type NavigationDestination = HomeView;
 
 const copy = {
   es: {
     navigation: 'Navegación de FStructure', home: 'Plataforma', solver2d: 'FStructure', projects: 'Proyectos', templates: 'Plantillas', library: 'Biblioteca', classroom: 'Aula', import: 'Importar', space3d: 'Solver 3D',
     backPlatform: 'Volver a la plataforma',
-    settings: 'Ajustes', settingsTitle: 'Ajustes', settingsBody: 'Estas preferencias viven en este dispositivo y no viajan con el proyecto.', language: 'Idioma', languageBody: 'Idioma de la interfaz y de las lecturas del solver.', appearance: 'Apariencia', appearanceBody: 'El tema cambia el papel y la tinta; las seis señales del dominio no cambian de significado.', themeLight: 'Día', themeDark: 'Noche', closeSettings: 'Cerrar ajustes', studio: 'Estudio de ilustraciones', menu: 'Abrir navegación', closeMenu: 'Cerrar navegación', current: 'Proyecto abierto', continue: 'Continuar proyecto', create: 'Nuevo proyecto', localMetrics: 'Diagnóstico local', localMetricsBody: 'Opcional. Guarda sólo eventos agregados en este dispositivo; nunca envía geometría, cargas, resultados ni datos personales.', localMetricsOptIn: 'Guardar mediciones locales para mejorar el flujo', localMetricsCount: '{count} observaciones locales', exportDiagnostics: 'Exportar diagnóstico', clearDiagnostics: 'Borrar observaciones', search: 'Buscar', searchPlaceholder: 'Buscar proyectos o accesos…', clearSearch: 'Borrar búsqueda', noQuickMatches: 'No hay accesos rápidos que coincidan.',
+    settings: 'Ajustes', settingsTitle: 'Ajustes', settingsBody: 'Estas preferencias viven en este dispositivo y no viajan con el proyecto.', language: 'Idioma', languageBody: 'Idioma de la interfaz y de las lecturas del solver.', appearance: 'Apariencia', appearanceBody: 'El tema cambia el papel y la tinta; las seis señales del dominio no cambian de significado.', themeLight: 'Día', themeDark: 'Noche', closeSettings: 'Cerrar ajustes', menu: 'Abrir navegación', closeMenu: 'Cerrar navegación', current: 'Proyecto abierto', continue: 'Continuar proyecto', create: 'Nuevo proyecto', localMetrics: 'Diagnóstico local', localMetricsBody: 'Opcional. Guarda sólo eventos agregados en este dispositivo; nunca envía geometría, cargas, resultados ni datos personales.', localMetricsOptIn: 'Guardar mediciones locales para mejorar el flujo', localMetricsCount: '{count} observaciones locales', exportDiagnostics: 'Exportar diagnóstico', clearDiagnostics: 'Borrar observaciones', search: 'Buscar', searchPlaceholder: 'Buscar proyectos o accesos…', clearSearch: 'Borrar búsqueda', noQuickMatches: 'No hay accesos rápidos que coincidan.',
     recent: 'Proyectos recientes', viewAll: 'Ver todos', templatesTitle: 'Elige una estructura de partida', templatesBody: 'Abre un modelo preparado y adáptalo a tu caso.',
     projectsTitle: 'Tus proyectos', projectsBody: 'Abre, renombra o duplica el trabajo guardado en este dispositivo.',
     classroomTitle: 'Aprende resolviendo una estructura', classroomBody: 'Elige un caso, ajusta sus datos y avanza con una guía que no te quita el control del modelo.', classroomAction: 'Crear desde cero', classroomCases: 'O empieza con un caso preparado',
@@ -54,7 +53,7 @@ const copy = {
   en: {
     navigation: 'FStructure navigation', home: 'Platform', solver2d: 'FStructure', projects: 'Projects', templates: 'Templates', library: 'Library', classroom: 'Classroom', import: 'Import', space3d: '3D Solver',
     backPlatform: 'Back to platform',
-    settings: 'Settings', settingsTitle: 'Settings', settingsBody: 'These preferences live on this device and do not travel with the project.', language: 'Language', languageBody: 'Interface language and the wording of solver readings.', appearance: 'Appearance', appearanceBody: 'The theme changes paper and ink; the six domain signals never change meaning.', themeLight: 'Day', themeDark: 'Night', closeSettings: 'Close settings', studio: 'Illustration Studio', menu: 'Open navigation', closeMenu: 'Close navigation', current: 'Open project', continue: 'Continue project', create: 'New project', localMetrics: 'Local diagnostics', localMetricsBody: 'Optional. Stores aggregate events on this device only; it never sends geometry, loads, results, or personal data.', localMetricsOptIn: 'Store local measurements to improve the flow', localMetricsCount: '{count} local observations', exportDiagnostics: 'Export diagnostics', clearDiagnostics: 'Erase observations', search: 'Search', searchPlaceholder: 'Search projects or shortcuts…', clearSearch: 'Clear search', noQuickMatches: 'No quick access items match.',
+    settings: 'Settings', settingsTitle: 'Settings', settingsBody: 'These preferences live on this device and do not travel with the project.', language: 'Language', languageBody: 'Interface language and the wording of solver readings.', appearance: 'Appearance', appearanceBody: 'The theme changes paper and ink; the six domain signals never change meaning.', themeLight: 'Day', themeDark: 'Night', closeSettings: 'Close settings', menu: 'Open navigation', closeMenu: 'Close navigation', current: 'Open project', continue: 'Continue project', create: 'New project', localMetrics: 'Local diagnostics', localMetricsBody: 'Optional. Stores aggregate events on this device only; it never sends geometry, loads, results, or personal data.', localMetricsOptIn: 'Store local measurements to improve the flow', localMetricsCount: '{count} local observations', exportDiagnostics: 'Export diagnostics', clearDiagnostics: 'Erase observations', search: 'Search', searchPlaceholder: 'Search projects or shortcuts…', clearSearch: 'Clear search', noQuickMatches: 'No quick access items match.',
     recent: 'Recent projects', viewAll: 'View all', templatesTitle: 'Choose a starting structure', templatesBody: 'Open a prepared model and adapt it to your case.',
     projectsTitle: 'Your projects', projectsBody: 'Open, rename, or duplicate work saved on this device.',
     classroomTitle: 'Learn by solving a structure', classroomBody: 'Choose a case, adjust its data, and move forward with guidance that keeps you in control of the model.', classroomAction: 'Start from scratch', classroomCases: 'Or begin with a prepared case',
@@ -67,7 +66,7 @@ const copy = {
 
 const NAV_ITEMS: ReadonlyArray<{ id: NavigationDestination; icon: typeof Home }> = [
   { id: 'solver2d', icon: Home }, { id: 'projects', icon: Folder }, { id: 'templates', icon: LayoutTemplate },
-  { id: 'library', icon: LibraryBig }, { id: 'studio', icon: ImageIcon }, { id: 'classroom', icon: GraduationCap }, { id: 'import', icon: Upload }, { id: 'space3d', icon: Box },
+  { id: 'library', icon: LibraryBig }, { id: 'classroom', icon: GraduationCap }, { id: 'import', icon: Upload },
 ];
 
 const CLASSROOM_FEATURES: ReadonlyArray<{ id: ClassroomExerciseTemplateId; assetId: ThreeStructuralAssetId; name: TranslationKey; description: TranslationKey }> = [
@@ -197,7 +196,6 @@ export const WelcomeScreen = ({ onOpenWorkspace, onOpenSpace3D, onPreloadWorkspa
   const [view, setView] = useState<HomeView>(initialView);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [preferencesOpen, setPreferencesOpen] = useState(false);
-  const [studioOpen, setStudioOpen] = useState(false);
   const [exerciseDialogOpen, setExerciseDialogOpen] = useState(false);
   const [exerciseTemplateId, setExerciseTemplateId] = useState<ClassroomExerciseTemplateId>('blank');
   const [importCenterOpen, setImportCenterOpen] = useState(false);
@@ -218,7 +216,6 @@ export const WelcomeScreen = ({ onOpenWorkspace, onOpenSpace3D, onPreloadWorkspa
    */
   const routeRequestRef = useRef(0);
   const preferencesLauncherRef = useRef<HTMLButtonElement | null>(null);
-  const studioLauncherRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     if (!mobileNavOpen) return;
@@ -237,17 +234,17 @@ export const WelcomeScreen = ({ onOpenWorkspace, onOpenSpace3D, onPreloadWorkspa
       const target = event.target as HTMLElement | null;
       const typing = target?.matches('input, textarea, select, [contenteditable="true"]');
       const shortcut = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k';
-      if ((!shortcut && event.key !== '/') || (typing && !shortcut) || preferencesOpen || studioOpen || exerciseDialogOpen || importCenterOpen || dxfImportOpen) return;
+      if ((!shortcut && event.key !== '/') || (typing && !shortcut) || preferencesOpen || exerciseDialogOpen || importCenterOpen || dxfImportOpen) return;
       event.preventDefault();
       if (view !== 'solver2d' && view !== 'projects') setView('solver2d');
       window.requestAnimationFrame(() => searchInputRef.current?.focus());
     };
     window.addEventListener('keydown', focusSearch);
     return () => window.removeEventListener('keydown', focusSearch);
-  }, [dxfImportOpen, exerciseDialogOpen, importCenterOpen, preferencesOpen, studioOpen, view]);
+  }, [dxfImportOpen, exerciseDialogOpen, importCenterOpen, preferencesOpen, view]);
 
   useEffect(() => {
-    if ((!preferencesOpen && !studioOpen) || !homeRef.current) return undefined;
+    if (!preferencesOpen || !homeRef.current) return undefined;
     const home = homeRef.current;
     const previousInert = home.inert;
     const previousAriaHidden = home.getAttribute('aria-hidden');
@@ -258,7 +255,7 @@ export const WelcomeScreen = ({ onOpenWorkspace, onOpenSpace3D, onPreloadWorkspa
       if (previousAriaHidden === null) home.removeAttribute('aria-hidden');
       else home.setAttribute('aria-hidden', previousAriaHidden);
     };
-  }, [preferencesOpen, studioOpen]);
+  }, [preferencesOpen]);
 
   const openBlankProject = () => {
     const next = createBlankProject();
@@ -274,9 +271,8 @@ export const WelcomeScreen = ({ onOpenWorkspace, onOpenSpace3D, onPreloadWorkspa
    * Marca como caducado cualquier enrutado que siga esperando.
    *
    * Lo llama TODA acción que cambie lo que el usuario está mirando, no sólo
-   * `navigate()`: el Estudio y los Ajustes abren pantalla propia sin pasar por
-   * ahí, y con un solo punto de incremento su elección quedaba a merced de la
-   * lectura anterior.
+   * `navigate()`: Ajustes abre una pantalla propia sin pasar por ahí, y con un
+   * solo punto de incremento su elección quedaba a merced de la lectura anterior.
    */
   const supersedeRoute = () => { routeRequestRef.current += 1; };
 
@@ -289,7 +285,7 @@ export const WelcomeScreen = ({ onOpenWorkspace, onOpenSpace3D, onPreloadWorkspa
   };
   const updateLanguage = (nextLanguage: 'es' | 'en') => updateProjectView((draft) => ({ ...draft, settings: { ...draft.settings, language: nextLanguage } }));
   const openPreferences = (launcher: HTMLButtonElement) => {
-    // Igual que el Estudio: abrir Ajustes es elegir otra cosa, y un enrutado
+    // Abrir Ajustes es elegir otra cosa, y un enrutado
     // pendiente no puede navegar por debajo del panel abierto.
     supersedeRoute();
     preferencesLauncherRef.current = launcher.closest('.sc-home-nav--menu') ? mobileMenuButtonRef.current : launcher;
@@ -300,26 +296,12 @@ export const WelcomeScreen = ({ onOpenWorkspace, onOpenSpace3D, onPreloadWorkspa
     setPreferencesOpen(false);
     window.setTimeout(() => preferencesLauncherRef.current?.focus(), 0);
   };
-  const openStudio = (launcher: HTMLButtonElement) => {
-    // El Estudio no pasa por `navigate()` —es una pantalla propia, no una vista
-    // de la bienvenida—, así que tiene que invalidar el enrutado pendiente por
-    // su cuenta: si no, un «Abrir Solver 2D» todavía esperando la lectura del
-    // inventario le abriría el lienzo encima al volver.
-    supersedeRoute();
-    studioLauncherRef.current = launcher.closest('.sc-home-nav--mobile') ? mobileMenuButtonRef.current : launcher;
-    setMobileNavOpen(false);
-    setStudioOpen(true);
-  };
-  const closeStudio = () => {
-    setStudioOpen(false);
-    window.setTimeout(() => studioLauncherRef.current?.focus(), 0);
-  };
   const openExercise = (templateId: ClassroomExerciseTemplateId = 'blank') => {
     setExerciseTemplateId(templateId);
     setExerciseDialogOpen(true);
   };
   const renderNavigation = (menu = false) => <nav className={menu ? 'sc-home-nav sc-home-nav--menu' : 'sc-home-nav sc-home-nav--console'} aria-label={text.navigation}>
-    {NAV_ITEMS.map(({ id, icon: Icon }) => <button key={id} type="button" aria-label={text[id]} title={text[id]} className={id !== 'studio' && view === id ? 'is-active' : undefined} aria-current={id !== 'studio' && view === id ? 'page' : undefined} onClick={(event) => id === 'studio' ? openStudio(event.currentTarget) : navigate(id)}><Icon size={19} /><span>{text[id]}</span></button>)}
+    {NAV_ITEMS.map(({ id, icon: Icon }) => <button key={id} type="button" aria-label={text[id]} title={text[id]} className={view === id ? 'is-active' : undefined} aria-current={view === id ? 'page' : undefined} onClick={() => navigate(id)}><Icon size={19} /><span>{text[id]}</span></button>)}
     <button type="button" aria-label={text.settings} title={text.settings} onClick={(event) => openPreferences(event.currentTarget)}><Settings size={19} /><span>{text.settings}</span></button>
   </nav>;
 
@@ -435,7 +417,7 @@ export const WelcomeScreen = ({ onOpenWorkspace, onOpenSpace3D, onPreloadWorkspa
     : view === 'space3d'
       ? <main ref={homeRef} className="sc-home sc-tool-welcome sc-tool-welcome--3d" data-testid="solver3d-welcome">{space3dWelcome}</main>
       : <main ref={homeRef} className="sc-home" data-testid="solver2d-welcome">
-        <header className="sc-home-console"><button type="button" className="sc-home-wordmark" onClick={() => navigate('home')} aria-label={text.backPlatform}><Solver2DMark size={22} /><strong>{SOLVER_2D.name}</strong><span>{SOLVER_2D.product}</span></button>{renderNavigation()}<button ref={mobileMenuButtonRef} className="sc-home-console__menu" type="button" aria-label={mobileNavOpen ? text.closeMenu : text.menu} aria-expanded={mobileNavOpen} onClick={() => setMobileNavOpen((open) => !open)}><Menu size={20} /></button></header>
+        <header className="sc-home-console"><button type="button" className="sc-home-wordmark" onClick={() => navigate('home')} aria-label={text.backPlatform}><FusionMark size={24} /><strong>{SOLVER_2D.name}</strong><span>{SOLVER_2D.product}</span></button>{renderNavigation()}<button ref={mobileMenuButtonRef} className="sc-home-console__menu" type="button" aria-label={mobileNavOpen ? text.closeMenu : text.menu} aria-expanded={mobileNavOpen} onClick={() => setMobileNavOpen((open) => !open)}><Menu size={20} /></button></header>
         {mobileNavOpen ? renderNavigation(true) : null}
         <div className="sc-home-main"><header className="sc-home-topline"><span>{text[view]}</span><div className="sc-home-search" role="search"><Search size={16} aria-hidden="true" /><input ref={searchInputRef} type="search" value={searchQuery} aria-label={text.search} placeholder={text.searchPlaceholder} onChange={(event) => { setSearchQuery(event.currentTarget.value); if (event.currentTarget.value && view !== 'solver2d' && view !== 'projects') setView('solver2d'); }} />{searchQuery ? <button type="button" aria-label={text.clearSearch} onClick={() => { setSearchQuery(''); searchInputRef.current?.focus(); }}><X size={15} /></button> : <kbd aria-hidden="true">/</kbd>}</div><div className="sc-home-topline-actions"><label><span className="sr-only">{t('language.label')}</span><select value={language} onChange={(event) => updateLanguage(event.target.value as 'es' | 'en')}><option value="es">ES</option><option value="en">EN</option></select></label></div></header><div className="sc-home-content">{solver2dContent}</div></div>
       </main>;
@@ -443,5 +425,5 @@ export const WelcomeScreen = ({ onOpenWorkspace, onOpenSpace3D, onPreloadWorkspa
   return <>{screen}
     {importCenterOpen ? <Suspense fallback={null}><PortableImportCenter open currentProjectName={project.name} onClose={() => setImportCenterOpen(false)} onSaveCurrent={() => exportProjectJson(project)} onImported={(outcome) => { replaceProject({ ...outcome.project, settings: { ...outcome.project.settings, language } }, outcome.restoredAnalysis); setImportCenterOpen(false); onOpenWorkspace(); }} /></Suspense> : null}
     <NewExerciseDialog open={exerciseDialogOpen} initialTemplateId={exerciseTemplateId} onClose={() => setExerciseDialogOpen(false)} onCreate={(next) => { replaceProject({ ...next, settings: { ...next.settings, language } }); setExerciseDialogOpen(false); onOpenWorkspace(); }} />
-    {preferencesOpen ? <WelcomePreferences language={language} theme={theme} onLanguageChange={updateLanguage} onThemeChange={setTheme} onClose={closePreferences} /> : null}{studioOpen ? <IllustrationStudio language={language} initialTheme={theme} onClose={closeStudio} /> : null}</>;
+    {preferencesOpen ? <WelcomePreferences language={language} theme={theme} onLanguageChange={updateLanguage} onThemeChange={setTheme} onClose={closePreferences} /> : null}</>;
 };

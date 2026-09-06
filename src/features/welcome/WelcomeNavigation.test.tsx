@@ -29,6 +29,8 @@ describe('navegación por herramienta', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Del trazo al diagrama.' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Continuar' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Por dónde empezar' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Estudio de ilustraciones' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Solver 3D' })).toBeNull();
     expect(screen.queryByRole('application', { name: 'Área de trabajo estructural interactiva' })).toBeNull();
 
     await user.click(screen.getByRole('button', { name: 'Volver a la plataforma' }));

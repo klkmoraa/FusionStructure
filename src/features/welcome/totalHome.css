@@ -54,6 +54,13 @@
 
 .sc-home-wordmark strong span { font-weight: 540; }
 
+/* La marca madre conserva la tinta negra; sólo su registro azul pasa a rojo
+   pastel para identificar la plataforma. */
+.sc-home-wordmark .fs-mark {
+  --sc-color-signal-axial-ink: #dc8b86;
+  color: var(--sc-color-text-primary);
+}
+
 .sc-home-wordmark > span {
   padding-inline-start: 10px;
   border-inline-start: 1px solid var(--sc-color-border);
