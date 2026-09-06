@@ -76,6 +76,7 @@ describe('ToolRail surface handoff', () => {
 
     const select = container.querySelector<HTMLButtonElement>('[data-tool-id="select"]');
     const node = container.querySelector<HTMLButtonElement>('[data-tool-id="node"]');
+    expect(container.querySelector('.desktop-tool-list .tool-command-palette')).toBeNull();
     expect(select?.classList.contains('is-compact')).toBe(false);
     expect(node?.classList.contains('is-compact')).toBe(true);
 

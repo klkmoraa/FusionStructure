@@ -193,6 +193,13 @@
   .console:hover,
   .console:focus-within { width: 100%; box-shadow: var(--sc-shadow-sheet); }
 
+  /* La regla de despliegue de escritorio tiene más especificidad. En una
+     ventana estrecha con ratón llegaba a ganar y reducía la banda a 216px. */
+  .console:is(:hover, :focus-within):not(:has(.tool-rail.is-floating-dock:is(:hover, :focus-within))) {
+    width: 100%;
+    box-shadow: var(--sc-shadow-sheet);
+  }
+
   /* En K0 la etiqueta no cabe: el nombre accesible vive en `aria-label`. */
   .console__label { display: none; }
 

@@ -1,4 +1,4 @@
-import { ChartNoAxesCombined, Eye, Maximize2, Minimize2, Moon, PanelRight, Play, Search, SlidersHorizontal, Sparkles, Sun } from 'lucide-react';
+import { ChartNoAxesCombined, Eye, Maximize2, Minimize2, Moon, PanelRight, Play, SlidersHorizontal, Sparkles, Sun } from 'lucide-react';
 import { ToolRail } from '../canvas/ToolRail';
 import { Solver2DMark } from '../../design-system/brand';
 import { SOLVER_2D } from '../../design-system/moduleIdentity';
@@ -44,9 +44,6 @@ export const Console = ({ onOpenHome, onOpenSpace3D: _onOpenSpace3D, layoutActio
       <button type="button" className="console__brand" onClick={onOpenHome} aria-label={t('navigation.home')} title={t('navigation.home')}>
         <Solver2DMark size={22} />
         <Label>{SOLVER_2D.name}</Label>
-      </button>
-      <button type="button" className="console__key" onClick={() => emitWorkspaceCommand('open-command-palette')} aria-label={t('palette.open')} title={t('palette.open')}>
-        <Search size={18} /><Label>{t('palette.open')}</Label>
       </button>
     </div>
     <div className="console__body">

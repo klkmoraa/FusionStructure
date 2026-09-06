@@ -26,6 +26,7 @@ Referencia de implementación: `concept.png`. La autorización amplia del usuari
 - Se retiró el botón de proyecto duplicado en la consola lateral; la identidad y el menú siguen disponibles en la cabecera.
 - Se añadió un estado de carga centrado para evitar un texto sin estilo durante la carga diferida del workspace.
 - El dock muestra texto únicamente en la herramienta activa; las demás conservan icono y nombre accesible. Enfocar el dock tampoco despliega la consola lateral.
+- La banda compacta ya no incluye el botón redundante de comandos y conserva todo su ancho cuando se usa con ratón en una ventana estrecha.
 
 ## Evidencia
 
@@ -35,3 +36,4 @@ Referencia de implementación: `concept.png`. La autorización amplia del usuari
 - `workspace-results-panel.png`: panel de resultados abierto.
 - `workspace-dark.png`: contraste del tema oscuro.
 - `workspace-dock-compact.png` y `workspace-dock-node-active.png`: dock en reposo y después de seleccionar Nodo.
+- `workspace-mobile-dock-fixed.png`: banda compacta estable bajo hover, sin el acceso redundante a comandos.

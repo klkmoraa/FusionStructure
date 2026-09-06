@@ -189,24 +189,6 @@ const PaletteToolButton = ({
   </button>
 );
 
-const CommandPaletteButton = ({
-  label,
-  accessibleLabel,
-  compact = false,
-  'aria-describedby': ariaDescribedBy,
-}: { label: string; accessibleLabel: string; compact?: boolean; 'aria-describedby'?: string }) => <button
-  type="button"
-  className={`sc-tool-button sc-tool-button--navigation tool-button tool-command-palette${compact ? ' is-compact' : ''}`}
-  aria-label={accessibleLabel}
-  aria-describedby={ariaDescribedBy}
-  aria-keyshortcuts="Control+K Meta+K"
-  onClick={() => emitWorkspaceCommand('open-command-palette')}
->
-  <span className="sc-tool-button__icon" aria-hidden="true"><Search size={22} strokeWidth={1.8} /></span>
-  <span className="sc-tool-button__copy"><strong>{label}</strong></span>
-  {!compact ? <kbd>Ctrl K</kbd> : null}
-</button>;
-
 const MobileCommandPaletteButton = ({ label, accessibleLabel, onOpen }: { label: string; accessibleLabel: string; onOpen: () => void }) => <button
   className="mobile-palette-tool tool-command-palette"
   type="button"
@@ -484,9 +466,6 @@ export const ToolRail = () => {
             />
           </RailTooltip>;
         })}
-        {dockGroup.id === 'navigate' ? <RailTooltip id="tool-rail-tip-command-palette" content={`${t('palette.open')} (Ctrl K)`} placement="top">
-          <CommandPaletteButton label={t('palette.openShort')} accessibleLabel={t('palette.open')} compact aria-describedby="tool-rail-tip-command-palette" />
-        </RailTooltip> : null}
         {dockGroup.id === 'build' ? <RailTooltip id="tool-rail-tip-generator" content={t('generator.launcher')} placement="top">
           <EditorToolButton
             className="tool-button tool-structure-generator is-compact"
@@ -556,9 +535,6 @@ export const ToolRail = () => {
                     />
                   </RailTooltip>;
                 })}
-                {group.id === 'navigate' ? <RailTooltip id="tool-rail-tip-command-palette" content={`${t('palette.open')} (Ctrl K)`}>
-                  <CommandPaletteButton label={t('palette.openShort')} accessibleLabel={t('palette.open')} compact={compact} aria-describedby="tool-rail-tip-command-palette" />
-                </RailTooltip> : null}
                 {group.id === 'create' ? <RailTooltip id="tool-rail-tip-generator" content={t('generator.launcher')}>
                   <EditorToolButton
                     className={`tool-button tool-structure-generator${compact ? ' is-compact' : ''}`}
