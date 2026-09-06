@@ -1,4 +1,5 @@
 import { ChartNoAxesCombined, Check, CloudOff, Play, Redo2, RotateCcw, Undo2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import { Solver2DMark } from '../../design-system/brand';
 
 /**
@@ -21,7 +22,10 @@ export type WorkspaceAnalysisState = 'ready' | 'running' | 'resolved' | 'failed'
 export interface WorkspaceTopBarLabels {
   solverName: string;
   project: string;
-  openProject: string;
+  home: string;
+  editProject: string;
+  saveProject: string;
+  cancel: string;
   storageReady: string;
   storageRecovered: string;
   storageIssue: string;
@@ -45,7 +49,8 @@ export interface WorkspaceTopBarProps {
   canUndo: boolean;
   canRedo: boolean;
   labels: WorkspaceTopBarLabels;
-  onOpenProject: () => void;
+  onOpenHome: () => void;
+  onRenameProject: (name: string) => void;
   onUndo: () => void;
   onRedo: () => void;
   onAnalyze: () => void;
@@ -70,12 +75,16 @@ export const WorkspaceTopBar = ({
   canUndo,
   canRedo,
   labels,
-  onOpenProject,
+  onOpenHome,
+  onRenameProject,
   onUndo,
   onRedo,
   onAnalyze,
   onOpenResults,
 }: WorkspaceTopBarProps) => {
+  const [projectEditorOpen, setProjectEditorOpen] = useState(false);
+  const [draftName, setDraftName] = useState(projectName);
+  const nameInputRef = useRef<HTMLInputElement>(null);
   const storageFailed = storageState === 'issue';
   const storageRecovered = storageState === 'recovered';
   const storageLabel = storageFailed
@@ -90,24 +99,63 @@ export const WorkspaceTopBar = ({
       : analysisState === 'resolved'
       ? labels.analysisResolved
       : labels.analysisReady;
+  const showStorageStatus = storageState !== 'ready';
+
+  useEffect(() => {
+    if (!projectEditorOpen) setDraftName(projectName);
+  }, [projectEditorOpen, projectName]);
+
+  useEffect(() => {
+    if (projectEditorOpen) nameInputRef.current?.focus({ preventScroll: true });
+  }, [projectEditorOpen]);
+
+  const saveProjectName = () => {
+    const nextName = draftName.trim();
+    if (nextName) onRenameProject(nextName);
+    setProjectEditorOpen(false);
+  };
 
   return <header className="workspace-topbar" data-workspace-topbar>
     <div className="workspace-topbar__project-group" data-workspace-group="project">
       <button
         type="button"
-        className="workspace-topbar__project"
-        onClick={onOpenProject}
-        aria-label={labels.openProject + ': ' + projectName}
-        title={labels.openProject}
+        className="workspace-topbar__brand"
+        onClick={onOpenHome}
+        aria-label={labels.home}
+        title={labels.home}
       >
         <Solver2DMark size={26} />
+      </button>
+      <button
+        type="button"
+        className="workspace-topbar__project"
+        onClick={() => setProjectEditorOpen(true)}
+        aria-label={labels.editProject + ': ' + projectName}
+        title={labels.editProject}
+        aria-expanded={projectEditorOpen}
+      >
         <span className="workspace-topbar__project-copy">
           <span className="workspace-topbar__eyebrow">{labels.solverName}</span>
           <strong>{projectName}</strong>
         </span>
       </button>
 
+      {projectEditorOpen ? <form className="workspace-topbar__project-editor" aria-label={labels.editProject} onSubmit={(event) => {
+        event.preventDefault();
+        saveProjectName();
+      }}>
+        <label>
+          <span>{labels.editProject}</span>
+          <input ref={nameInputRef} value={draftName} onChange={(event) => setDraftName(event.currentTarget.value)} />
+        </label>
+        <div className="workspace-topbar__project-editor-actions">
+          <button type="button" onClick={() => setProjectEditorOpen(false)}>{labels.cancel}</button>
+          <button type="submit" disabled={!draftName.trim()}>{labels.saveProject}</button>
+        </div>
+      </form> : null}
+
       <div className="workspace-topbar__status" aria-label={labels.project}>
+        {showStorageStatus ?
         <span
           className={'workspace-topbar__status-chip' + (storageFailed ? ' is-error' : '') + (storageRecovered ? ' is-notice' : '')}
           role="status"
@@ -121,7 +169,7 @@ export const WorkspaceTopBar = ({
             <strong>{storageLabel}</strong>
             {storageMessage ? <small>{storageMessage}</small> : null}
           </span>
-        </span>
+        </span> : null}
         <span
           className={'workspace-topbar__status-chip' + (analysisRunning ? ' is-running' : '') + (analysisFailed ? ' is-error' : '')}
           role="status"

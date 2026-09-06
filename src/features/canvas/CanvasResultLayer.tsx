@@ -407,8 +407,8 @@ const CanvasResultLayerImpl = ({
 
   if (slot === 'diagrams') {
     return <>
-      {showResults ? <g key={runKey} className="diagram-layer">{project.members.map(diagramPath)}</g> : null}
-      {showResults && resultsAllowed && resultTab === 'deformed' && analysis?.success ? <g key={runKey} className="deformed-layer">{project.members.map((member) => <path key={member.id} d={deformedPath(member)} />)}</g> : null}
+      {showResults ? <g key={`${runKey}:diagram`} className="diagram-layer">{project.members.map(diagramPath)}</g> : null}
+      {showResults && resultsAllowed && resultTab === 'deformed' && analysis?.success ? <g key={`${runKey}:deformed`} className="deformed-layer">{project.members.map((member) => <path key={member.id} d={deformedPath(member)} />)}</g> : null}
       {renderModeShape()}
       {showResults ? renderResultCursor() : null}
       {showDiagnostics ? renderMechanism() : null}

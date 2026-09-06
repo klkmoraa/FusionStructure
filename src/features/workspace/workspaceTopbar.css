@@ -15,11 +15,34 @@
 /* Project identity and status travel together so the first group always answers
    "what am I editing?" before the action groups begin. */
 .workspace-topbar__project-group {
+  position: relative;
   min-width: 0;
   flex: 1 1 auto;
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.workspace-topbar__brand {
+  flex: 0 0 auto;
+  width: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: var(--sc-depth-raised-border);
+  border-radius: var(--sc-radius-control);
+  background: var(--sc-color-surface-1);
+  color: var(--sc-color-text-primary);
+  box-shadow: var(--sc-depth-raised-shadow);
+}
+
+.workspace-topbar__brand:hover,
+.workspace-topbar__brand:focus-visible {
+  border-color: var(--sc-color-border);
+  background: var(--sc-color-surface-elevated);
+  box-shadow: var(--sc-shadow-lifted);
 }
 
 .workspace-topbar__project {
@@ -30,7 +53,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 4px 12px 4px 8px;
+  padding: 4px 12px;
   border: var(--sc-depth-raised-border);
   border-radius: var(--sc-radius-card);
   background: var(--sc-color-surface-1);
@@ -53,21 +76,20 @@
 }
 
 .workspace-topbar__project:focus-visible,
+.workspace-topbar__brand:focus-visible,
 .workspace-topbar__icon-button:focus-visible,
 .workspace-topbar__action-button:focus-visible {
   outline: var(--sc-focus-ring-width, 2px) solid var(--sc-color-focus, var(--focus));
   outline-offset: -2px;
 }
 
-.workspace-topbar__project .fs-mark {
-  flex: 0 0 auto;
+.workspace-topbar__brand .fs-mark {
   width: 28px;
   height: 28px;
   padding: 5px;
   border: 1px solid var(--sc-color-border-soft);
   border-radius: var(--sc-radius-control);
   background: var(--sc-color-surface-inset);
-  color: var(--sc-color-text-primary);
 }
 
 .workspace-topbar__project-copy {
@@ -96,6 +118,63 @@
   letter-spacing: -.01em;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.workspace-topbar__project-editor {
+  position: absolute;
+  z-index: calc(var(--sc-z-topbar, 30) + 1);
+  top: calc(100% + 6px);
+  left: 0;
+  width: min(360px, calc(100vw - 24px));
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: var(--sc-depth-raised-border);
+  border-radius: var(--sc-radius-card);
+  background: var(--sc-color-surface-1);
+  box-shadow: var(--sc-shadow-lifted);
+}
+
+.workspace-topbar__project-editor label {
+  display: grid;
+  gap: 5px;
+  color: var(--sc-color-text-secondary);
+  font-size: var(--sc-font-size-caption);
+  font-weight: var(--sc-font-weight-semibold);
+}
+
+.workspace-topbar__project-editor input {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--sc-color-border);
+  border-radius: var(--sc-radius-control);
+  background: var(--sc-color-surface-inset);
+  color: var(--sc-color-text-primary);
+  font: inherit;
+}
+
+.workspace-topbar__project-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.workspace-topbar__project-editor-actions button {
+  min-height: 36px;
+  padding: 0 11px;
+  border: 1px solid var(--sc-color-border-soft);
+  border-radius: var(--sc-radius-control);
+  background: var(--sc-color-surface-elevated);
+  color: var(--sc-color-text-primary);
+  font: inherit;
+  font-weight: var(--sc-font-weight-semibold);
+}
+
+.workspace-topbar__project-editor-actions button[type='submit'] {
+  border-color: var(--sc-color-text-primary);
+  background: var(--sc-color-text-primary);
+  color: var(--sc-color-bg-app);
 }
 
 .workspace-topbar__status {
@@ -319,10 +398,16 @@
     flex: 1 1 125px;
     width: auto;
     gap: 6px;
-    padding-inline: 4px 8px;
+    padding-inline: 8px;
   }
 
-  .workspace-topbar__project .fs-mark {
+  .workspace-topbar__brand {
+    width: 40px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .workspace-topbar__brand .fs-mark {
     width: 24px;
     height: 24px;
     padding: 4px;

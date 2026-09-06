@@ -489,6 +489,37 @@ export const StructuralCanvas = ({
     && view.showLoads
     && resultTab !== 'influence'
     && project.nodalLoads.length + project.memberLoads.length > 0;
+  /* La deformada se dibuja en coordenadas de modelo y puede salir mucho más
+     allá de los nudos. Ajustar sólo contra éstos dejaba la curva recortada y
+     el pórtico aparentemente descentrado. El encuadre usa los mismos puntos
+     que pinta CanvasResultLayer cuando esa evidencia está visible. */
+  const visibleFitBounds = useMemo(() => {
+    const bounds = modelBounds(project.nodes);
+    if (!layers.results || stackActive || resultTab !== 'deformed' || analysis?.success !== true) return bounds;
+    const points = project.nodes.map(({ x, y }) => ({ x, y }));
+    const scale = view.deformedScale;
+    for (const member of project.members) {
+      const result = resultMap.get(member.id);
+      const start = nodeMap.get(member.i);
+      const end = nodeMap.get(member.j);
+      if (!result || !start || !end || member.type === 'rigid') continue;
+      const { c, s } = memberAxis(member, start, end);
+      for (const point of result.deformation) {
+        const grossX = (result.startOffset ?? 0) + point.x;
+        points.push({
+          x: start.x + c * grossX + scale * (c * point.u - s * point.v),
+          y: start.y + s * grossX + scale * (s * point.u + c * point.v),
+        });
+      }
+      const startResult = nodeResultMap.get(member.i);
+      const endResult = nodeResultMap.get(member.j);
+      points.push(
+        { x: start.x + scale * (startResult?.ux ?? 0), y: start.y + scale * (startResult?.uy ?? 0) },
+        { x: end.x + scale * (endResult?.ux ?? 0), y: end.y + scale * (endResult?.uy ?? 0) },
+      );
+    }
+    return modelBounds(points);
+  }, [analysis?.success, layers.results, nodeMap, nodeResultMap, project.members, project.nodes, resultMap, resultTab, stackActive, view.deformedScale]);
   /**
    * El mapa de demanda es una lectura derivada, no un estado: se recalcula sólo
    * cuando la capa está encendida, así el coste no lo paga quien no lo pidió.
@@ -713,7 +744,7 @@ export const StructuralCanvas = ({
       top: safeTopReserve,
       bottom: Math.max(insets.bottom, safeBottomReserve),
     };
-    const bounds = modelBounds(project.nodes);
+    const bounds = visibleFitBounds;
     const first = cameraToFitBounds(bounds, viewport, fitInsets);
     // Encuadrar los nudos no es encuadrar el dibujo: las cargas se dibujan en
     // espacio de pantalla ALREDEDOR del nudo, así que con el modelo ajustado al
@@ -724,7 +755,7 @@ export const StructuralCanvas = ({
     // exacto, sin margen que no le corresponde.
     const decorated = loadDecorationDrawn ? expandBoundsForDecoration(bounds, first.scale) : bounds;
     updateCamera(decorated === bounds ? first : cameraToFitBounds(decorated, viewport, fitInsets));
-  }, [loadDecorationDrawn, project.nodes, size, updateCamera]);
+  }, [loadDecorationDrawn, project.nodes.length, size, updateCamera, visibleFitBounds]);
 
   /* Las hojas K0 flotan sobre el canvas y por eso no disparan ResizeObserver
      en su anfitrión. Al abrirse, medimos su techo real y encuadramos el modelo

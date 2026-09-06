@@ -96,7 +96,7 @@ const WorkspaceBrokerContent = ({
   const [revisionBaseline, setRevisionBaseline] = useState<RevisionSnapshot | null>(null);
   const [editorLayers, dispatchEditorLayers] = useReducer(editorLayerReducer, undefined, createPersistedEditorLayerState);
   const { t } = useI18n();
-  const { project, analysis, isAnalyzing, storageIssue, storageMessage, setActiveTool, setResultTab, analyze, undo, redo, canUndo, canRedo } = useProject();
+  const { project, analysis, isAnalyzing, storageIssue, storageMessage, renameProject, setActiveTool, setResultTab, analyze, undo, redo, canUndo, canRedo } = useProject();
   const [pendingModelDoctorNotification, setPendingModelDoctorNotification] = useState<PendingModelDoctorNotification | null>(null);
   const [localAssistantOpen, setLocalAssistantOpen] = useState(false);
   const localAssistantTriggerRef = useRef<HTMLElement | null>(null);
@@ -434,7 +434,10 @@ const WorkspaceBrokerContent = ({
       labels={{
         solverName: SOLVER_2D.name,
         project: t('topbar.currentProject'),
-        openProject: t('palette.open'),
+        home: t('navigation.home'),
+        editProject: t('project.name'),
+        saveProject: t('topbar.saveProject'),
+        cancel: t('topbar.cancelProject'),
         storageReady: t('storage.local'),
         storageRecovered: t('storage.recoveredShort'),
         // `storageIssue` no es sólo «no pude guardar»: `ProjectProvider` lo usa
@@ -458,7 +461,8 @@ const WorkspaceBrokerContent = ({
         results: t('results.outputs'),
         actions: t('toolbar.primary'),
       }}
-      onOpenProject={() => emitWorkspaceCommand('open-command-palette')}
+      onOpenHome={onOpenHome}
+      onRenameProject={renameProject}
       onUndo={undo}
       onRedo={redo}
       onAnalyze={() => {
