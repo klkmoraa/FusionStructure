@@ -25,6 +25,7 @@ Referencia de implementación: `concept.png`. La autorización amplia del usuari
 - Se compactó la ficha de proyecto en la barra superior para devolver ancho al lienzo.
 - Se retiró el botón de proyecto duplicado en la consola lateral; la identidad y el menú siguen disponibles en la cabecera.
 - Se añadió un estado de carga centrado para evitar un texto sin estilo durante la carga diferida del workspace.
+- El dock muestra texto únicamente en la herramienta activa; las demás conservan icono y nombre accesible. Enfocar el dock tampoco despliega la consola lateral.
 
 ## Evidencia
 
@@ -33,4 +34,4 @@ Referencia de implementación: `concept.png`. La autorización amplia del usuari
 - `workspace-results.png`: corrida resuelta y acciones principales.
 - `workspace-results-panel.png`: panel de resultados abierto.
 - `workspace-dark.png`: contraste del tema oscuro.
-
+- `workspace-dock-compact.png` y `workspace-dock-node-active.png`: dock en reposo y después de seleccionar Nodo.
