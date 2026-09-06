@@ -49,6 +49,7 @@ import { SectionViewer2D } from './SectionViewer2D';
 import { SupportPicker } from './SupportPicker';
 import { applySupportPreset, type SupportEntry } from './supportCatalog';
 import { emitWorkspaceCommand } from '../workspace/workspaceCommands';
+import { splitDistributedLoadAcrossChain, straightMemberChain } from './memberLoadChain';
 import { MemberFavoritesPanel } from '../library/MemberFavoritesPanel';
 import {
   InspectorAdvancedProperties,
@@ -153,6 +154,7 @@ export const InspectorProperties = () => {
   const { language, t } = useI18n();
   const { resultsVisible } = useClassroomSession();
   const [expandedSections, setExpandedSections] = usePersistentInspectorSections();
+  const [memberLoadPositionMode, setMemberLoadPositionMode] = useState<'meters' | 'percent'>('meters');
   const units = project.settings.units;
   const classroomMode = project.settings.calculationMode === 'classroom';
   const nonNegative = useCallback(
@@ -172,15 +174,25 @@ export const InspectorProperties = () => {
   };
 
   const selectedNode = selection?.kind === 'node' ? project.nodes.find((node) => node.id === selection.id) : null;
+  const nodeMap = useMemo(() => new Map(project.nodes.map((node) => [node.id, node])), [project.nodes]);
   const selectedMember = selection?.kind === 'member' ? project.members.find((member) => member.id === selection.id) : null;
   const selectedNodalLoad = selection?.kind === 'nodalLoad' ? project.nodalLoads.find((load) => load.id === selection.id) : null;
   const selectedMemberLoad = selection?.kind === 'memberLoad' ? project.memberLoads.find((load) => load.id === selection.id) : null;
+  const selectedLoadMember = selectedMemberLoad ? project.members.find((member) => member.id === selectedMemberLoad.memberId) : null;
+  const selectedLoadStart = selectedLoadMember ? nodeMap.get(selectedLoadMember.i) : undefined;
+  const selectedLoadEnd = selectedLoadMember ? nodeMap.get(selectedLoadMember.j) : undefined;
+  const selectedLoadLength = selectedLoadMember && selectedLoadStart && selectedLoadEnd
+    ? Math.max(1e-9, Math.hypot(selectedLoadEnd.x - selectedLoadStart.x, selectedLoadEnd.y - selectedLoadStart.y) - (selectedLoadMember.rigidOffsetI ?? 0) - (selectedLoadMember.rigidOffsetJ ?? 0))
+    : 1;
+  const selectedLoadChain = selectedMemberLoad?.type === 'distributed'
+    ? straightMemberChain(project, selectedMemberLoad.memberId)
+    : [];
+  const selectedLoadChainLength = selectedLoadChain.at(-1)?.pathEnd ?? selectedLoadLength;
   const selectedNodePrescribed = selectedNode ? (project.prescribedDisplacements ?? []).filter((item) => item.nodeId === selectedNode.id) : [];
   const selectedMemberEffects = selectedMember ? (project.memberInitialEffects ?? []).filter((effect) => effect.memberId === selectedMember.id) : [];
   const selectedNodeLinks = selectedNode ? (project.nodeLinks ?? []).filter((link) => link.nodeI === selectedNode.id || link.nodeJ === selectedNode.id) : [];
   const selectedNodeMasses = selectedNode ? (project.nodalMasses ?? []).filter((mass) => mass.nodeId === selectedNode.id) : [];
   const selectedNodeConstraints = selectedNode ? (project.multiPointConstraints ?? []).filter((constraint) => constraint.terms.some((term) => term.nodeId === selectedNode.id)) : [];
-  const nodeMap = useMemo(() => new Map(project.nodes.map((node) => [node.id, node])), [project.nodes]);
   const nodeResult = selectedNode && analysis?.success ? analysis.nodeResults.find((result) => result.nodeId === selectedNode.id) : null;
   const memberResult = selectedMember && analysis?.success ? analysis.memberResults.find((result) => result.memberId === selectedMember.id) : null;
   const multiCount = selection?.kind === 'multi' ? selection.nodeIds.length + selection.memberIds.length : 0;
@@ -293,6 +305,46 @@ export const InspectorProperties = () => {
     if (load) (load as unknown as Record<string, string | number>)[key] = value;
     return draft;
   });
+
+  const decomposeDistributedLoad = () => {
+    if (!selectedMemberLoad || selectedMemberLoad.type !== 'distributed') return;
+    const baseId = `${selectedMemberLoad.id}-uniforme`;
+    updateProject((draft) => {
+      const index = draft.memberLoads.findIndex((item) => item.id === selectedMemberLoad.id);
+      if (index < 0 || draft.memberLoads[index].type !== 'distributed') return draft;
+      const load = draft.memberLoads[index];
+      const used = new Set(draft.memberLoads.map((item) => item.id));
+      const unique = (candidate: string) => {
+        let id = candidate;
+        let suffix = 2;
+        while (used.has(id)) { id = `${candidate}-${suffix}`; suffix += 1; }
+        used.add(id);
+        return id;
+      };
+      const uniform: MemberLoad = {
+        ...load,
+        id: unique(baseId),
+        qxEnd: load.qxStart ?? 0,
+        qyEnd: load.qyStart ?? 0,
+      };
+      const ramp: MemberLoad = {
+        ...load,
+        id: unique(`${selectedMemberLoad.id}-triangular`),
+        qxStart: 0,
+        qyStart: 0,
+        qxEnd: (load.qxEnd ?? load.qxStart ?? 0) - (load.qxStart ?? 0),
+        qyEnd: (load.qyEnd ?? load.qyStart ?? 0) - (load.qyStart ?? 0),
+      };
+      draft.memberLoads.splice(index, 1, uniform, ramp);
+      return draft;
+    });
+    setSelection({ kind: 'memberLoad', id: baseId });
+  };
+
+  const extendDistributedLoad = () => {
+    if (!selectedMemberLoad || selectedMemberLoad.type !== 'distributed') return;
+    updateProject((draft) => splitDistributedLoadAcrossChain(draft, selectedMemberLoad.id));
+  };
 
   const deleteSelection = () => {
     if (!selection) return;
@@ -722,16 +774,29 @@ export const InspectorProperties = () => {
           {[{ value: 'global', label: t('inspector.global') }, { value: 'local', label: t('inspector.local') }].map((option) => <button type="button" key={option.value} aria-pressed={selectedMemberLoad.coordinateSystem === option.value} className={selectedMemberLoad.coordinateSystem === option.value ? 'active' : ''} onClick={() => updateMemberLoad('coordinateSystem', option.value)}>{option.label}</button>)}
         </div>
         {selectedMemberLoad.type === 'distributed' ? <SelectField label={t('inspector.base')} value={selectedMemberLoad.lengthBasis} onChange={(value) => updateMemberLoad('lengthBasis', value)}><option value="real">{t('inspector.realLength')}</option><option value="horizontal">{t('inspector.horizontalProjection')}</option><option value="vertical">{t('inspector.verticalProjection')}</option></SelectField> : null}
+        {selectedMemberLoad.type !== 'moment' ? <div className="segmented-control" role="group" aria-label="Unidad de posición">
+          <button type="button" aria-pressed={memberLoadPositionMode === 'meters'} className={memberLoadPositionMode === 'meters' ? 'active' : ''} onClick={() => setMemberLoadPositionMode('meters')}>Metros</button>
+          <button type="button" aria-pressed={memberLoadPositionMode === 'percent'} className={memberLoadPositionMode === 'percent' ? 'active' : ''} onClick={() => setMemberLoadPositionMode('percent')}>%</button>
+        </div> : null}
         {selectedMemberLoad.type === 'distributed' ? <>
-          <InspectorNumericField label={t('inspector.from')} value={selectedMemberLoad.start} unit="x/L" resetKey={`${selectionKey}:start`} language={language} hint={t('inspector.normalizedBeforeEndHint')} validate={normalizedPosition} onCommit={(value) => updateMemberLoad('start', Math.max(0, Math.min(1, value)))} />
-          <InspectorNumericField label={t('inspector.to')} value={selectedMemberLoad.end} unit="x/L" resetKey={`${selectionKey}:end`} language={language} hint={t('inspector.normalizedAfterStartHint')} validate={normalizedPosition} onCommit={(value) => updateMemberLoad('end', Math.max(0, Math.min(1, value)))} />
+          {memberLoadPositionMode === 'meters' ? <>
+            <PhysicalNumberField label={t('inspector.from')} value={selectedMemberLoad.start * selectedLoadLength} units={units} quantity="length" resetKey={`${selectionKey}:start-m`} hint={`L = ${formatPhysical(selectedLoadLength, units, 'length')}`} onCommit={(value) => updateMemberLoad('start', Math.max(0, Math.min(1, value / selectedLoadLength)))} />
+            <PhysicalNumberField label={t('inspector.to')} value={selectedMemberLoad.end * selectedLoadLength} units={units} quantity="length" resetKey={`${selectionKey}:end-m`} hint={`L = ${formatPhysical(selectedLoadLength, units, 'length')}`} onCommit={(value) => updateMemberLoad('end', Math.max(0, Math.min(1, value / selectedLoadLength)))} />
+          </> : <>
+            <InspectorNumericField label={t('inspector.from')} value={selectedMemberLoad.start * 100} unit="%" resetKey={`${selectionKey}:start-percent`} language={language} validate={(value) => value >= 0 && value <= 100 ? undefined : t('inspector.normalizedPositionValidation')} onCommit={(value) => updateMemberLoad('start', Math.max(0, Math.min(1, value / 100)))} />
+            <InspectorNumericField label={t('inspector.to')} value={selectedMemberLoad.end * 100} unit="%" resetKey={`${selectionKey}:end-percent`} language={language} validate={(value) => value >= 0 && value <= 100 ? undefined : t('inspector.normalizedPositionValidation')} onCommit={(value) => updateMemberLoad('end', Math.max(0, Math.min(1, value / 100)))} />
+          </>}
           <PhysicalNumberField label={t('inspector.qxStart')} value={selectedMemberLoad.qxStart ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qx-start`} onCommit={(value) => updateMemberLoad('qxStart', value)} />
           <PhysicalNumberField label={t('inspector.qxEnd')} value={selectedMemberLoad.qxEnd ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qx-end`} onCommit={(value) => updateMemberLoad('qxEnd', value)} />
           <PhysicalNumberField label={t('inspector.qyStart')} value={selectedMemberLoad.qyStart ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qy-start`} onCommit={(value) => updateMemberLoad('qyStart', value)} />
           <PhysicalNumberField label={t('inspector.qyEnd')} value={selectedMemberLoad.qyEnd ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qy-end`} onCommit={(value) => updateMemberLoad('qyEnd', value)} />
+          <button type="button" className="mini-button" onClick={decomposeDistributedLoad}>Descomponer en uniforme + triangular</button>
+          {selectedLoadChain.length > 1 ? <button type="button" className="mini-button" onClick={extendDistributedLoad}>Extender por cadena recta · {formatPhysical(selectedLoadChainLength, units, 'length')}</button> : null}
         </> : null}
         {selectedMemberLoad.type === 'point' ? <>
-          <InspectorNumericField label={t('inspector.position')} value={selectedMemberLoad.position ?? 0.5} unit="x/L" resetKey={`${selectionKey}:position`} language={language} validate={normalizedPosition} onCommit={(value) => updateMemberLoad('position', Math.max(0, Math.min(1, value)))} />
+          {memberLoadPositionMode === 'meters'
+            ? <PhysicalNumberField label={t('inspector.position')} value={(selectedMemberLoad.position ?? 0.5) * selectedLoadLength} units={units} quantity="length" resetKey={`${selectionKey}:position-m`} hint={`L = ${formatPhysical(selectedLoadLength, units, 'length')}`} onCommit={(value) => updateMemberLoad('position', Math.max(0, Math.min(1, value / selectedLoadLength)))} />
+            : <InspectorNumericField label={t('inspector.position')} value={(selectedMemberLoad.position ?? 0.5) * 100} unit="%" resetKey={`${selectionKey}:position-percent`} language={language} validate={(value) => value >= 0 && value <= 100 ? undefined : t('inspector.normalizedPositionValidation')} onCommit={(value) => updateMemberLoad('position', Math.max(0, Math.min(1, value / 100)))} />}
           <PhysicalNumberField label={t('inspector.forceX')} value={selectedMemberLoad.px ?? 0} units={units} quantity="force" resetKey={`${selectionKey}:px`} onCommit={(value) => updateMemberLoad('px', value)} />
           <PhysicalNumberField label={t('inspector.forceY')} value={selectedMemberLoad.py ?? 0} units={units} quantity="force" resetKey={`${selectionKey}:py`} onCommit={(value) => updateMemberLoad('py', value)} />
         </> : null}

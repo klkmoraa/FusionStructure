@@ -2147,6 +2147,10 @@ body:has(.structural-edit-surface) .app-shell .tool-rail.is-floating-dock {
 /* La reacción es un resultado del apoyo, no una fuerza axial de la barra:
    compartían color y no había forma de distinguirlas en la misma vista. */
 .smart-label.tone-reaction { color:var(--reaction); }
+.member-dimension { color:var(--dimension); fill:none; stroke:currentColor; stroke-width:1; vector-effect:non-scaling-stroke; }
+.member-dimension-extension { stroke-dasharray:2 2; opacity:.7; }
+.member-dimension-line { stroke-width:1.15; }
+.member-dimension text { fill:currentColor; stroke:var(--canvas-bg); stroke-width:3px; paint-order:stroke; font-family:var(--sc-font-mono); font-size:10px; font-weight:700; }
 .node-object { cursor: pointer; }
 .node-object:focus-visible { outline:none; }
 .node-object text { font-size: 12px; font-weight: 600; fill: var(--text); paint-order: stroke; stroke: var(--canvas-bg); stroke-width: 4px; }
@@ -2160,6 +2164,7 @@ body:has(.structural-edit-surface) .app-shell .tool-rail.is-floating-dock {
    única pantalla donde los dos conviven. El color sale de `--load-ink`, que
    publica el modificador de tipo: aquí sólo se decide el grosor del trazo. */
 .distributed-symbol { stroke: var(--load-ink); color: var(--load-ink); stroke-width: 1.6; cursor: pointer; }
+.distributed-envelope { fill:color-mix(in srgb,var(--load-ink) 14%,transparent); stroke:var(--load-ink); stroke-width:1.1; stroke-linejoin:round; }
 /* La selección ya se dibuja con su halo; un resplandor encima sólo emborrona
    el trazo que hay que leer. */
 .load-symbol.selected .load-hit,

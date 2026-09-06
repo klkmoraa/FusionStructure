@@ -10,7 +10,6 @@ import { formatFixed, formatScientific } from '../../utils/numberFormat';
 import type { TranslationKey } from '../../i18n/catalogs';
 import { readCanvasViewSettings } from '../view/canvasViewSettings';
 import { modeShapePoints, modeShapeScaleFor } from './modeShapePath';
-import { criticalStampsFor } from './criticalStamps';
 
 type MemberResult = AnalysisResult['memberResults'][number];
 type NodeResult = AnalysisResult['nodeResults'][number];
@@ -74,10 +73,6 @@ const CanvasResultLayerImpl = ({
 }: CanvasResultLayerProps) => {
   const view = readCanvasViewSettings(project);
   const scaleFor = (result: MemberResult) => diagramPixelScaleFor(project, resultTab, globalDiagramMax, result);
-  // Una respuesta se lee de una capa a la vez. Las reacciones se muestran en
-  // Resumen/Reacciones; al abrir N/V/M o deformada, el diagrama ocupa ese
-  // espacio sin flechas ni etiquetas competidoras.
-  const showReactionOverlay = showResults && (resultTab === 'summary' || resultTab === 'reactions');
 
   /**
    * Identidad de la corrida que se está mirando.
@@ -225,52 +220,6 @@ const CanvasResultLayerImpl = ({
     return <g className="result-cursor-marker" transform={`translate(${screen.x} ${screen.y})`} pointerEvents="none"><circle r="6" /><path d="M-13 0H13M0-13V13" /><g transform="translate(10 -31)"><rect width={Math.max(90, label.length * 5.5)} height="22" rx="7" /><text x="8" y="15">{label}</text></g></g>;
   };
 
-  /**
-   * Sellos de Mmax/Mmin y Vmax/Vmin sobre la propia barra.
-   *
-   * Los valores y sus estaciones ya vienen resueltos en `criticalPoints`: aquí
-   * no se recalcula ni se re-muestrea nada, sólo se llevan a pantalla con la
-   * misma escala y el mismo lado que el diagrama que se está mirando. Antes el
-   * pico había que cazarlo moviendo el cursor sobre la curva o buscándolo en la
-   * tabla; ahora está donde ocurre.
-   */
-  const renderCriticalPoints = () => {
-    if (!resultsAllowed || !analysis?.success || !view.showResultOverlay) return null;
-    const stamps = criticalStampsFor({
-      project,
-      resultTab,
-      diagramSide: view.diagramSide === 'negative' ? 'negative' : 'positive',
-      camera,
-      toScreen,
-      nodeMap,
-      resultMap,
-      globalDiagramMax,
-      diagramPixelScaleFor: scaleFor,
-      units,
-      lengthLabel,
-      forceLabel,
-      momentLabel,
-      size,
-    });
-    if (!stamps.length) return null;
-
-    return <g className="critical-point-layer" aria-hidden="true">{stamps.map((stamp) => <g
-      key={stamp.key}
-      className={`critical-point-marker is-${stamp.extreme}`}
-      data-critical-point={`${stamp.memberId}:${resultTab}:${stamp.extreme}`}
-      pointerEvents="none"
-    >
-      <title>{`${stamp.memberId} · ${stamp.value} · ${stamp.station}`}</title>
-      <line className="critical-point-stem" x1={stamp.base.x} y1={stamp.base.y} x2={stamp.tip.x} y2={stamp.tip.y} />
-      <circle className="critical-point-dot" cx={stamp.tip.x} cy={stamp.tip.y} r="3.2" />
-      <g transform={`translate(${stamp.rect.x} ${stamp.rect.y})`}>
-        <rect className="critical-point-stamp" width={stamp.rect.width} height={stamp.rect.height} rx="6" />
-        <text className="critical-point-value" x="6" y="11">{stamp.value}</text>
-        <text className="critical-point-station" x="6" y="20">{stamp.station}</text>
-      </g>
-    </g>)}</g>;
-  };
-
   const renderInfluenceOverlay = () => {
     if (!resultsAllowed || resultTab !== 'influence' || !analysis?.success || !influenceCanvasState) return null;
     const path = influenceCanvasState.pathMemberIds.flatMap((memberId) => {
@@ -372,7 +321,7 @@ const CanvasResultLayerImpl = ({
   };
 
   const renderReaction = (node: NodeModel) => {
-    if (!showReactionOverlay || !resultsAllowed || !analysis?.success) return null;
+    if (!resultsAllowed || !analysis?.success) return null;
     const result = nodeResultMap.get(node.id);
     if (!result) return null;
     const p = toScreen(node.x, node.y);
@@ -421,8 +370,7 @@ const CanvasResultLayerImpl = ({
 
   return <>
     {showResults ? renderInfluenceOverlay() : null}
-    {showResults ? renderCriticalPoints() : null}
-    {showReactionOverlay ? <g className="reaction-layer">{project.nodes.map(renderReaction)}</g> : null}
+    {showResults ? <g className="reaction-layer">{project.nodes.map(renderReaction)}</g> : null}
   </>;
 };
 
