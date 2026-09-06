@@ -76,6 +76,10 @@ const toolTones: Record<Tool, ToolTone> = {
 
 type DesktopDockGroup = 'navigate' | 'build' | 'loads' | 'refine';
 
+// Las cotas visibles se controlan desde Capas; una segunda herramienta de
+// colocación duplicaba ese estado sin añadir una acción distinta al flujo.
+const HIDDEN_RAIL_TOOL_IDS = new Set<Tool>(['dimension']);
+
 const DESKTOP_DOCK_GROUPS: readonly {
   id: DesktopDockGroup;
   sourceGroups: readonly (typeof TOOL_GROUPS)[number]['id'][];
@@ -240,15 +244,16 @@ export const ToolRail = () => {
   const classroom = project.settings.calculationMode === 'classroom';
   const activeDefinition = TOOL_REGISTRY.find((tool) => tool.id === activeTool);
   const revealAdvanced = showAdvanced || Boolean(activeDefinition?.classroomAdvanced);
-  const visibleTools = classroom && !revealAdvanced
+  const visibleTools = (classroom && !revealAdvanced
     ? TOOL_REGISTRY.filter((tool) => !tool.classroomAdvanced)
-    : TOOL_REGISTRY;
-  const mobilePrimaryTools = TOOL_REGISTRY.filter((tool) => tool.mobile === 'primary');
+    : TOOL_REGISTRY
+  ).filter((tool) => !HIDDEN_RAIL_TOOL_IDS.has(tool.id));
+  const mobilePrimaryTools = visibleTools.filter((tool) => tool.mobile === 'primary');
   const mobilePaletteTools = mobileMenu === 'loads' || mobileMenu === 'more'
-    ? TOOL_REGISTRY.filter((tool) => tool.mobile === mobileMenu)
+    ? visibleTools.filter((tool) => tool.mobile === mobileMenu)
     : [];
-  const loadToolActive = TOOL_REGISTRY.some((tool) => tool.mobile === 'loads' && tool.id === activeTool);
-  const moreToolActive = TOOL_REGISTRY.some((tool) => tool.mobile === 'more' && tool.id === activeTool);
+  const loadToolActive = visibleTools.some((tool) => tool.mobile === 'loads' && tool.id === activeTool);
+  const moreToolActive = visibleTools.some((tool) => tool.mobile === 'more' && tool.id === activeTool);
   const loadGroupHighlighted = mobileMenu ? mobileMenu === 'loads' : loadToolActive;
   const moreGroupHighlighted = mobileMenu ? mobileMenu !== 'loads' : moreToolActive;
   const canEditSelection = selection?.kind === 'node'

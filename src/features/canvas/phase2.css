@@ -2142,6 +2142,7 @@ body:has(.structural-edit-surface) .app-shell .tool-rail.is-floating-dock {
 .smart-label.tone-shear { color:var(--shear); }
 .smart-label.tone-moment { color:var(--moment); }
 .smart-label.tone-dimension { color:var(--dimension); }
+.smart-label.tone-dimension rect { fill:color-mix(in srgb,var(--surface) 82%,transparent); stroke:color-mix(in srgb,var(--dimension) 34%,transparent); filter:none; }
 .smart-label.tone-axial { color:var(--axial); }
 /* La reacción es un resultado del apoyo, no una fuerza axial de la barra:
    compartían color y no había forma de distinguirlas en la misma vista. */

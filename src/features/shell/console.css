@@ -209,6 +209,13 @@
    become small raised keys so the rail reads as one instrument, while the
    structural tool dock keeps the canvas-centered position owned by phase1. */
 @media (min-width: 1024px) {
+  /* En X2 la consola sólo era el ancla DOM del dock. Se vuelve transparente al
+     layout, conserva el dock flotante y elimina la columna de iconos duplicada. */
+  .app-shell[data-shell-class='X2'] .console,
+  .app-shell[data-shell-class='X2'] .console__body,
+  .app-shell[data-shell-class='X2'] .console__tools { display: contents; }
+  .app-shell[data-shell-class='X2'] :is(.console__surfaces, .console__foot) { display: none; }
+
   .console {
     padding: 8px 4px;
     border-right: 0;

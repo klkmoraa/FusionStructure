@@ -6,6 +6,16 @@
 .app-shell:has(.console) > .workspace-topbar { grid-area:topbar; min-width:0; }
 .app-shell:has(.console) > .workspace { grid-area:workspace; min-height:0; }
 .app-shell:has(.console) > .workspace { grid-template-columns:minmax(0,1fr) var(--inspector-w); }
+/* En X2 el dock ya contiene las herramientas. La antigua columna lateral no
+   aporta una acción propia, así que el lienzo ocupa ese ancho completo. */
+@media (min-width:1024px) {
+  .app-shell[data-shell-class='X2']:has(.console) {
+    position:relative;
+    grid-template-columns:minmax(0,1fr);
+    grid-template-areas:"topbar" "workspace" "footer";
+  }
+  .app-shell[data-shell-class='X2'] > .console { grid-area:auto; }
+}
 /* La consola en K0 es una banda fija al borde inferior. El hueco que el shell
    le reserva y su altura real salen del MISMO valor: mientras cada uno tenía el
    suyo, la franja de estado quedaba parcialmente debajo de la banda. */
@@ -581,7 +591,7 @@
  * del Inspector cuando está reservada, y nada cuando no. Así el riel se centra
  * y se limita con la misma cuenta con la que la retícula reparte el ancho.
  */
-.app-shell[data-shell-class='X2'] { --rail-reserved-right:0px; }
+.app-shell[data-shell-class='X2'] { --console-w:0px; --rail-reserved-right:0px; }
 .app-shell[data-shell-class='X2']:not([data-inspector-collapsed='true']):not([data-full-canvas='true']) {
   --rail-reserved-right:var(--inspector-w);
 }
@@ -913,10 +923,10 @@
   min-width:0;
   flex:1 1 auto;
   display:grid;
-  /* Las cinco magnitudes reparten el ancho, pero con un techo: estiradas
-     hasta el borde del panel cada tecla llegaba a rozar los 300px y la barra
-     dejaba de leerse como un control para parecer una navegación. */
-  grid-template-columns:repeat(5,minmax(72px,152px));
+  /* Las seis magnitudes mantienen una celda propia. Ningún texto puede crecer
+     fuera de ella: en anchos estrechos el botón conserva el control y trunca
+     el rótulo antes de invadir a la magnitud vecina. */
+  grid-template-columns:repeat(6,minmax(0,152px));
   justify-content:start;
   gap:4px;
 }
@@ -1400,6 +1410,10 @@
 }
 
 .app-shell .results-panel .result-tabs button {
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
   min-height:42px;
   height:auto;
   padding:0 11px;

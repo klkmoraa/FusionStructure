@@ -529,7 +529,14 @@ export const StructuralCanvas = ({
    * no aparece en el mapa: conserva su color de dibujo técnico en lugar de
    * recibir un η fabricado.
    */
-  const demandMapActive = layers.heatmap && resultsAllowed;
+  /* El mapa de demanda colorea las barras y el diagrama colorea el esfuerzo:
+     dibujarlos a la vez mezcla dos lecturas distintas. Cuando hay un diagrama
+     activo, éste manda; al cambiar a Resumen o apagar Resultados, el mapa
+     vuelve a aparecer sin perder el estado elegido en Capas. */
+  const diagramOverlayActive = layers.results
+    && view.showResultOverlay
+    && ['axial', 'shear', 'moment', 'deformed'].includes(resultTab);
+  const demandMapActive = layers.heatmap && resultsAllowed && !diagramOverlayActive;
   const demandView = useMemo(
     () => demandMapActive ? elasticDemandView(project, analysis) : null,
     [analysis, demandMapActive, project],
@@ -2205,7 +2212,7 @@ export const StructuralCanvas = ({
 
   for (const node of project.nodes) {
     const selected = selectedNodeIds.includes(node.id);
-    if (!selected && !(layers.labels && layers.ids && view.showNodeLabels)) continue;
+    if (!selected && (diagramOverlayActive || !(layers.labels && layers.ids && view.showNodeLabels))) continue;
     const anchor = toScreen(node.x, node.y);
     smartLabelCandidates.push({
       id: `node:${node.id}`,
@@ -2226,7 +2233,7 @@ export const StructuralCanvas = ({
     const b = toScreen(nj.x, nj.y);
     const anchor = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
     const selected = selectedMemberIds.includes(member.id);
-    if (selected || (layers.labels && layers.ids && view.showMemberLabels)) {
+    if (selected || (!diagramOverlayActive && layers.labels && layers.ids && view.showMemberLabels)) {
       // El identificador NO se ancla al punto medio. Ahí es donde una carga
       // distribuida pone su valor —su ancla es el centro del tramo cargado— y
       // los dos pedían el mismo hueco justo encima de la barra: el repartidor
@@ -2251,7 +2258,9 @@ export const StructuralCanvas = ({
         id: `dimension:${member.id}`,
         text: `${formatFixed(toDisplay(Math.hypot(nj.x - ni.x, nj.y - ni.y), units, 'length'), 3)} ${lengthLabel}`,
         anchor,
-        priority: dimensionToolActive ? 1 : 2,
+        // Durante una lectura de resultados, las cotas conservan precedencia
+        // sobre los IDs y las cargas que se esconden en esta composición.
+        priority: dimensionToolActive || diagramOverlayActive ? 1 : 2,
         tone: 'dimension',
         preferredOffset: { x: 0, y: 24 },
         forceVisible: dimensionToolActive,
@@ -2259,7 +2268,7 @@ export const StructuralCanvas = ({
     }
   }
 
-  if (loadsLayerVisible && view.showLoads && resultTab !== 'influence') {
+  if (loadsLayerVisible && view.showLoads && resultTab !== 'influence' && !diagramOverlayActive) {
     for (const load of project.nodalLoads) {
       const node = nodeMap.get(load.nodeId);
       if (!node) continue;
@@ -2372,7 +2381,10 @@ export const StructuralCanvas = ({
     }
   }
 
-  if (layers.results && layers.labels && resultsAllowed && view.showResultValues && analysis?.success) {
+  // Con un diagrama ya están sus sellos de máximo/mínimo. Ocultar estas
+  // tarjetas secundarias evita que Reacciones, valores de extremo y cargas se
+  // superpongan sobre la misma barra.
+  if (layers.results && layers.labels && resultsAllowed && view.showResultValues && analysis?.success && !diagramOverlayActive) {
     for (const node of project.nodes) {
       const result = nodeResultMap.get(node.id);
       if (!result) continue;
@@ -2469,6 +2481,7 @@ export const StructuralCanvas = ({
     activeTool,
     analysis,
     camera,
+    diagramOverlayActive,
     distributedLabel,
     forceLabel,
     globalDiagramMax,
@@ -2546,6 +2559,7 @@ export const StructuralCanvas = ({
           <marker id="arrow-load-distributed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--sc-color-load-distributed)" /></marker>
           <marker id="arrow-load-moment" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--sc-color-load-moment-applied)" /></marker>
           <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--axial)" /></marker>
+          <marker id="arrow-reaction" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--reaction)" /></marker>
           <marker id="arrow-mechanism" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--warning)" /></marker>
         </defs>
         {/* Todo lo dibujable va dentro de un grupo con `id`: la lupa táctil lo

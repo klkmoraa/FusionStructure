@@ -193,17 +193,15 @@ const WorkspaceBrokerContent = ({
         activateEvidenceLayer(layer, { setResultTab, dispatchLayers: dispatchEditorLayers });
       }),
       onWorkspaceCommand('open-view-settings', () => openSurface('view')),
-      /* `dense` es invocada: el lanzador viaja en el propio comando para que el
-         broker sepa a dónde devolver el foco al cerrar.
-         `influence` es además el único de los tres cuya lectura vive también
-         en el lienzo (CanvasResultLayer gatea el overlay de influencia con
-         `resultTab === 'influence'`, el mismo campo que `analyze()` ya mueve
-         a 'issues'/'summary'). CRI-101 dejó esa lectura sin quien la ponga:
-         el resto de superficies densas no tienen lectura en el lienzo, así
-         que no necesitan tocar `resultTab`. */
+      /* Los lanzadores de Influencia previos se conservan, pero ahora llevan a
+         la pestaña residente: la línea se lee junto a N/V/M, sin drawer. */
       onWorkspaceCommand('open-dense-results', ({ view: requestedView, trigger }) => {
+        if (requestedView === 'influence') {
+          setResultTab('influence');
+          openSurface('results', trigger);
+          return;
+        }
         setDenseView(requestedView);
-        if (requestedView === 'influence') setResultTab('influence');
         openSurface('dense', trigger);
       }),
     ];
