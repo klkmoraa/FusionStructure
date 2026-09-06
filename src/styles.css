@@ -1,19 +1,6 @@
 @import './design-system/tokens.css';
 @import './design-system/fonts.css';
 
-/* The loading surface must arrive before the lazy editor stylesheet. */
-.workspace-loading {
-  width: 100%;
-  min-height: 100dvh;
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: 14px;
-  color: var(--sc-color-text-primary);
-  background: var(--sc-color-bg-app);
-  font-size: 15px;
-}
-
 /* FusionStructure · Base
  *
  * El reinicio, el marco de la aplicación y la capa de interacción nativa. Todo

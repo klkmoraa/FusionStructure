@@ -118,7 +118,6 @@ const copy = {
     title: 'Un proyecto. Todas tus herramientas.',
     body: 'Modela, analiza y conserva el contexto estructural sin convertir cada etapa en un archivo aislado.',
     explore: 'Explorar herramientas',
-    openSolver: 'Abrir Solver 2D',
     flow: 'Ver cómo se conecta',
     heroStatus: 'Plataforma experimental',
     toolsEyebrow: 'Herramientas',
@@ -142,7 +141,6 @@ const copy = {
     title: 'One project. Every tool.',
     body: 'Model, analyse, and preserve structural context without turning every phase into an isolated file.',
     explore: 'Explore tools',
-    openSolver: 'Open 2D Solver',
     flow: 'See how it connects',
     heroStatus: 'Experimental platform',
     toolsEyebrow: 'Tools',
@@ -243,10 +241,7 @@ export const FusionLanding = ({ language, onOpenSolver2D, onOpenSolver3D, onOpen
           <h1 id="fusion-landing-title">{text.title}</h1>
           <p>{text.body}</p>
           <div className="fs-landing-hero__actions">
-            <button type="button" className="fs-action fs-action--primary" onClick={onOpenSolver2D}>
-              {text.openSolver}<ArrowRight size={16} aria-hidden="true" />
-            </button>
-            <a className="fs-action" href="#fusion-tools">
+            <a className="fs-action fs-action--primary" href="#fusion-tools">
               {text.explore}<ArrowDown size={16} aria-hidden="true" />
             </a>
             <a className="fs-action" href="#fusion-flow">

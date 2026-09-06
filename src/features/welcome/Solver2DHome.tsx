@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { ArrowRight, ArrowUpRight, FilePlus2, GraduationCap, LayoutTemplate, Play, Upload } from 'lucide-react';
 import { useReducedMotion } from 'motion/react';
+import { Solver2DMark } from '../../design-system/brand';
 import { SOLVER_2D } from '../../design-system/moduleIdentity';
 import type { ProjectModel, ThemeMode } from '../../types';
 import { ThreeStructuralImage } from '../structural-assets';
@@ -26,7 +27,7 @@ export interface Solver2DHomeProps {
 const copy = {
   es: {
     role: 'Solver 2D',
-    lead: 'Modela, analiza y comprende estructuras.',
+    lead: 'Modela nudos, barras, apoyos y cargas en un plano; obtén reacciones, N-V-M, deformada y envolventes con las hipótesis a la vista.',
     leadStrong: 'Del trazo al diagrama.',
     open: 'Proyecto abierto',
     continue: 'Continuar',
@@ -68,7 +69,7 @@ const copy = {
   },
   en: {
     role: '2D Solver',
-    lead: 'Model, analyse, and understand structures.',
+    lead: 'Model nodes, members, supports, and loads on a plane; get reactions, N-V-M, deflected shape, and envelopes with the assumptions in plain sight.',
     leadStrong: 'From line to diagram.',
     open: 'Open project',
     continue: 'Continue',
@@ -151,8 +152,8 @@ export const Solver2DHome = ({
     <section className="solver2d-hero" aria-labelledby="solver2d-hero-name">
       <div className="solver2d-hero__copy">
         <span className="solver2d-hero__eyebrow" style={{ '--reveal-step': 0 } as React.CSSProperties}>{SOLVER_2D.product}<b>·</b>{text.role}</span>
-        <h1 id="solver2d-hero-name" className="solver2d-hero__name" style={{ '--reveal-step': 1 } as React.CSSProperties}>{text.leadStrong}</h1>
-        <p className="solver2d-hero__lead" style={{ '--reveal-step': 2 } as React.CSSProperties}>{text.lead}</p>
+        <h1 id="solver2d-hero-name" className="solver2d-hero__name" style={{ '--reveal-step': 1 } as React.CSSProperties}><Solver2DMark size={48} />{SOLVER_2D.name}</h1>
+        <p className="solver2d-hero__lead" style={{ '--reveal-step': 2 } as React.CSSProperties}><strong>{text.leadStrong}</strong> {text.lead}</p>
 
         <div className="solver2d-open" style={{ '--reveal-step': 3 } as React.CSSProperties} onPointerEnter={onPreloadWorkspace} onFocusCapture={onPreloadWorkspace}>
           <div className="solver2d-open__head">

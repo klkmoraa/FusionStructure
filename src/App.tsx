@@ -162,7 +162,7 @@ const AppShell = () => {
 
   return <ClassroomSessionProvider projectId={project.id} analysisAvailable={analysis?.success === true}>
     <Suspense fallback={<div className="workspace-loading" role="status" aria-label={t('workspace.loading')}><strong>FusionStructure</strong><LoaderCircle className="spin" size={22} /></div>}>
-      <WorkspaceShell projectId={project.id} onOpenHome={() => navigate('welcome', 'solver2d')} />
+      <WorkspaceShell projectId={project.id} onOpenHome={() => navigate('welcome', 'solver2d')} onOpenSpace3D={() => requestSpace3D('workspace')} />
     </Suspense>{space3DEntry}{launchedImport}
   </ClassroomSessionProvider>;
 };

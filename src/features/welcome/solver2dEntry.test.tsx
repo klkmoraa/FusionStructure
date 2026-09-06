@@ -67,7 +67,7 @@ const abrirSolver2D = async () => {
   const user = userEvent.setup();
   render(<App />);
   await screen.findByTestId('platform-landing');
-  await user.click(screen.getAllByRole('button', { name: 'Abrir Solver 2D' })[0]);
+  await user.click(screen.getByRole('button', { name: 'Abrir Solver 2D' }));
 };
 
 const enElLienzo = async () => {
@@ -148,7 +148,7 @@ describe('una sola acción desde la portada hasta el lienzo', () => {
     // vacío y la que una implementación que congele reutilizaría.
     await waitFor(() => expect(lecturas).toBeGreaterThan(0));
 
-    await user.click(screen.getAllByRole('button', { name: 'Abrir Solver 2D' })[0]);
+    await user.click(screen.getByRole('button', { name: 'Abrir Solver 2D' }));
     await enElLienzo();
   });
 
@@ -187,7 +187,7 @@ describe('una sola acción desde la portada hasta el lienzo', () => {
     render(<App />);
     await screen.findByTestId('platform-landing');
 
-    await user.click(screen.getAllByRole('button', { name: 'Abrir Solver 2D' })[0]);
+    await user.click(screen.getByRole('button', { name: 'Abrir Solver 2D' }));
     // Sin respuesta todavía: el usuario cambia de idea.
     await user.click(screen.getByRole('button', { name: 'Abrir Aula estructural' }));
     expect(new URLSearchParams(window.location.search).get('surface')).toBe('classroom');
