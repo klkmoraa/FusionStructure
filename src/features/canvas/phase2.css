@@ -2147,10 +2147,10 @@ body:has(.structural-edit-surface) .app-shell .tool-rail.is-floating-dock {
 /* La reacción es un resultado del apoyo, no una fuerza axial de la barra:
    compartían color y no había forma de distinguirlas en la misma vista. */
 .smart-label.tone-reaction { color:var(--reaction); }
-.member-dimension { color:var(--dimension); fill:none; stroke:currentColor; stroke-width:1; vector-effect:non-scaling-stroke; }
-.member-dimension-extension { stroke-dasharray:2 2; opacity:.7; }
-.member-dimension-line { stroke-width:1.15; }
-.member-dimension text { fill:currentColor; stroke:var(--canvas-bg); stroke-width:3px; paint-order:stroke; font-family:var(--sc-font-mono); font-size:10px; font-weight:700; }
+.member-dimension { color:var(--dimension); fill:none; stroke:currentColor; stroke-width:.7; opacity:.58; vector-effect:non-scaling-stroke; }
+.member-dimension-extension { stroke-dasharray:2 4; opacity:.78; }
+.member-dimension-line { stroke-width:.8; stroke-dasharray:3 3; }
+.member-dimension text { fill:currentColor; stroke:var(--canvas-bg); stroke-width:2px; paint-order:stroke; font-family:var(--sc-font-mono); font-size:9px; font-weight:650; }
 .node-object { cursor: pointer; }
 .node-object:focus-visible { outline:none; }
 .node-object text { font-size: 12px; font-weight: 600; fill: var(--text); paint-order: stroke; stroke: var(--canvas-bg); stroke-width: 4px; }

@@ -242,29 +242,27 @@ const CanvasGeometryLayerImpl = ({
     const envelopeTails: Array<{ x: number; y: number }> = [];
     const envelopeBases: Array<{ x: number; y: number }> = [];
     const maximumIntensity = Math.max(Math.abs(load.qyStart ?? 0), Math.abs(load.qyEnd ?? 0), Math.abs(load.qxStart ?? 0), Math.abs(load.qxEnd ?? 0), 1e-9);
+    const verticalSign = Math.sign((load.qyStart ?? 0) || (load.qyEnd ?? 0) || (load.qxStart ?? 0) || (load.qxEnd ?? 0) || -1);
     for (let i = 0; i < count; i += 1) {
       const t = i / (count - 1);
       const base = stationOf(load.start + (load.end - load.start) * t);
       const { qx, qy } = distributedIntensityAt(load, t);
-      const [gx, gy] = toGlobalVector(axis, load.coordinateSystem, qx, qy);
-      const mag = Math.hypot(gx, gy);
-      const ux = mag > 1e-9 ? gx / mag : 0;
-      const uy = mag > 1e-9 ? -gy / mag : 0;
-      // La envolvente une las colas de las flechas: una intensidad que parte
-      // de cero queda realmente triangular y dos extremos distintos forman un
-      // trapecio, en vez de una fila de flechas todas del mismo tamaño.
-      const length = mag > 1e-9 ? 24 + 38 * (mag / maximumIntensity) : 0;
-      const tail = { x: base.x - ux * length, y: base.y - uy * length };
+      const intensity = Math.hypot(qx, qy);
+      // La silueta de carga es deliberadamente ortogonal a la pantalla: todas
+      // las flechas quedan verticales y la arista superior describe con una
+      // sola recta la variación 0→q (triángulo) o q1→q2 (trapecio).
+      const length = intensity > 1e-9 ? 20 + 42 * (intensity / maximumIntensity) : 0;
+      const tail = { x: base.x, y: base.y + (verticalSign < 0 ? -length : length) };
       envelopeTails.push(tail);
       envelopeBases.push(base);
-      if (length > 0) arrows.push(<line key={i} x1={tail.x} y1={tail.y} x2={base.x - ux * 5} y2={base.y - uy * 5} markerEnd="url(#arrow-load-distributed)" />);
+      if (length > 0) arrows.push(<line key={i} x1={tail.x} y1={tail.y} x2={base.x} y2={base.y} markerEnd="url(#arrow-load-distributed)" />);
     }
     const qStartMagnitude = Math.hypot(load.qxStart ?? 0, load.qyStart ?? 0);
     const qEndMagnitude = Math.hypot(load.qxEnd ?? load.qxStart ?? 0, load.qyEnd ?? load.qyStart ?? 0);
     const average = (qStartMagnitude + qEndMagnitude) / 2;
     const hitStart = stationOf(load.start);
     const hitEnd = stationOf(load.end);
-    const envelope = [...envelopeTails, ...envelopeBases.reverse()];
+    const envelope = [envelopeTails[0], envelopeTails.at(-1), envelopeBases.at(-1), envelopeBases[0]].filter(Boolean) as Array<{ x: number; y: number }>;
     const envelopePath = envelope.length > 2 ? `M ${envelope.map((point) => `${point.x} ${point.y}`).join(' L ')} Z` : '';
     return <g key={load.id} className={`distributed-symbol load-symbol--distributed${selected ? ' selected' : ''}${previewed ? ' candidate-preview' : ''}`} data-load-lane={lane} data-structure-object data-structure-kind="memberLoad" data-structure-id={load.id} data-candidate-preview={previewed ? 'true' : undefined} role="button" tabIndex={0} aria-keyshortcuts="Enter Space" aria-label={t('canvas.distributedLoadAria', { id: load.id, target: load.memberId, value: formatFixed(toDisplay(average, units, 'distributedForce'), 2), unit: distributedLabel })} aria-pressed={selected} onPointerDown={(event) => onObjectPointerDown(event, { kind: 'memberLoad', id: load.id })} onKeyDown={(event) => onObjectKeyDown(event, { kind: 'memberLoad', id: load.id })}>{selected ? <line className="load-selection-halo" x1={hitStart.x} y1={hitStart.y} x2={hitEnd.x} y2={hitEnd.y} /> : null}{previewed ? <line className="candidate-preview-halo" x1={hitStart.x} y1={hitStart.y} x2={hitEnd.x} y2={hitEnd.y} /> : null}<line className="load-hit" x1={hitStart.x} y1={hitStart.y} x2={hitEnd.x} y2={hitEnd.y} /><path className="distributed-envelope" d={envelopePath} />{arrows}</g>;
   };

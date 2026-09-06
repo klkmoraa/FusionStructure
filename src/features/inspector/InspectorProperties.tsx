@@ -786,12 +786,12 @@ export const InspectorProperties = () => {
             <InspectorNumericField label={t('inspector.from')} value={selectedMemberLoad.start * 100} unit="%" resetKey={`${selectionKey}:start-percent`} language={language} validate={(value) => value >= 0 && value <= 100 ? undefined : t('inspector.normalizedPositionValidation')} onCommit={(value) => updateMemberLoad('start', Math.max(0, Math.min(1, value / 100)))} />
             <InspectorNumericField label={t('inspector.to')} value={selectedMemberLoad.end * 100} unit="%" resetKey={`${selectionKey}:end-percent`} language={language} validate={(value) => value >= 0 && value <= 100 ? undefined : t('inspector.normalizedPositionValidation')} onCommit={(value) => updateMemberLoad('end', Math.max(0, Math.min(1, value / 100)))} />
           </>}
-          <PhysicalNumberField label={t('inspector.qxStart')} value={selectedMemberLoad.qxStart ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qx-start`} onCommit={(value) => updateMemberLoad('qxStart', value)} />
-          <PhysicalNumberField label={t('inspector.qxEnd')} value={selectedMemberLoad.qxEnd ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qx-end`} onCommit={(value) => updateMemberLoad('qxEnd', value)} />
-          <PhysicalNumberField label={t('inspector.qyStart')} value={selectedMemberLoad.qyStart ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qy-start`} onCommit={(value) => updateMemberLoad('qyStart', value)} />
-          <PhysicalNumberField label={t('inspector.qyEnd')} value={selectedMemberLoad.qyEnd ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qy-end`} onCommit={(value) => updateMemberLoad('qyEnd', value)} />
-          <button type="button" className="mini-button" onClick={decomposeDistributedLoad}>Descomponer en uniforme + triangular</button>
-          {selectedLoadChain.length > 1 ? <button type="button" className="mini-button" onClick={extendDistributedLoad}>Extender por cadena recta · {formatPhysical(selectedLoadChainLength, units, 'length')}</button> : null}
+          <PhysicalNumberField label="Carga al inicio" value={selectedMemberLoad.qyStart ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qy-start`} onCommit={(value) => updateMemberLoad('qyStart', value)} />
+          <PhysicalNumberField label="Carga al final" value={selectedMemberLoad.qyEnd ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qy-end`} onCommit={(value) => updateMemberLoad('qyEnd', value)} />
+          <details className="inspector-load-options"><summary>Más opciones</summary><div>
+            <button type="button" className="inspector-load-option" onClick={decomposeDistributedLoad}>Descomponer carga</button>
+            {selectedLoadChain.length > 1 ? <button type="button" className="inspector-load-option" onClick={extendDistributedLoad}>Extender al tramo recto · {formatPhysical(selectedLoadChainLength, units, 'length')}</button> : null}
+          </div></details>
         </> : null}
         {selectedMemberLoad.type === 'point' ? <>
           {memberLoadPositionMode === 'meters'
