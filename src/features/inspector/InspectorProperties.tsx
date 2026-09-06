@@ -50,6 +50,7 @@ import { SupportPicker } from './SupportPicker';
 import { applySupportPreset, type SupportEntry } from './supportCatalog';
 import { emitWorkspaceCommand } from '../workspace/workspaceCommands';
 import { splitDistributedLoadAcrossChain, straightMemberChain } from './memberLoadChain';
+import { pointLoadPolarFromVector, pointLoadVectorFromPolar, splitPointLoadIntoComponents } from './memberLoadVectors';
 import { MemberFavoritesPanel } from '../library/MemberFavoritesPanel';
 import {
   InspectorAdvancedProperties,
@@ -155,6 +156,7 @@ export const InspectorProperties = () => {
   const { resultsVisible } = useClassroomSession();
   const [expandedSections, setExpandedSections] = usePersistentInspectorSections();
   const [memberLoadPositionMode, setMemberLoadPositionMode] = useState<'meters' | 'percent'>('meters');
+  const [pointLoadDirectionMode, setPointLoadDirectionMode] = useState<'polar' | 'components'>('polar');
   const units = project.settings.units;
   const classroomMode = project.settings.calculationMode === 'classroom';
   const nonNegative = useCallback(
@@ -306,44 +308,26 @@ export const InspectorProperties = () => {
     return draft;
   });
 
-  const decomposeDistributedLoad = () => {
-    if (!selectedMemberLoad || selectedMemberLoad.type !== 'distributed') return;
-    const baseId = `${selectedMemberLoad.id}-uniforme`;
-    updateProject((draft) => {
-      const index = draft.memberLoads.findIndex((item) => item.id === selectedMemberLoad.id);
-      if (index < 0 || draft.memberLoads[index].type !== 'distributed') return draft;
-      const load = draft.memberLoads[index];
-      const used = new Set(draft.memberLoads.map((item) => item.id));
-      const unique = (candidate: string) => {
-        let id = candidate;
-        let suffix = 2;
-        while (used.has(id)) { id = `${candidate}-${suffix}`; suffix += 1; }
-        used.add(id);
-        return id;
-      };
-      const uniform: MemberLoad = {
-        ...load,
-        id: unique(baseId),
-        qxEnd: load.qxStart ?? 0,
-        qyEnd: load.qyStart ?? 0,
-      };
-      const ramp: MemberLoad = {
-        ...load,
-        id: unique(`${selectedMemberLoad.id}-triangular`),
-        qxStart: 0,
-        qyStart: 0,
-        qxEnd: (load.qxEnd ?? load.qxStart ?? 0) - (load.qxStart ?? 0),
-        qyEnd: (load.qyEnd ?? load.qyStart ?? 0) - (load.qyStart ?? 0),
-      };
-      draft.memberLoads.splice(index, 1, uniform, ramp);
-      return draft;
-    });
-    setSelection({ kind: 'memberLoad', id: baseId });
-  };
-
   const extendDistributedLoad = () => {
     if (!selectedMemberLoad || selectedMemberLoad.type !== 'distributed') return;
     updateProject((draft) => splitDistributedLoadAcrossChain(draft, selectedMemberLoad.id));
+  };
+
+  const updatePointLoadVector = (px: number, py: number) => updateProject((draft) => {
+    const load = draft.memberLoads.find((item) => item.id === selectedMemberLoad?.id);
+    if (load?.type === 'point') { load.px = px; load.py = py; }
+    return draft;
+  });
+
+  const splitPointLoad = () => {
+    if (!selectedMemberLoad || selectedMemberLoad.type !== 'point') return;
+    let horizontalId: string | undefined;
+    updateProject((draft) => {
+      const result = splitPointLoadIntoComponents(draft, selectedMemberLoad.id);
+      horizontalId = result.horizontalId;
+      return result.project;
+    });
+    if (horizontalId) setSelection({ kind: 'memberLoad', id: horizontalId });
   };
 
   const deleteSelection = () => {
@@ -788,17 +772,37 @@ export const InspectorProperties = () => {
           </>}
           <PhysicalNumberField label="Carga al inicio" value={selectedMemberLoad.qyStart ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qy-start`} onCommit={(value) => updateMemberLoad('qyStart', value)} />
           <PhysicalNumberField label="Carga al final" value={selectedMemberLoad.qyEnd ?? 0} units={units} quantity="distributedForce" resetKey={`${selectionKey}:qy-end`} onCommit={(value) => updateMemberLoad('qyEnd', value)} />
-          <details className="inspector-load-options"><summary>Más opciones</summary><div>
-            <button type="button" className="inspector-load-option" onClick={decomposeDistributedLoad}>Descomponer carga</button>
-            {selectedLoadChain.length > 1 ? <button type="button" className="inspector-load-option" onClick={extendDistributedLoad}>Extender al tramo recto · {formatPhysical(selectedLoadChainLength, units, 'length')}</button> : null}
-          </div></details>
+          {selectedLoadChain.length > 1 ? <details className="inspector-load-options"><summary>Más opciones</summary><div>
+            <button type="button" className="inspector-load-option" onClick={extendDistributedLoad}>Extender al tramo recto · {formatPhysical(selectedLoadChainLength, units, 'length')}</button>
+          </div></details> : null}
         </> : null}
         {selectedMemberLoad.type === 'point' ? <>
           {memberLoadPositionMode === 'meters'
             ? <PhysicalNumberField label={t('inspector.position')} value={(selectedMemberLoad.position ?? 0.5) * selectedLoadLength} units={units} quantity="length" resetKey={`${selectionKey}:position-m`} hint={`L = ${formatPhysical(selectedLoadLength, units, 'length')}`} onCommit={(value) => updateMemberLoad('position', Math.max(0, Math.min(1, value / selectedLoadLength)))} />
             : <InspectorNumericField label={t('inspector.position')} value={(selectedMemberLoad.position ?? 0.5) * 100} unit="%" resetKey={`${selectionKey}:position-percent`} language={language} validate={(value) => value >= 0 && value <= 100 ? undefined : t('inspector.normalizedPositionValidation')} onCommit={(value) => updateMemberLoad('position', Math.max(0, Math.min(1, value / 100)))} />}
-          <PhysicalNumberField label={t('inspector.forceX')} value={selectedMemberLoad.px ?? 0} units={units} quantity="force" resetKey={`${selectionKey}:px`} onCommit={(value) => updateMemberLoad('px', value)} />
-          <PhysicalNumberField label={t('inspector.forceY')} value={selectedMemberLoad.py ?? 0} units={units} quantity="force" resetKey={`${selectionKey}:py`} onCommit={(value) => updateMemberLoad('py', value)} />
+          <div className="segmented-control" role="group" aria-label="Forma de definir la dirección">
+            <button type="button" aria-pressed={pointLoadDirectionMode === 'polar'} className={pointLoadDirectionMode === 'polar' ? 'active' : ''} onClick={() => setPointLoadDirectionMode('polar')}>Magnitud y ángulo</button>
+            <button type="button" aria-pressed={pointLoadDirectionMode === 'components'} className={pointLoadDirectionMode === 'components' ? 'active' : ''} onClick={() => setPointLoadDirectionMode('components')}>Componentes</button>
+          </div>
+          {pointLoadDirectionMode === 'polar' ? (() => {
+            const polar = pointLoadPolarFromVector(selectedMemberLoad.px ?? 0, selectedMemberLoad.py ?? 0);
+            return <>
+              <PhysicalNumberField label="Magnitud" value={polar.magnitude} units={units} quantity="force" resetKey={`${selectionKey}:magnitude`} validate={nonNegative} onCommit={(value) => {
+                const vector = pointLoadVectorFromPolar(value, polar.angleDeg);
+                updatePointLoadVector(vector.px, vector.py);
+              }} />
+              <InspectorNumericField label="Ángulo" value={polar.angleDeg} unit="°" resetKey={`${selectionKey}:angle`} language={language} hint="0° = +X · −90° = hacia abajo" onCommit={(value) => {
+                const vector = pointLoadVectorFromPolar(polar.magnitude, value);
+                updatePointLoadVector(vector.px, vector.py);
+              }} />
+            </>;
+          })() : <>
+            <PhysicalNumberField label="Horizontal" value={selectedMemberLoad.px ?? 0} units={units} quantity="force" resetKey={`${selectionKey}:px`} onCommit={(value) => updatePointLoadVector(value, selectedMemberLoad.py ?? 0)} />
+            <PhysicalNumberField label="Vertical" value={selectedMemberLoad.py ?? 0} units={units} quantity="force" resetKey={`${selectionKey}:py`} onCommit={(value) => updatePointLoadVector(selectedMemberLoad.px ?? 0, value)} />
+          </>}
+          {Math.abs(selectedMemberLoad.px ?? 0) > 1e-9 && Math.abs(selectedMemberLoad.py ?? 0) > 1e-9 ? <details className="inspector-load-options"><summary>Más opciones</summary><div>
+            <button type="button" className="inspector-load-option" onClick={splitPointLoad}>Separar horizontal y vertical</button>
+          </div></details> : null}
         </> : null}
         {selectedMemberLoad.type === 'moment' ? <>
           <InspectorNumericField label={t('inspector.position')} value={selectedMemberLoad.position ?? 0.5} unit="x/L" resetKey={`${selectionKey}:position`} language={language} validate={normalizedPosition} onCommit={(value) => updateMemberLoad('position', Math.max(0, Math.min(1, value)))} />
