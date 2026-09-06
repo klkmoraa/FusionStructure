@@ -22,11 +22,11 @@ describe('navegación por herramienta', () => {
     expect(screen.queryByText('Proyectos recientes')).toBeNull();
 
     expect(screen.getByRole('link', { name: 'Explorar herramientas' }).getAttribute('href')).toBe('#fusion-tools');
-    await user.click(screen.getByRole('button', { name: 'Abrir Solver 2D' }));
+    await user.click(screen.getAllByRole('button', { name: 'Abrir Solver 2D' })[0]);
 
     expect(screen.getByTestId('solver2d-welcome')).toBeTruthy();
     expect(screen.getByRole('navigation', { name: 'Navegación de FStructure' })).toBeTruthy();
-    expect(screen.getByRole('heading', { level: 1, name: 'FStructure' })).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 1, name: 'Del trazo al diagrama.' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Continuar' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Por dónde empezar' })).toBeTruthy();
     expect(screen.queryByRole('application', { name: 'Área de trabajo estructural interactiva' })).toBeNull();
@@ -51,7 +51,7 @@ describe('navegación por herramienta', () => {
   it('separa herramientas disponibles de módulos futuros', async () => {
     render(<App />);
 
-    expect(await screen.findByRole('button', { name: 'Abrir Solver 2D' })).toBeTruthy();
+    expect(await screen.findAllByRole('button', { name: 'Abrir Solver 2D' })).toHaveLength(2);
     expect(screen.getByRole('button', { name: 'Abrir Solver 3D' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Abrir Aula estructural' })).toBeTruthy();
 

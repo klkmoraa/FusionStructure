@@ -134,21 +134,6 @@
 .console__brand { gap: 12px; }
 .console__brand .console__label { font-size: var(--sc-font-size-title); font-weight: var(--sc-font-weight-heavy); letter-spacing: var(--sc-tracking-tight); }
 
-/* El nombre del proyecto sólo existe cuando la consola está desplegada: en
-   52px no cabe nada legible y una elipsis suelta no informa. */
-.console__project { min-height: 30px; padding-block: 0; color: var(--muted); }
-.console__project-name {
-  min-width: 0;
-  overflow: hidden;
-  opacity: 0;
-  font-size: var(--sc-font-size-caption);
-  font-weight: var(--sc-font-weight-semibold);
-  text-overflow: ellipsis;
-  transition: opacity var(--sc-motion-quick) var(--sc-ease-standard);
-}
-.console:hover .console__project-name,
-.console:focus-within .console__project-name { opacity: 1; }
-
 .console__body {
   min-height: 0;
   flex: 1;
@@ -203,11 +188,8 @@
   .console:hover,
   .console:focus-within { width: 100%; box-shadow: var(--sc-shadow-sheet); }
 
-  /* En K0 la etiqueta no cabe nunca: el nombre accesible vive en `aria-label`.
-     El selector nombra también el elemento porque `.console button` ya declara
-     `display:flex` con más especificidad que una clase suelta. */
+  /* En K0 la etiqueta no cabe: el nombre accesible vive en `aria-label`. */
   .console__label { display: none; }
-  .console button.console__project { display: none; }
 
   /*
    * REPARTO K0: la barra superior manda, el dock ejecuta.
@@ -299,4 +281,139 @@
   .console button { min-height: 48px; padding: 0 13px; justify-content: center; }
   .console button.is-active { box-shadow: inset 0 2px 0 var(--accent-ink); }
   .console__analyze { min-width: 56px; }
+}
+
+/* Clay shell pass -------------------------------------------------------
+   The console stays in its established column/bottom band. Its own controls
+   become small raised keys so the rail reads as one instrument, while the
+   structural tool dock keeps the canvas-centered position owned by phase1. */
+@media (min-width: 1024px) {
+  .console {
+    padding: 8px 4px;
+    border-right: 0;
+    background: var(--sc-color-bg-app);
+  }
+
+  .console__head,
+  .console__surfaces,
+  .console__foot {
+    gap: 6px;
+  }
+
+  .console__head {
+    padding-block-end: 8px;
+    border-bottom-color: var(--sc-color-border-soft);
+  }
+
+  .console__surfaces {
+    padding-block: 8px 12px;
+    border-bottom-color: var(--sc-color-border-soft);
+  }
+
+  .console__foot {
+    padding-block-start: 8px;
+    border-top-color: var(--sc-color-border-soft);
+  }
+
+  .console__head > button,
+  .console__surfaces > button,
+  .console__foot > button {
+    width: 44px;
+    min-width: 44px;
+    min-height: 42px;
+    height: 42px;
+    justify-content: center;
+    padding-inline: 0;
+    border: var(--sc-depth-raised-border);
+    border-radius: var(--sc-radius-control);
+    background: var(--sc-color-surface-1);
+    box-shadow: var(--sc-shadow-xs);
+    transition:
+      background-color var(--sc-motion-control) var(--sc-ease-standard),
+      border-color var(--sc-motion-control) var(--sc-ease-standard),
+      box-shadow var(--sc-motion-control) var(--sc-ease-standard),
+      color var(--sc-motion-control) var(--sc-ease-standard),
+      transform var(--sc-motion-control) var(--sc-ease-press);
+  }
+
+  .console__head > button:hover:not(:disabled),
+  .console__head > button:focus-visible,
+  .console__surfaces > button:hover:not(:disabled),
+  .console__surfaces > button:focus-visible,
+  .console__foot > button:hover:not(:disabled),
+  .console__foot > button:focus-visible {
+    border-color: var(--sc-color-border);
+    background: var(--sc-color-surface-elevated);
+    box-shadow: var(--sc-shadow-lifted);
+    color: var(--sc-color-text-primary);
+  }
+
+  .console__head > button:active:not(:disabled),
+  .console__surfaces > button:active:not(:disabled),
+  .console__foot > button:active:not(:disabled) {
+    background: var(--sc-color-surface-pressed);
+    box-shadow: var(--sc-shadow-pressed);
+  }
+
+  .console:hover .console__head > button,
+  .console:focus-within .console__head > button,
+  .console:hover .console__surfaces > button,
+  .console:focus-within .console__surfaces > button,
+  .console:hover .console__foot > button,
+  .console:focus-within .console__foot > button {
+    width: auto;
+    min-width: 44px;
+    justify-content: flex-start;
+    padding-inline: 12px;
+  }
+
+  .console button.is-active:not(.console__analyze) {
+    border-color: var(--sc-color-border);
+    background: var(--sc-color-surface-pressed);
+    box-shadow: var(--sc-shadow-pressed);
+    color: var(--sc-color-text-primary);
+  }
+
+  .console button.console__analyze {
+    border-color: var(--sc-color-action-primary);
+    border-radius: var(--sc-radius-control);
+    box-shadow: var(--sc-shadow-action);
+  }
+}
+
+@media (max-width: 1023px) {
+  .console {
+    border-top-color: var(--sc-color-border-soft);
+    background: var(--sc-color-bg-app);
+  }
+
+  .console__head,
+  .console__foot {
+    background: var(--sc-color-surface-inset);
+  }
+
+  .console__head > button,
+  .console__surfaces > button,
+  .console__foot > button {
+    border: var(--sc-depth-raised-border);
+    border-radius: var(--sc-radius-control);
+    background: var(--sc-color-surface-1);
+    box-shadow: var(--sc-shadow-xs);
+  }
+
+  .console button.is-active:not(.console__analyze) {
+    border-color: var(--sc-color-border);
+    background: var(--sc-color-surface-pressed);
+    box-shadow: var(--sc-shadow-pressed);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .console,
+  .console *,
+  .console *::before,
+  .console *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

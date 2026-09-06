@@ -3,7 +3,7 @@ import { ToolRail } from '../canvas/ToolRail';
 import { Solver2DMark } from '../../design-system/brand';
 import { SOLVER_2D } from '../../design-system/moduleIdentity';
 import { useI18n } from '../../i18n/useI18n';
-import { useProjectAnalysis, useProjectModel, useWorkspaceUI } from '../../store/ProjectContext';
+import { useProjectAnalysis, useWorkspaceUI } from '../../store/ProjectContext';
 import { emitWorkspaceCommand } from '../workspace/workspaceCommands';
 import './console.css';
 
@@ -33,7 +33,6 @@ export const Console = ({ onOpenHome, onOpenSpace3D: _onOpenSpace3D, layoutActio
   layoutActions: ConsoleLayoutActions;
   resultsOpen?: boolean;
 }) => {
-  const { project } = useProjectModel();
   const { analyze, isAnalyzing } = useProjectAnalysis();
   const { theme, setTheme } = useWorkspaceUI();
   const { t } = useI18n();
@@ -45,9 +44,6 @@ export const Console = ({ onOpenHome, onOpenSpace3D: _onOpenSpace3D, layoutActio
       <button type="button" className="console__brand" onClick={onOpenHome} aria-label={t('navigation.home')} title={t('navigation.home')}>
         <Solver2DMark size={22} />
         <Label>{SOLVER_2D.name}</Label>
-      </button>
-      <button type="button" className="console__project" onClick={() => emitWorkspaceCommand('open-command-palette')} aria-label={`${t('topbar.currentProject')}: ${project.name}`} title={project.name}>
-        <span className="console__project-name">{project.name}</span>
       </button>
       <button type="button" className="console__key" onClick={() => emitWorkspaceCommand('open-command-palette')} aria-label={t('palette.open')} title={t('palette.open')}>
         <Search size={18} /><Label>{t('palette.open')}</Label>

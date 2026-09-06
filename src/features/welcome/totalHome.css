@@ -1,11 +1,17 @@
 .sc-home {
   --home-max: 1440px;
-  height: 100dvh;
-  min-height: 100dvh;
+  --home-frame-gap: clamp(10px, 1.8vw, 24px);
+  width: calc(100% - (var(--home-frame-gap) * 2));
+  height: calc(100dvh - (var(--home-frame-gap) * 2));
+  min-height: calc(100dvh - (var(--home-frame-gap) * 2));
+  margin: var(--home-frame-gap);
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--sc-color-border-soft);
+  border-radius: var(--sc-radius-modal);
+  box-shadow: var(--sc-shadow-lg);
   background: var(--sc-color-bg-app);
   color: var(--sc-color-text-primary);
   font-family: var(--sc-font-ui, "Instrument Sans", sans-serif);
@@ -22,14 +28,14 @@
 /* `.sc-home` es el contenedor que desplaza, así que la consola y la línea de
    vista se quedan pegadas a su borde superior: la identidad del módulo y la
    búsqueda no deberían desaparecer al bajar por la pantalla. */
-.sc-home-console { position:sticky; top:0; min-height:52px; z-index:21; display:flex; align-items:center; gap:8px; padding:4px 16px; border-block-end:1px solid var(--sc-color-border-soft); background:var(--sc-color-surface-1); }
+.sc-home-console { position:sticky; top:0; min-height:56px; z-index:21; display:flex; align-items:center; gap:8px; padding:6px 16px; border-block-end:1px solid var(--sc-color-border-soft); background:var(--sc-color-surface-elevated); box-shadow:0 1px 0 rgb(20 23 26 / .02); }
 
 .sc-home-wordmark {
   min-width: 0;
   display: flex;
   align-items: center;
   gap: 9px;
-  padding-inline: 7px;
+  padding-inline: 6px;
   border: 0;
   background: transparent;
   color: inherit;
@@ -39,7 +45,7 @@
 
 .sc-home-wordmark strong {
   overflow: hidden;
-  font-size: var(--sc-font-size-screen);
+  font-size: 15px;
   font-weight: 760;
   letter-spacing: -.035em;
   text-overflow: ellipsis;
@@ -53,7 +59,7 @@
   border-inline-start: 1px solid var(--sc-color-border);
   color: var(--sc-color-text-muted);
   font-family: var(--sc-font-mono, monospace);
-  font-size: 9px;
+  font-size: 8px;
   font-weight: 760;
   letter-spacing: .08em;
   text-transform: uppercase;
@@ -118,8 +124,15 @@
   box-shadow: none;
 }
 
+.sc-home-nav--console button.is-active {
+  border-color: var(--sc-color-border);
+  background: var(--sc-color-surface-elevated);
+  color: var(--sc-color-text-primary);
+  box-shadow: var(--sc-shadow-xs);
+}
+
 .sc-home-nav--console { margin-left:auto; display:flex; align-items:center; gap:2px; }
-.sc-home-nav--console button { width:36px; min-height:36px; justify-content:center; padding:0; }
+.sc-home-nav--console button { width:36px; min-height:36px; justify-content:center; padding:0; border-radius:var(--sc-radius-control); }
 .sc-home-nav--console button span { display:none; }
 .sc-home-console__menu,
 .sc-home-nav--menu { display:none; }
@@ -132,10 +145,10 @@
 
 .sc-home-topline {
   position: sticky;
-  top: 52px;
+  top: 56px;
   z-index: 20;
-  min-height: 68px;
-  padding: 12px clamp(24px, 3vw, 48px);
+  min-height: 52px;
+  padding: 8px clamp(18px, 3vw, 38px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -145,16 +158,16 @@
 }
 
 .sc-home-topline > span {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 720;
 }
 
 .sc-home-topline > div { display: flex; align-items: center; gap: 8px; }
 
 .sc-home-search {
-  width: min(44vw, 520px);
+  width: min(38vw, 420px);
   min-width: 210px;
-  height: 40px;
+  height: 36px;
   padding-inline: 12px 7px;
   display: flex;
   align-items: center;
@@ -217,12 +230,12 @@
 .sc-home-topline select,
 .sc-home-topline button {
   min-width: 44px;
-  height: 40px;
+  height: 36px;
   padding: 0 11px;
   display: grid;
   place-items: center;
   border: 1px solid var(--sc-color-border-soft);
-  border-radius: var(--sc-radius-card);
+  border-radius: var(--sc-radius-control);
   background: var(--sc-color-surface-elevated);
   box-shadow: var(--sc-shadow-xs);
   color: var(--sc-color-text-primary);
@@ -252,13 +265,17 @@
 }
 
 .sc-home-content {
-  width: min(100%, var(--home-max));
+  width: min(100%, 1360px);
   min-width: 0;
   max-width: 100%;
   margin-inline: auto;
-  padding: clamp(22px, 3.4vw, 52px);
+  padding: clamp(20px, 2.5vw, 34px) clamp(18px, 3.8vw, 52px) 54px;
   display: grid;
-  gap: clamp(26px, 3vw, 42px);
+  gap: clamp(28px, 3.4vw, 42px);
+}
+
+@media (min-width: 761px) {
+  .sc-home-content > .solver2d-home { padding-inline: 0; }
 }
 
 .sc-home-hero {
@@ -794,7 +811,16 @@
    `device-width` covers the iPhone case when the webview reports 980/1024px
    for layout while its physical CSS screen remains phone-sized. */
 @media (max-width: 760px), (max-device-width: 760px), (hover: none) and (pointer: coarse) and (max-width: 1023px) {
-  .sc-home { display:flex; }
+  .sc-home {
+    --home-frame-gap: 0px;
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    margin: 0;
+    border-radius: 0;
+    border-width: 0;
+    display: flex;
+  }
   .sc-home-console {
     position: sticky;
     inset-block-start: 0;
@@ -832,12 +858,13 @@
     background: var(--sc-color-surface-1);
     box-shadow: var(--sc-shadow-lg, 0 18px 35px rgb(19 28 26 / .24));
   }
-  .sc-home-topline { min-height: 56px; padding: 6px 15px; }
+  .sc-home-topline { top: 62px; min-height: 52px; padding: 8px 15px; }
   .sc-home-topline > span { display: none; }
   .sc-home-search { width: 100%; min-width: 0; }
   .sc-home-topline-actions { flex: 0 0 auto; }
   .sc-home-topline select,
-  .sc-home-topline button { height: 44px; min-width: 44px; }
+  .sc-home-topline button { height: 44px; min-width: 44px; border-radius: var(--sc-radius-control); }
+  .sc-home-search { height: 40px; border-radius: var(--sc-radius-card); }
   .sc-home-content { padding: 16px 14px 32px; gap: 25px; }
   .sc-home-hero {
     min-height: 0;

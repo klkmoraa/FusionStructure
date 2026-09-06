@@ -92,61 +92,71 @@ export const WorkspaceTopBar = ({
       : labels.analysisReady;
 
   return <header className="workspace-topbar" data-workspace-topbar>
-    <button
-      type="button"
-      className="workspace-topbar__project"
-      onClick={onOpenProject}
-      aria-label={labels.openProject + ': ' + projectName}
-      title={labels.openProject}
-    >
-      <Solver2DMark size={26} />
-      <span className="workspace-topbar__project-copy">
-        <span className="workspace-topbar__eyebrow">{labels.solverName}</span>
-        <strong>{projectName}</strong>
-      </span>
-    </button>
-
-    <div className="workspace-topbar__status" aria-label={labels.project}>
-      <span
-        className={'workspace-topbar__status-chip' + (storageFailed ? ' is-error' : '') + (storageRecovered ? ' is-notice' : '')}
-        role="status"
-        data-storage-state={storageState}
-        title={storageMessage ?? labels.storageReady}
+    <div className="workspace-topbar__project-group" data-workspace-group="project">
+      <button
+        type="button"
+        className="workspace-topbar__project"
+        onClick={onOpenProject}
+        aria-label={labels.openProject + ': ' + projectName}
+        title={labels.openProject}
       >
-        {storageFailed
-          ? <CloudOff size={15} aria-hidden="true" />
-          : storageRecovered ? <RotateCcw size={15} aria-hidden="true" /> : <Check size={15} aria-hidden="true" />}
-        <span>
-          <strong>{storageLabel}</strong>
-          {storageMessage ? <small>{storageMessage}</small> : null}
+        <Solver2DMark size={26} />
+        <span className="workspace-topbar__project-copy">
+          <span className="workspace-topbar__eyebrow">{labels.solverName}</span>
+          <strong>{projectName}</strong>
         </span>
-      </span>
-      <span
-        className={'workspace-topbar__status-chip' + (analysisRunning ? ' is-running' : '') + (analysisFailed ? ' is-error' : '')}
-        role="status"
-        data-analysis-state={analysisState}
-        title={analysisLabel}
-      >
-        {analysisRunning ? <Play size={15} fill="currentColor" aria-hidden="true" /> : <ChartNoAxesCombined size={15} aria-hidden="true" />}
-        <span><strong>{analysisLabel}</strong></span>
-      </span>
+      </button>
+
+      <div className="workspace-topbar__status" aria-label={labels.project}>
+        <span
+          className={'workspace-topbar__status-chip' + (storageFailed ? ' is-error' : '') + (storageRecovered ? ' is-notice' : '')}
+          role="status"
+          data-storage-state={storageState}
+          title={storageMessage ?? labels.storageReady}
+        >
+          {storageFailed
+            ? <CloudOff size={15} aria-hidden="true" />
+            : storageRecovered ? <RotateCcw size={15} aria-hidden="true" /> : <Check size={15} aria-hidden="true" />}
+          <span>
+            <strong>{storageLabel}</strong>
+            {storageMessage ? <small>{storageMessage}</small> : null}
+          </span>
+        </span>
+        <span
+          className={'workspace-topbar__status-chip' + (analysisRunning ? ' is-running' : '') + (analysisFailed ? ' is-error' : '')}
+          role="status"
+          data-analysis-state={analysisState}
+          title={analysisLabel}
+        >
+          {analysisRunning ? <Play size={15} fill="currentColor" aria-hidden="true" /> : <ChartNoAxesCombined size={15} aria-hidden="true" />}
+          <span><strong>{analysisLabel}</strong></span>
+        </span>
+      </div>
     </div>
 
     <nav className="workspace-topbar__actions" aria-label={labels.actions}>
-      <button type="button" className="workspace-topbar__icon-button" onClick={onUndo} disabled={!canUndo} aria-label={labels.undo} title={labels.undo}>
-        <Undo2 size={17} aria-hidden="true" />
-      </button>
-      <button type="button" className="workspace-topbar__icon-button" onClick={onRedo} disabled={!canRedo} aria-label={labels.redo} title={labels.redo}>
-        <Redo2 size={17} aria-hidden="true" />
-      </button>
-      <button type="button" className="workspace-topbar__action-button is-primary" onClick={onAnalyze} disabled={analysisRunning} aria-label={analysisRunning ? labels.analysisRunning : labels.analyze}>
-        <Play size={17} fill="currentColor" aria-hidden="true" />
-        <span>{analysisRunning ? labels.analysisRunning : labels.analyze}</span>
-      </button>
-      <button type="button" className={'workspace-topbar__action-button' + (resultsOpen ? ' is-active' : '')} onClick={(event) => onOpenResults(event.currentTarget)} aria-label={labels.results} aria-pressed={resultsOpen}>
-        <ChartNoAxesCombined size={17} aria-hidden="true" />
-        <span>{labels.results}</span>
-      </button>
+      <div className="workspace-topbar__model-group" data-workspace-group="model">
+        <div className="workspace-topbar__history-group">
+          <button type="button" className="workspace-topbar__icon-button" onClick={onUndo} disabled={!canUndo} aria-label={labels.undo} title={labels.undo}>
+            <Undo2 size={17} aria-hidden="true" />
+          </button>
+          <button type="button" className="workspace-topbar__icon-button" onClick={onRedo} disabled={!canRedo} aria-label={labels.redo} title={labels.redo}>
+            <Redo2 size={17} aria-hidden="true" />
+          </button>
+        </div>
+        <div className="workspace-topbar__results-group" data-workspace-group="results">
+          <button type="button" className={'workspace-topbar__action-button' + (resultsOpen ? ' is-active' : '')} onClick={(event) => onOpenResults(event.currentTarget)} aria-label={labels.results} aria-pressed={resultsOpen}>
+            <ChartNoAxesCombined size={17} aria-hidden="true" />
+            <span>{labels.results}</span>
+          </button>
+        </div>
+      </div>
+      <div className="workspace-topbar__calculate-group" data-workspace-group="calculate">
+        <button type="button" className="workspace-topbar__action-button is-primary" onClick={onAnalyze} disabled={analysisRunning} aria-label={analysisRunning ? labels.analysisRunning : labels.analyze}>
+          <Play size={17} fill="currentColor" aria-hidden="true" />
+          <span>{analysisRunning ? labels.analysisRunning : labels.analyze}</span>
+        </button>
+      </div>
     </nav>
   </header>;
 };

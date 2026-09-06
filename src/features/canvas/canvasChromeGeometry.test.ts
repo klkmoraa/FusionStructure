@@ -2,6 +2,15 @@ import { describe, expect, it } from 'vitest';
 import { cameraToFitBounds, canvasSafeRect, expandBoundsForDecoration, LOAD_DECORATION_RESERVE_PX } from './canvasChromeGeometry';
 
 describe('canvasChromeGeometry', () => {
+  it('encuadra los apoyos por encima de la barra flotante de escritorio', () => {
+    const viewport = { width: 1200, height: 616 };
+    const bounds = { minX: 0, maxX: 6, minY: 0, maxY: 4 };
+    const camera = cameraToFitBounds(bounds, viewport);
+    const supportBottom = camera.y - bounds.minY * camera.scale + 24;
+    // La barra comienza 116px antes del borde; el apoyo necesita 24px.
+    expect(supportBottom).toBeLessThanOrEqual(viewport.height - 116);
+  });
+
   it('mantiene finita la cámara cuando los límites del modelo son corruptos', () => {
     const camera = cameraToFitBounds(
       { minX: Number.NaN, maxX: 6, minY: 0, maxY: 4 },

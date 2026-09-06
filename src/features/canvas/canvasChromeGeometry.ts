@@ -47,7 +47,9 @@ export const finiteModelBounds = (bounds: ModelBounds): ModelBounds => {
 export const canvasSafeInsetsFor = (viewport: ViewportSize): CanvasSafeInsets => {
   if (viewport.width <= 480) return { top: 104, right: 58, bottom: 58, left: 58 };
   if (viewport.width <= 1023) return { top: 116, right: 64, bottom: 62, left: 64 };
-  return { top: 116, right: 68, bottom: 62, left: 68 };
+  // Desktop tools float over the lower canvas. Include their 116px band and
+  // 24px of support decoration when fitting, so the model remains selectable.
+  return { top: 116, right: 68, bottom: 140, left: 68 };
 };
 
 export const canvasSafeRect = (
