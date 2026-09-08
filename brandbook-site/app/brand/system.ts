@@ -90,6 +90,15 @@ export const SECTIONS: readonly {
   { id: 'entrega', index: '12', label: 'Entrega', detail: 'tokens y guardas' },
 ];
 
+/** Acento de marca: estable y separado de cualquier resultado técnico. */
+export const BRAND_COLORS = {
+  day: '#0B7C7E',
+  night: '#6FE7E0',
+  token: '--fs-brand-accent',
+  label: 'Aqua estructural',
+  use: 'marca, navegación, foco y controles activos',
+} as const;
+
 /** Señales de resultado: pertenecen al dato, nunca a la decoración. */
 export const SIGNALS = [
   {
