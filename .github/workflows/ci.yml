@@ -60,15 +60,14 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Export estático para GitHub Pages
+      - name: Construir versión estática para GitHub Pages
         env:
-          BRANDBOOK_STATIC_EXPORT: '1'
           NEXT_PUBLIC_BRANDBOOK_BASE_PATH: /FusionStructure/brandbook
-          NEXT_PUBLIC_BRANDBOOK_SITE_URL: https://klkmoraa.github.io/FusionStructure/brandbook/
-        run: npm run build
+        run: npm run build:pages
 
       - name: Verificar salida portable
         run: |
-          test -f dist/client/index.html
-          test -f dist/client/brand/fusionstructure-mark.svg
-          test -f dist/client/mockups/device-day-studio.png
+          test -f dist-pages/index.html
+          test -f dist-pages/brand/fusionstructure-mark.svg
+          test -f dist-pages/mockups/device-day-studio.png
+          test -f dist-pages/motion/fusionstructure-brand-motion.mp4
