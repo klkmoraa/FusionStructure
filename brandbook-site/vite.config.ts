@@ -37,7 +37,12 @@ export default defineConfig(async () => {
   // GitHub Pages necesita sólo el export estático; el hosting normal conserva
   // Sites + Cloudflare y sus bindings.
   if (process.env.BRANDBOOK_STATIC_EXPORT === '1') {
-    return { plugins: [vinext()] };
+    const publicBase =
+      process.env.NEXT_PUBLIC_BRANDBOOK_BASE_PATH?.replace(/\/$/, '') ?? '';
+    return {
+      base: publicBase ? `${publicBase}/` : '/',
+      plugins: [vinext()],
+    };
   }
 
   // Keep Wrangler and Miniflare state project-local. These are non-secret tool
