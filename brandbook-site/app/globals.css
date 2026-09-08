@@ -5,7 +5,7 @@
 
 /* ==========================================================================
    FusionStructure · Brandbook 2026
-   Papel técnico de día, carbón de noche. Tres escalas de color con
+   Papel técnico de día, carbón de noche. Un acento aqua de marca y tres escalas de color con
    significado, seis niveles de una misma arcilla leve —una sola luz, desde
    arriba-izquierda— y un movimiento que se puede apagar.
    ========================================================================== */
@@ -142,6 +142,9 @@ table {
   --ink-muted: var(--n-600);
   --ink-faint: var(--n-500);
 
+  /* marca: nunca hereda el color de un resultado */
+  --fs-brand-accent: #0b7c7e;
+
   /* señales de resultado */
   --fs-signal-axial: #1b75b0;
   --fs-signal-moment: #b8412f;
@@ -208,7 +211,7 @@ table {
   --fs-ease-in: cubic-bezier(0.5, 0, 0.75, 0);
   --fs-ease-firm: cubic-bezier(0.65, 0, 0.35, 1);
 
-  --active-signal: var(--fs-signal-moment);
+  --active-signal: var(--fs-brand-accent);
   --glyph-accent: var(--ink);
 
   min-height: 100vh;
@@ -241,6 +244,8 @@ table {
   --line: var(--n-300);
   --line-soft: var(--n-200);
   --line-strong: var(--n-400);
+
+  --fs-brand-accent: #6fe7e0;
 
   --fs-signal-axial: #63c5ff;
   --fs-signal-moment: #ff8e80;
@@ -3590,7 +3595,7 @@ table {
 
 .components__row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 12px;
 }
 
@@ -4305,7 +4310,7 @@ table {
 
 .device-references {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
   gap: 12px;
 }
 
@@ -4364,7 +4369,7 @@ table {
 
 .mockup-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
   gap: 12px;
   align-items: start;
 }
@@ -5155,4 +5160,81 @@ table {
 .tool-detail:focus-visible {
   outline: 2px solid var(--family);
   outline-offset: 3px;
+}
+
+
+/* --- 22. Auditoría 2026-09 · acento de marca ----------------------------- */
+.brand-accent-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, 210px);
+  gap: clamp(18px, 3vw, 34px);
+  align-items: stretch;
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid color-mix(in srgb, var(--fs-brand-accent) 34%, var(--line-soft));
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--fs-brand-accent) 7%, var(--surface)),
+      var(--surface) 58%
+    );
+}
+
+.brand-accent-card__copy {
+  display: grid;
+  gap: 10px;
+  align-content: center;
+}
+
+.brand-accent-card__copy h3 {
+  max-width: 24ch;
+  font-size: clamp(22px, 3vw, 34px);
+}
+
+.brand-accent-card__copy p {
+  max-width: 68ch;
+  color: var(--ink-muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.brand-accent-card__preview {
+  display: grid;
+  gap: 10px;
+  align-content: end;
+  min-height: 148px;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, var(--fs-brand-accent) 40%, var(--line-soft));
+  border-radius: var(--radius-md);
+  background: var(--fs-brand-accent);
+  color: var(--paper);
+  box-shadow: var(--shadow-raised);
+}
+
+.brandbook--noche .brand-accent-card__preview {
+  color: #0e1113;
+}
+
+.brand-accent-card__preview strong {
+  font-family: var(--fs-font-display);
+  font-size: 18px;
+}
+
+.brand-accent-card__preview code,
+.brand-accent-card__preview small {
+  color: inherit;
+}
+
+.brand-accent-card__preview small {
+  opacity: 0.76;
+}
+
+@media (width <= 620px) {
+  .brand-accent-card {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .brand-accent-card__preview {
+    min-height: 116px;
+  }
 }
