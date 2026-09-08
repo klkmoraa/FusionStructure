@@ -1,0 +1,53 @@
+name: Deploy Landing Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: landing-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build and publish gh-pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Verify
+        run: npm run check
+
+      - name: Publish to gh-pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf ../fusionstructure-pages-output
+          mkdir -p ../fusionstructure-pages-output
+          cp -a dist/. ../fusionstructure-pages-output/
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan pages-publish
+          git rm -rf .
+          git clean -fdx
+
+          cp -a ../fusionstructure-pages-output/. .
+          touch .nojekyll
+          git add -A
+          git commit -m "deploy: landing ${GITHUB_SHA}"
+          git push --force origin HEAD:gh-pages
