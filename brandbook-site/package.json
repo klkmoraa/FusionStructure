@@ -11,7 +11,8 @@
     "start": "wrangler dev --config dist/server/wrangler.json",
     "lint": "oxlint",
     "brand:assets": "node scripts/build-brand-assets.mjs && oxfmt app/brand/generated",
-    "format": "oxfmt"
+    "format": "oxfmt",
+    "build:pages": "vite build --config vite.pages.config.ts"
   },
   "dependencies": {
     "lucide-react": "1.31.0",
