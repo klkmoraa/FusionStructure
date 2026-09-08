@@ -53,18 +53,16 @@ jobs:
         working-directory: brandbook-site
         run: npm ci
 
-      - name: Construir brandbook
+      - name: Construir brandbook estático
         working-directory: brandbook-site
         env:
-          BRANDBOOK_STATIC_EXPORT: '1'
           NEXT_PUBLIC_BRANDBOOK_BASE_PATH: /FusionStructure/brandbook
-          NEXT_PUBLIC_BRANDBOOK_SITE_URL: https://klkmoraa.github.io/FusionStructure/brandbook/
-        run: npm run build
+        run: npm run build:pages
 
       - name: Integrar /brandbook/
         run: |
           mkdir -p page/brandbook
-          cp -R brandbook-site/dist/client/FusionStructure/brandbook/. page/brandbook/
+          cp -R brandbook-site/dist-pages/. page/brandbook/
           touch page/.nojekyll
           test -f page/brandbook/index.html
           test -f page/brandbook/brand/fusionstructure-mark.svg
