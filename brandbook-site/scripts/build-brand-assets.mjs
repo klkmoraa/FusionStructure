@@ -26,7 +26,8 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const INK = '#14171A';
 const PAPER = '#F7F6F1';
 const CHALK = '#F2F4F3';
-const SIGNAL = '#63C5FF';
+const BRAND_DAY = '#0B7C7E';
+const BRAND_NIGHT = '#6FE7E0';
 const BANNER =
   '/* Generado por scripts/build-brand-assets.mjs. No editar a mano. */';
 
@@ -156,7 +157,7 @@ const run = async () => {
   written.push(
     await write(
       'public/brand/fusionstructure-mark.svg',
-      svgDocument(markGroup(INK, SIGNAL), { label: 'FusionStructure' }),
+      svgDocument(markGroup(INK, BRAND_DAY), { label: 'FusionStructure' }),
     ),
   );
   written.push(
@@ -168,7 +169,7 @@ const run = async () => {
   written.push(
     await write(
       'public/brand/fusionstructure-mark-inverse.svg',
-      svgDocument(markGroup(CHALK, SIGNAL), {
+      svgDocument(markGroup(CHALK, BRAND_NIGHT), {
         label: 'FusionStructure inverso',
       }),
     ),
@@ -180,7 +181,7 @@ const run = async () => {
         [
           `  <rect width="48" height="48" rx="11" fill="${INK}" />`,
           `  <g transform="translate(4.5 3) scale(0.8125)">`,
-          markGroup(CHALK, SIGNAL),
+          markGroup(CHALK, BRAND_NIGHT),
           '  </g>',
         ].join('\n'),
         { label: 'Icono de aplicación de FusionStructure' },
@@ -194,7 +195,7 @@ const run = async () => {
         [
           `  <rect width="48" height="48" rx="10" fill="${INK}" />`,
           `  <g transform="translate(5 4) scale(0.79)">`,
-          markGroup(CHALK, SIGNAL),
+          markGroup(CHALK, BRAND_NIGHT),
           '  </g>',
         ].join('\n'),
         { label: 'FusionStructure' },
@@ -236,7 +237,7 @@ const run = async () => {
       [
         '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="56" viewBox="0 0 300 56" role="img" aria-label="FStructure">',
         '  <g transform="translate(0 4)">',
-        markGroup(INK, SIGNAL),
+        markGroup(INK, BRAND_DAY),
         '  </g>',
         `  <text x="60" y="35" font-family="'Space Grotesk','Inter',system-ui,sans-serif" font-size="26" font-weight="600" letter-spacing="-0.4" fill="${INK}">FStructure</text>`,
         `  <text x="61" y="49" font-family="'IBM Plex Mono',ui-monospace,monospace" font-size="9.5" letter-spacing="1.6" fill="#5C6A6F">SOLVER 2D · FUSIONSTRUCTURE</text>`,
@@ -247,7 +248,7 @@ const run = async () => {
 
   const lockup = [
     `  <g transform="translate(0 4)">`,
-    markGroup(INK, SIGNAL),
+    markGroup(INK, BRAND_DAY),
     '  </g>',
     `  <text x="60" y="35" font-family="'Space Grotesk','Inter',system-ui,sans-serif" font-size="26" font-weight="600" letter-spacing="-0.4" fill="${INK}">FusionStructure</text>`,
     `  <text x="61" y="49" font-family="'IBM Plex Mono',ui-monospace,monospace" font-size="9.5" letter-spacing="1.6" fill="#5C6A6F">MAKE COMPLEXITY LEGIBLE</text>`,
@@ -278,13 +279,13 @@ const run = async () => {
   written.push(
     await write(
       '../public/assets/brand/fusionstructure-mark.svg',
-      svgDocument(markGroup(INK, SIGNAL), { label: 'FusionStructure' }),
+      svgDocument(markGroup(INK, BRAND_DAY), { label: 'FusionStructure' }),
     ),
   );
   written.push(
     await write(
       '../public/assets/brand/fusionstructure-mark-inverse.svg',
-      svgDocument(markGroup(CHALK, SIGNAL), {
+      svgDocument(markGroup(CHALK, BRAND_NIGHT), {
         label: 'FusionStructure inverso',
       }),
     ),
@@ -296,7 +297,7 @@ const run = async () => {
         [
           `  <rect width="48" height="48" rx="10" fill="${INK}" />`,
           `  <g transform="translate(5 4) scale(0.79)">`,
-          markGroup(CHALK, SIGNAL),
+          markGroup(CHALK, BRAND_NIGHT),
           '  </g>',
         ].join('\n'),
         { label: 'FusionStructure' },
