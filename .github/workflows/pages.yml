@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  pages: write
 
 concurrency:
   group: landing-pages
@@ -51,3 +52,29 @@ jobs:
           git add -A
           git commit -m "deploy: landing ${GITHUB_SHA}"
           git push --force origin HEAD:gh-pages
+
+      - name: Enable GitHub Pages from gh-pages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          payload='{"source":{"branch":"gh-pages","path":"/"}}'
+          status="$(curl -sS -o pages-response.json -w "%{http_code}"             -X POST             -H "Accept: application/vnd.github+json"             -H "Authorization: Bearer $GH_TOKEN"             -H "X-GitHub-Api-Version: 2022-11-28"             "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages"             -d "$payload")"
+
+          cat pages-response.json || true
+
+          if [[ "$status" == "201" || "$status" == "204" ]]; then
+            echo "GitHub Pages enabled."
+            exit 0
+          fi
+
+          if [[ "$status" == "409" ]]; then
+            update_status="$(curl -sS -o pages-update-response.json -w "%{http_code}"               -X PUT               -H "Accept: application/vnd.github+json"               -H "Authorization: Bearer $GH_TOKEN"               -H "X-GitHub-Api-Version: 2022-11-28"               "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages"               -d "$payload")"
+            cat pages-update-response.json || true
+            [[ "$update_status" == "204" ]]
+            exit $?
+          fi
+
+          echo "Pages API returned HTTP $status."
+          exit 1
