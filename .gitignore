@@ -4,6 +4,12 @@ qa-artifacts/
 /capturas/
 /reports/evidence/
 /output/
+# Brandbook visual captures are local review artifacts; keep only the
+# reproducible summary in version control.
+brandbook-site/output/playwright/
+!brandbook-site/output/playwright/
+brandbook-site/output/playwright/*
+!brandbook-site/output/playwright/final-audit.json
 tmp/
 __pycache__/
 *.pyc
@@ -53,6 +59,7 @@ structureco-sites/
 *.tar.gz
 *.json.manifest
 *.part-*
+**/.DS_Store
 structureCo/
 structureCo-contexto-total-autocontenido-*/
 structureCo-documentacion-integral-*/
