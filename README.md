@@ -2,6 +2,8 @@
 
 Landing pública del ecosistema **FusionStructure**.
 
+**Sitio público:** https://fusionstructure.vercel.app
+
 Este repositorio contiene únicamente la superficie de presentación del ecosistema: identidad principal, propuesta de valor, catálogo de herramientas y enlaces hacia los productos independientes.
 
 ## Qué vive aquí
