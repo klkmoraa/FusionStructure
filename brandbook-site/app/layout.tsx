@@ -1,21 +1,26 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_BRANDBOOK_SITE_URL ??
+  'https://fusionstructure-brandbook.crdrawin.chatgpt.site/';
+
+const absoluteAsset = (path: string) =>
+  new URL(path.replace(/^\//, ''), siteUrl).toString();
+
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    'https://fusionstructure-brandbook.crdrawin.chatgpt.site',
-  ),
+  metadataBase: new URL(siteUrl),
   title: 'FusionStructure · Brandbook',
   description:
-    'Sistema visual y verbal de FusionStructure: marca, color con significado, movimiento que explica y un catálogo de 25 superficies con su estado real.',
-  icons: { icon: '/favicon.svg' },
+    'Sistema visual y verbal de FusionStructure: marca aqua, color con significado, movimiento que explica y un catálogo de 25 superficies con su estado real.',
+  icons: { icon: absoluteAsset('/favicon.svg') },
   openGraph: {
     title: 'FusionStructure · Brandbook',
     description:
       'Make complexity legible. Marca, señales, movimiento, voz y 25 superficies con estado verificable.',
     images: [
       {
-        url: '/og.png',
+        url: absoluteAsset('/og.png'),
         width: 1536,
         height: 1024,
         alt: 'Sistema visual de FusionStructure',
@@ -27,7 +32,7 @@ export const metadata: Metadata = {
     title: 'FusionStructure · Brandbook',
     description:
       'Make complexity legible. Marca, señales, movimiento, voz y 25 superficies con estado verificable.',
-    images: ['/og.png'],
+    images: [absoluteAsset('/og.png')],
   },
 };
 

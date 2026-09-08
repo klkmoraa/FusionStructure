@@ -8,6 +8,7 @@ import {
   MOTION_TOKENS,
   type MotionDemoId,
 } from '../brand/system';
+import { publicAsset } from '../brand/paths';
 import { CopyChip, RuleStrip, SectionIntro, useBrandbook } from '../brand/ui';
 
 export const Motion = () => {
@@ -168,11 +169,11 @@ export const Motion = () => {
             loop
             playsInline
             preload="metadata"
-            poster="/motion/fusionstructure-brand-motion-poster.png"
+            poster={publicAsset('/motion/fusionstructure-brand-motion-poster.png')}
             aria-label="Animación de marca de FusionStructure"
           >
             <source
-              src="/motion/fusionstructure-brand-motion.mp4"
+              src={publicAsset('/motion/fusionstructure-brand-motion.mp4')}
               type="video/mp4"
             />
           </video>

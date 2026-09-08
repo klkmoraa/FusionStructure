@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 import { MiniDiagram } from '../brand/marks';
-import { NEUTRALS, SIGNALS } from '../brand/system';
+import { BRAND_COLORS, NEUTRALS, SIGNALS } from '../brand/system';
 import { FAMILY_COLORS, type FamilyId } from '../brand/generated/palette';
 import { FAMILY_META } from '../brand/catalog';
 import { CopyChip, RuleStrip, SectionIntro, useBrandbook } from '../brand/ui';
@@ -40,6 +40,8 @@ export const Color = () => {
   const { theme, activeSignal, setActiveSignal } = useBrandbook();
   const isNight = theme === 'noche';
   const paper = isNight ? '#14171A' : '#F7F6F1';
+  const brandHex = isNight ? BRAND_COLORS.night : BRAND_COLORS.day;
+  const brandRatio = contrastRatio(brandHex, paper);
 
   const signal = SIGNALS.find((item) => item.id === activeSignal) ?? SIGNALS[0];
   const signalHex = isNight ? signal.night : signal.day;
@@ -57,10 +59,30 @@ export const Color = () => {
     <section id="color" className="section color">
       <SectionIntro
         index="04"
-        eyebrow="Color · tres escalas"
+        eyebrow="Color · marca + tres escalas"
         title="El color explica una relación o no se usa."
-        body="Las señales pertenecen al resultado, las familias a la herramienta y los estados a la verdad del producto. Los fondos se quedan quietos para que las tres escalas sigan significando algo."
+        body="El aqua identifica FusionStructure. Las señales pertenecen al resultado, las familias a la herramienta y los estados a la verdad del producto. Separar marca de semántica evita que un momento rojo parezca el color principal del sistema."
       />
+
+      <div className="brand-accent-card">
+        <div className="brand-accent-card__copy">
+          <span className="tag">Marca · estable</span>
+          <h3>Aqua estructural. Siempre marca, nunca resultado.</h3>
+          <p>
+            Navegación, foco, controles activos y el brazo de la marca usan
+            aqua. El rojo no es un acento de FusionStructure: queda reservado a
+            Momento y a la familia Modelo cuando ese significado corresponde.
+          </p>
+        </div>
+        <div className="brand-accent-card__preview">
+          <small>{BRAND_COLORS.label}</small>
+          <strong>{brandHex}</strong>
+          <code>{BRAND_COLORS.token}</code>
+          <small>
+            {brandRatio.toFixed(2)}:1 · {ratioLabel(brandRatio)}
+          </small>
+        </div>
+      </div>
 
       <div className="signal-lab">
         <div

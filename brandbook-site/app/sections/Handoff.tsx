@@ -2,6 +2,7 @@
 
 import { Check, Download, FileDown } from 'lucide-react';
 import {
+  BRAND_COLORS,
   EASINGS,
   HANDOFF_CHECKS,
   MATERIAL_TOKENS,
@@ -12,36 +13,37 @@ import {
 import { FAMILY_COLORS, type FamilyId } from '../brand/generated/palette';
 import { FAMILY_META, TOOLS } from '../brand/catalog';
 import { BrandMark } from '../brand/marks';
+import { publicAsset } from '../brand/paths';
 import { CopyChip, SectionIntro, useBrandbook } from '../brand/ui';
 
 const BRAND_ASSETS = [
   {
-    href: '/brand/fusionstructure-mark.svg',
-    name: 'Marca · señal',
-    note: 'uso general, brazo en color de señal',
+    href: publicAsset('/brand/fusionstructure-mark.svg'),
+    name: 'Marca · aqua',
+    note: 'uso general, brazo en aqua de marca',
   },
   {
-    href: '/brand/fusionstructure-mark-mono.svg',
+    href: publicAsset('/brand/fusionstructure-mark-mono.svg'),
     name: 'Marca · mono',
     note: 'documento, impresión y grabado',
   },
   {
-    href: '/brand/fusionstructure-mark-inverse.svg',
+    href: publicAsset('/brand/fusionstructure-mark-inverse.svg'),
     name: 'Marca · inversa',
     note: 'fondos oscuros',
   },
   {
-    href: '/brand/fusionstructure-app-icon.svg',
+    href: publicAsset('/brand/fusionstructure-app-icon.svg'),
     name: 'Icono de aplicación',
     note: 'carbón con esquina de 11u',
   },
   {
-    href: '/brand/fusionstructure-lockup.svg',
+    href: publicAsset('/brand/fusionstructure-lockup.svg'),
     name: 'Firma horizontal',
     note: 'marca, nombre y principio',
   },
   {
-    href: '/favicon.svg',
+    href: publicAsset('/favicon.svg'),
     name: 'Favicon',
     note: '16 px en adelante',
   },
@@ -49,6 +51,9 @@ const BRAND_ASSETS = [
 
 const buildTokenSheet = () => {
   const lines: string[] = [':root {'];
+  lines.push(
+    `  ${BRAND_COLORS.token}: ${BRAND_COLORS.day}; /* noche ${BRAND_COLORS.night} */`,
+  );
   for (const signal of SIGNALS) {
     lines.push(`  ${signal.token}: ${signal.day}; /* noche ${signal.night} */`);
   }

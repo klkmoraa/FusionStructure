@@ -115,7 +115,7 @@ export const Identity = () => {
             ))}
           </div>
           <p>
-            A 16 px el brazo de señal sigue siendo legible porque nunca baja de
+            A 16 px el brazo aqua sigue siendo legible porque nunca baja de
             1 px real. Por debajo de 16 px se usa el icono de aplicación, no la
             marca suelta.
           </p>
@@ -145,8 +145,8 @@ export const Identity = () => {
           <div className="identity__variant-grid">
             <div className="variant variant--signal">
               <BrandMark size={44} tone="signal" />
-              <strong>Señal</strong>
-              <small>uso general</small>
+              <strong>Aqua</strong>
+              <small>acento de marca · uso general</small>
             </div>
             <div className="variant variant--mono">
               <BrandMark size={44} tone="mono" />

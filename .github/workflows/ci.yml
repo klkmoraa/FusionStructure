@@ -34,3 +34,40 @@ jobs:
       # no significa que la rama esté sana, y partirlo invita a leerlo así.
       - name: lint · typecheck · test · build
         run: npm run check
+
+
+  brandbook:
+    name: Brandbook · lint + export
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: brandbook-site
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.13.0'
+          cache: npm
+          cache-dependency-path: brandbook-site/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Regenerar activos de marca
+        run: npm run brand:assets
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Construir versión estática para GitHub Pages
+        env:
+          NEXT_PUBLIC_BRANDBOOK_BASE_PATH: /FusionStructure/brandbook
+        run: npm run build:pages
+
+      - name: Verificar salida portable
+        run: |
+          test -f dist-pages/index.html
+          test -f dist-pages/brand/fusionstructure-mark.svg
+          test -f dist-pages/mockups/device-day-studio.png
+          test -f dist-pages/motion/fusionstructure-brand-motion.mp4
