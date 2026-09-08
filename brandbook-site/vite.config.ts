@@ -34,17 +34,6 @@ const localBindingConfig = {
 };
 
 export default defineConfig(async () => {
-  // GitHub Pages necesita sólo el export estático; el hosting normal conserva
-  // Sites + Cloudflare y sus bindings.
-  if (process.env.BRANDBOOK_STATIC_EXPORT === '1') {
-    const publicBase =
-      process.env.NEXT_PUBLIC_BRANDBOOK_BASE_PATH?.replace(/\/$/, '') ?? '';
-    return {
-      base: publicBase ? `${publicBase}/` : '/',
-      plugins: [vinext()],
-    };
-  }
-
   // Keep Wrangler and Miniflare state project-local. These are non-secret tool
   // settings; application environment belongs in ignored `.env*` files.
   process.env.WRANGLER_WRITE_LOGS ??= 'false';
