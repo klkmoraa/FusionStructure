@@ -69,9 +69,6 @@ jobs:
 
       - name: Verificar salida portable
         run: |
-          echo "::group::Inventario de dist/client"
-          find dist/client -maxdepth 5 -type f | sort | sed -n '1,220p'
-          echo "::endgroup::"
-          test -f dist/client/FusionStructure/brandbook/index.html
-          test -f dist/client/FusionStructure/brandbook/brand/fusionstructure-mark.svg
-          test -f dist/client/FusionStructure/brandbook/mockups/device-day-studio.png
+          test -f dist/client/index.html
+          test -f dist/client/brand/fusionstructure-mark.svg
+          test -f dist/client/mockups/device-day-studio.png
