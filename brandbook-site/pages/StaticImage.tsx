@@ -1,4 +1,4 @@
-import type { ImgHTMLAttributes } from 'react';
+import { createElement, type ImgHTMLAttributes } from 'react';
 
 type StaticImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   unoptimized?: boolean;
@@ -16,5 +16,8 @@ export default function StaticImage({
   void priority;
   void fill;
 
-  return <img {...imageProps} />;
+  return createElement('img', {
+    ...imageProps,
+    alt: imageProps.alt ?? '',
+  });
 }
