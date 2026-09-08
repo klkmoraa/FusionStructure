@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { ImageIcon } from 'lucide-react';
+import { publicAsset } from '../brand/paths';
 import { RuleStrip, SectionIntro } from '../brand/ui';
 
 const MOCKUPS = [
@@ -9,7 +10,7 @@ const MOCKUPS = [
     id: 'day-analysis',
     mode: 'dia',
     format: 'landscape',
-    src: '/mockups/fusionstructure-desktop-day.png',
+    src: publicAsset('/mockups/fusionstructure-desktop-day.png'),
     title: 'Mesa de análisis',
     note: 'Modelo, resultados e inspector comparten un solo campo de trabajo.',
   },
@@ -17,7 +18,7 @@ const MOCKUPS = [
     id: 'day-projects',
     mode: 'dia',
     format: 'landscape',
-    src: '/mockups/day-project-hub.png',
+    src: publicAsset('/mockups/day-project-hub.png'),
     title: 'Continuidad de proyecto',
     note: 'Fases, versiones y siguiente acción sin convertir el inicio en un tablero genérico.',
   },
@@ -25,7 +26,7 @@ const MOCKUPS = [
     id: 'day-model',
     mode: 'dia',
     format: 'landscape',
-    src: '/mockups/day-model-loads.png',
+    src: publicAsset('/mockups/day-model-loads.png'),
     title: 'Modelado directo',
     note: 'La carga nace del elemento seleccionado y la profundidad explica la relación.',
   },
@@ -33,7 +34,7 @@ const MOCKUPS = [
     id: 'day-compare',
     mode: 'dia',
     format: 'landscape',
-    src: '/mockups/day-results-compare.png',
+    src: publicAsset('/mockups/day-results-compare.png'),
     title: 'Comparación estructural',
     note: 'Las señales se alinean por significado: comparar no obliga a traducir.',
   },
@@ -41,7 +42,7 @@ const MOCKUPS = [
     id: 'day-field',
     mode: 'dia',
     format: 'portrait',
-    src: '/mockups/day-mobile-field-review.png',
+    src: publicAsset('/mockups/day-mobile-field-review.png'),
     title: 'Revisión de campo',
     note: 'Una incidencia, su evidencia y un siguiente paso visible en móvil.',
   },
@@ -49,7 +50,7 @@ const MOCKUPS = [
     id: 'night-model',
     mode: 'noche',
     format: 'landscape',
-    src: '/mockups/night-model-editor.png',
+    src: publicAsset('/mockups/night-model-editor.png'),
     title: 'Modelo en carbón',
     note: 'Carbón neutro con superficies elevadas y señal de alta legibilidad.',
   },
@@ -57,7 +58,7 @@ const MOCKUPS = [
     id: 'night-results',
     mode: 'noche',
     format: 'landscape',
-    src: '/mockups/night-results-explorer.png',
+    src: publicAsset('/mockups/night-results-explorer.png'),
     title: 'Explorador de resultados',
     note: 'Diagramas sincronizados, estación seleccionada y deformada vinculada.',
   },
@@ -65,7 +66,7 @@ const MOCKUPS = [
     id: 'night-trace',
     mode: 'noche',
     format: 'landscape',
-    src: '/mockups/night-decision-trace.png',
+    src: publicAsset('/mockups/night-decision-trace.png'),
     title: 'Traza de decisión',
     note: 'Modelo, análisis, incidencia y evidencia dentro de una secuencia reversible.',
   },
@@ -73,7 +74,7 @@ const MOCKUPS = [
     id: 'night-report',
     mode: 'noche',
     format: 'landscape',
-    src: '/mockups/night-report-evidence.png',
+    src: publicAsset('/mockups/night-report-evidence.png'),
     title: 'Reporte y procedencia',
     note: 'El documento conserva vínculos visibles con modelo, resultado y versión.',
   },
@@ -81,7 +82,7 @@ const MOCKUPS = [
     id: 'night-mobile',
     mode: 'noche',
     format: 'portrait',
-    src: '/mockups/night-mobile-results.png',
+    src: publicAsset('/mockups/night-mobile-results.png'),
     title: 'Resultados móviles',
     note: 'Foco táctil y significado estructural en poco espacio.',
   },
@@ -104,7 +105,7 @@ export const References = () => (
         </div>
         <Image
           unoptimized
-          src="/mockups/device-day-studio.png"
+          src={publicAsset('/mockups/device-day-studio.png')}
           alt="FusionStructure en monitor y teléfono, modo día"
           width={1584}
           height={992}
@@ -118,7 +119,7 @@ export const References = () => (
         </div>
         <Image
           unoptimized
-          src="/mockups/device-night-studio.png"
+          src={publicAsset('/mockups/device-night-studio.png')}
           alt="FusionStructure en monitor y teléfono, modo noche"
           width={1584}
           height={992}
