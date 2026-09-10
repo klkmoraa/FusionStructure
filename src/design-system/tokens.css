@@ -200,12 +200,12 @@
      dice cuánto se puede confiar en ella, que en un producto experimental es
      información de primer orden y no una etiqueta decorativa. */
   --fs-family-nucleo: #3f4a50;
-  --fs-family-analisis: var(--fs-signal-axial);
-  --fs-family-modelo: var(--fs-signal-moment);
-  --fs-family-civil: var(--fs-signal-shear);
-  --fs-family-proyecto: var(--fs-signal-attention);
-  --fs-family-interop: var(--fs-signal-deformed);
-  --fs-family-aprendizaje: var(--fs-signal-yield);
+  --fs-family-analisis: var(--fs-brandbook-family-analisis);
+  --fs-family-modelo: var(--fs-brandbook-family-modelo);
+  --fs-family-civil: var(--fs-brandbook-family-civil);
+  --fs-family-proyecto: var(--fs-brandbook-family-proyecto);
+  --fs-family-interop: var(--fs-brandbook-family-interop);
+  --fs-family-aprendizaje: var(--fs-brandbook-family-aprendizaje);
 
   --fs-status-disponible: var(--fs-signal-shear);
   --fs-status-experimental: var(--fs-signal-attention);
@@ -280,6 +280,26 @@
   --sc-color-action-subtle: var(--fs-gray-50);
   --sc-color-brand: var(--fs-gray-950);
   --sc-color-brand-secondary: var(--fs-gray-700);
+  --fs-brand-accent: #1aa57a;
+  --sc-color-brand-accent: var(--fs-brand-accent);
+
+  /* Valores publicados por el brandbook web para superficies editoriales y
+     familias de herramienta. Se mantienen separados de las señales del
+     solver porque aquí el color describe pertenencia, no un resultado. */
+  --fs-brandbook-signal-axial: #0f95d1;
+  --fs-brandbook-signal-moment: #ed4b46;
+  --fs-brandbook-signal-shear: #468c09;
+  --fs-brandbook-signal-deformed: #8b5cf6;
+  --fs-brandbook-signal-attention: #d9720a;
+  --fs-brandbook-family-analisis: #ed4b46;
+  --fs-brandbook-family-modelo: #7657d5;
+  --fs-brandbook-family-civil: #468c09;
+  --fs-brandbook-family-proyecto: #d9720a;
+  --fs-brandbook-family-aprendizaje: #c94a8f;
+  --fs-brandbook-family-interop: #3a72e3;
+  --fs-brandbook-status-disponible: #277654;
+  --fs-brandbook-status-experimental: #8a6110;
+  --fs-brandbook-status-planeado: #5c6a6f;
   --sc-color-accent-blue-soft: var(--fs-gray-50);
   --sc-color-accent-violet-soft: var(--fs-gray-50);
 
@@ -942,6 +962,19 @@
 
   /* Los dos neutrales de familia y estado que no cuelgan de una señal. */
   --fs-family-nucleo: #aeb9be;
+  --fs-brandbook-signal-axial: #63c5ff;
+  --fs-brandbook-signal-moment: #ff8e80;
+  --fs-brandbook-signal-shear: #55c990;
+  --fs-brandbook-signal-deformed: #a990ff;
+  --fs-brandbook-signal-attention: #f3c553;
+  --fs-brandbook-family-analisis: #ff8e80;
+  --fs-brandbook-family-modelo: #a990ff;
+  --fs-brandbook-family-civil: #72cf4a;
+  --fs-brandbook-family-proyecto: #f3c553;
+  --fs-brandbook-family-aprendizaje: #f07db5;
+  --fs-brandbook-family-interop: #72a1ff;
+  --fs-brandbook-status-disponible: #55c990;
+  --fs-brandbook-status-experimental: #f3c553;
   --fs-status-planeado: #8b9599;
   --fs-status-no-comprometido: #5e6a6f;
 

@@ -447,7 +447,9 @@ describe('arquitectura · una sola verdad, sin capa de parches', () => {
   });
 
   it('la paleta de los dos productos de origen no queda en ninguna hoja', () => {
-    const heredados = ['#007d61', '#168a6c', '#468c09', '#65a323', '#2f73c8', '#d85c4a', '#7657d5', '#c65f86', '#f3eee4', '#f7f1e8', '#fbf8f2', '#102b2d', '#ded8ce'];
+    // `#468c09` y `#7657d5` son ahora valores canónicos del brandbook web
+    // (familias Civil y Modelo), no residuos de los productos de origen.
+    const heredados = ['#007d61', '#168a6c', '#65a323', '#2f73c8', '#d85c4a', '#c65f86', '#f3eee4', '#f7f1e8', '#fbf8f2', '#102b2d', '#ded8ce'];
     const encontrados: string[] = [];
     for (const hoja of rutas()) {
       const texto = contenido(hoja).toLowerCase();
