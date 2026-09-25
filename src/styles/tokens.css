@@ -1,0 +1,227 @@
+/* FusionStructure · tokens 2.0.0
+ * Generado por scripts/build-tokens.mjs desde tokens/tokens.json. No editar a mano.
+ * Día por defecto; Noche con data-theme="noche" o con el sistema en oscuro.
+ * Calma (data-motion="calma") y reduced-motion bajan todas las duraciones a 1 ms. */
+
+:root {
+  color-scheme: light;
+  --fs-font-display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --fs-font-ui: Inter, ui-sans-serif, system-ui, sans-serif;
+  --fs-font-data: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --fs-text-display: clamp(46px, 7vw, 108px);
+  --fs-leading-display: 0.94;
+  --fs-text-title: clamp(28px, 3.4vw, 44px);
+  --fs-leading-title: 1.08;
+  --fs-text-subtitle: 20px;
+  --fs-leading-subtitle: 1.3;
+  --fs-text-body: 16px;
+  --fs-leading-body: 1.55;
+  --fs-text-ui: 14px;
+  --fs-leading-ui: 1.4;
+  --fs-text-data: 12.5px;
+  --fs-leading-data: 1.35;
+  --fs-text-label: 10.5px;
+  --fs-leading-label: 1.2;
+  --fs-space-1: 4px;
+  --fs-space-2: 8px;
+  --fs-space-3: 12px;
+  --fs-space-4: 16px;
+  --fs-space-5: 24px;
+  --fs-space-6: 32px;
+  --fs-space-7: 48px;
+  --fs-space-8: 64px;
+  --fs-radius-xs: 6px;
+  --fs-radius-sm: 12px;
+  --fs-radius-md: 18px;
+  --fs-radius-lg: 24px;
+  --fs-radius-pill: 999px;
+  --fs-instant: 90ms;
+  --fs-quick: 140ms;
+  --fs-bridge: 200ms;
+  --fs-reveal: 280ms;
+  --fs-trace: 520ms;
+  --fs-slow: 720ms;
+  --fs-pulse: 1400ms;
+  --fs-ease-out: cubic-bezier(.2, .8, .2, 1);
+  --fs-ease-in: cubic-bezier(.5, 0, .75, 0);
+  --fs-ease-firm: cubic-bezier(.65, 0, .35, 1);
+  --fs-neutral-000: #FFFEFA;
+  --fs-neutral-050: #F7F6F1;
+  --fs-neutral-100: #EDEFE9;
+  --fs-neutral-200: #DDE2DC;
+  --fs-neutral-300: #C6CDC6;
+  --fs-neutral-400: #A7B1A9;
+  --fs-neutral-500: #7E8A84;
+  --fs-neutral-600: #5C6A6F;
+  --fs-neutral-700: #3F4A50;
+  --fs-neutral-900: #14171A;
+  --fs-paper: var(--fs-neutral-050);
+  --fs-surface: var(--fs-neutral-000);
+  --fs-sunken: var(--fs-neutral-100);
+  --fs-line-soft: var(--fs-neutral-200);
+  --fs-line: var(--fs-neutral-300);
+  --fs-line-strong: var(--fs-neutral-400);
+  --fs-ink: var(--fs-neutral-900);
+  --fs-ink-strong: var(--fs-neutral-700);
+  --fs-ink-2: var(--fs-neutral-600);
+  --fs-brand-accent: #1AA57A;
+  --fs-brand-ink: #13805E;
+  --fs-brand-on-accent: #0E1113;
+  --fs-family-analisis: #ED4B46;
+  --fs-family-aprendizaje: #C94A8F;
+  --fs-family-civil: #468C09;
+  --fs-family-conexiones: #3A72E3;
+  --fs-family-modelo: #7657D5;
+  --fs-family-nucleo: #1AA57A;
+  --fs-family-proyecto: #D9720A;
+  --fs-signal-attention: #D9720A;
+  --fs-signal-axial: #0F95D1;
+  --fs-signal-deformed: #8B5CF6;
+  --fs-signal-moment: #ED4B46;
+  --fs-signal-shear: #468C09;
+  --fs-signal-yield: #D85AC9;
+  --fs-status-available: #277654;
+  --fs-status-experimental: #8A6110;
+  --fs-status-planned: #5C6A6F;
+  --fs-status-uncommitted: #A7B1A9;
+  --fs-light-highlight: rgb(255 255 255 / 85%);
+  --fs-light-shade: rgb(20 23 26 / 14%);
+  --fs-light-shade-soft: rgb(20 23 26 / 8%);
+  --fs-light-shade-strong: rgb(20 23 26 / 22%);
+  --fs-shadow-inset: inset 2px 2.5px 5px var(--fs-light-shade), inset -1.5px -1.5px 3px var(--fs-light-highlight);
+  --fs-shadow-raised: 2px 4px 7px -1px var(--fs-light-shade), 1px 1px 2px var(--fs-light-shade), inset 1.5px 1.5px 2px var(--fs-light-highlight), inset -2px -2px 4px var(--fs-light-shade-soft);
+  --fs-shadow-float: 4px 8px 14px -2px var(--fs-light-shade-strong), 1px 2px 4px var(--fs-light-shade), inset 1.5px 1.5px 2px var(--fs-light-highlight), inset -2px -2px 4px var(--fs-light-shade-soft);
+  --fs-shadow-sheet: 0 -6px 12px -2px var(--fs-light-shade-strong), inset 1px 1px 2px var(--fs-light-highlight);
+  --fs-shadow-lifted: 5px 10px 16px -2px var(--fs-light-shade-strong), 2px 3px 5px var(--fs-light-shade), inset 2px 2px 3px var(--fs-light-highlight);
+  --fs-shadow-selected: inset 2px 2.5px 5px var(--fs-light-shade), inset -1px -1px 2px var(--fs-light-highlight), 0 0 0 1.5px var(--fs-brand-accent);
+}
+
+:root[data-theme="noche"] {
+  color-scheme: dark;
+  --fs-neutral-000: #0E1113;
+  --fs-neutral-050: #14171A;
+  --fs-neutral-100: #1B1F22;
+  --fs-neutral-200: #252A2E;
+  --fs-neutral-300: #333A3E;
+  --fs-neutral-400: #465055;
+  --fs-neutral-500: #5E6A6F;
+  --fs-neutral-600: #8B9599;
+  --fs-neutral-700: #B4BDC0;
+  --fs-neutral-900: #F2F4F3;
+  --fs-paper: var(--fs-neutral-050);
+  --fs-surface: var(--fs-neutral-100);
+  --fs-sunken: var(--fs-neutral-000);
+  --fs-line-soft: var(--fs-neutral-200);
+  --fs-line: var(--fs-neutral-300);
+  --fs-line-strong: var(--fs-neutral-400);
+  --fs-ink: var(--fs-neutral-900);
+  --fs-ink-strong: var(--fs-neutral-700);
+  --fs-ink-2: var(--fs-neutral-600);
+  --fs-brand-accent: #1AA57A;
+  --fs-brand-ink: #1AA57A;
+  --fs-brand-on-accent: #0E1113;
+  --fs-family-analisis: #FF8E80;
+  --fs-family-aprendizaje: #F07DB5;
+  --fs-family-civil: #72CF4A;
+  --fs-family-conexiones: #72A1FF;
+  --fs-family-modelo: #A990FF;
+  --fs-family-nucleo: #1AA57A;
+  --fs-family-proyecto: #F3C553;
+  --fs-signal-attention: #F3C553;
+  --fs-signal-axial: #63C5FF;
+  --fs-signal-deformed: #9B87FF;
+  --fs-signal-moment: #FF8E80;
+  --fs-signal-shear: #55C990;
+  --fs-signal-yield: #EF7AB9;
+  --fs-status-available: #55C990;
+  --fs-status-experimental: #F3C553;
+  --fs-status-planned: #8B9599;
+  --fs-status-uncommitted: #5E6A6F;
+  --fs-light-highlight: rgb(255 255 255 / 16%);
+  --fs-light-shade: rgb(0 0 0 / 55%);
+  --fs-light-shade-soft: rgb(0 0 0 / 35%);
+  --fs-light-shade-strong: rgb(0 0 0 / 70%);
+  --fs-shadow-inset: inset 2px 2.5px 5px var(--fs-light-shade), inset -1.5px -1.5px 3px var(--fs-light-highlight);
+  --fs-shadow-raised: 2px 4px 7px -1px var(--fs-light-shade), 1px 1px 2px var(--fs-light-shade), inset 1.5px 1.5px 2px var(--fs-light-highlight), inset -2px -2px 4px var(--fs-light-shade-soft);
+  --fs-shadow-float: 4px 8px 14px -2px var(--fs-light-shade-strong), 1px 2px 4px var(--fs-light-shade), inset 1.5px 1.5px 2px var(--fs-light-highlight), inset -2px -2px 4px var(--fs-light-shade-soft);
+  --fs-shadow-sheet: 0 -6px 12px -2px var(--fs-light-shade-strong), inset 1px 1px 2px var(--fs-light-highlight);
+  --fs-shadow-lifted: 5px 10px 16px -2px var(--fs-light-shade-strong), 2px 3px 5px var(--fs-light-shade), inset 2px 2px 3px var(--fs-light-highlight);
+  --fs-shadow-selected: inset 2px 2.5px 5px var(--fs-light-shade), inset -1px -1px 2px var(--fs-light-highlight), 0 0 0 1.5px var(--fs-brand-accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="dia"]) {
+    color-scheme: dark;
+    --fs-neutral-000: #0E1113;
+    --fs-neutral-050: #14171A;
+    --fs-neutral-100: #1B1F22;
+    --fs-neutral-200: #252A2E;
+    --fs-neutral-300: #333A3E;
+    --fs-neutral-400: #465055;
+    --fs-neutral-500: #5E6A6F;
+    --fs-neutral-600: #8B9599;
+    --fs-neutral-700: #B4BDC0;
+    --fs-neutral-900: #F2F4F3;
+    --fs-paper: var(--fs-neutral-050);
+    --fs-surface: var(--fs-neutral-100);
+    --fs-sunken: var(--fs-neutral-000);
+    --fs-line-soft: var(--fs-neutral-200);
+    --fs-line: var(--fs-neutral-300);
+    --fs-line-strong: var(--fs-neutral-400);
+    --fs-ink: var(--fs-neutral-900);
+    --fs-ink-strong: var(--fs-neutral-700);
+    --fs-ink-2: var(--fs-neutral-600);
+    --fs-brand-accent: #1AA57A;
+    --fs-brand-ink: #1AA57A;
+    --fs-brand-on-accent: #0E1113;
+    --fs-family-analisis: #FF8E80;
+    --fs-family-aprendizaje: #F07DB5;
+    --fs-family-civil: #72CF4A;
+    --fs-family-conexiones: #72A1FF;
+    --fs-family-modelo: #A990FF;
+    --fs-family-nucleo: #1AA57A;
+    --fs-family-proyecto: #F3C553;
+    --fs-signal-attention: #F3C553;
+    --fs-signal-axial: #63C5FF;
+    --fs-signal-deformed: #9B87FF;
+    --fs-signal-moment: #FF8E80;
+    --fs-signal-shear: #55C990;
+    --fs-signal-yield: #EF7AB9;
+    --fs-status-available: #55C990;
+    --fs-status-experimental: #F3C553;
+    --fs-status-planned: #8B9599;
+    --fs-status-uncommitted: #5E6A6F;
+    --fs-light-highlight: rgb(255 255 255 / 16%);
+    --fs-light-shade: rgb(0 0 0 / 55%);
+    --fs-light-shade-soft: rgb(0 0 0 / 35%);
+    --fs-light-shade-strong: rgb(0 0 0 / 70%);
+    --fs-shadow-inset: inset 2px 2.5px 5px var(--fs-light-shade), inset -1.5px -1.5px 3px var(--fs-light-highlight);
+    --fs-shadow-raised: 2px 4px 7px -1px var(--fs-light-shade), 1px 1px 2px var(--fs-light-shade), inset 1.5px 1.5px 2px var(--fs-light-highlight), inset -2px -2px 4px var(--fs-light-shade-soft);
+    --fs-shadow-float: 4px 8px 14px -2px var(--fs-light-shade-strong), 1px 2px 4px var(--fs-light-shade), inset 1.5px 1.5px 2px var(--fs-light-highlight), inset -2px -2px 4px var(--fs-light-shade-soft);
+    --fs-shadow-sheet: 0 -6px 12px -2px var(--fs-light-shade-strong), inset 1px 1px 2px var(--fs-light-highlight);
+    --fs-shadow-lifted: 5px 10px 16px -2px var(--fs-light-shade-strong), 2px 3px 5px var(--fs-light-shade), inset 2px 2px 3px var(--fs-light-highlight);
+    --fs-shadow-selected: inset 2px 2.5px 5px var(--fs-light-shade), inset -1px -1px 2px var(--fs-light-highlight), 0 0 0 1.5px var(--fs-brand-accent);
+  }
+}
+
+:root[data-motion="calma"] {
+  --fs-instant: 1ms;
+  --fs-quick: 1ms;
+  --fs-bridge: 1ms;
+  --fs-reveal: 1ms;
+  --fs-trace: 1ms;
+  --fs-slow: 1ms;
+  --fs-pulse: 1ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --fs-instant: 1ms;
+    --fs-quick: 1ms;
+    --fs-bridge: 1ms;
+    --fs-reveal: 1ms;
+    --fs-trace: 1ms;
+    --fs-slow: 1ms;
+    --fs-pulse: 1ms;
+  }
+}

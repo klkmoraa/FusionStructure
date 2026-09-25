@@ -1,19 +1,19 @@
 import { describe, expect, it } from 'vitest';
-import { PRODUCT_IDS, PRODUCT_LINKS } from './productLinks';
+import { BRAND_CANON_LINK, BRANDBOOK_LINKS, PRODUCT_IDS, PRODUCT_LINKS } from './productLinks';
 
-describe('local Web product links', () => {
-  it('keeps the independently deployed products identified locally', () => {
-    expect(PRODUCT_IDS).toEqual({
-      fstructure: 'fstructure',
-      space3d: 'space3d',
-    });
+describe('enlaces de producto', () => {
+  it('expone sólo los productos que existen hoy', () => {
+    expect(PRODUCT_IDS).toEqual({ fstructure: 'fstructure', fmodel: 'fmodel' });
   });
 
-  it('keeps the public Solver 2D URL unchanged', () => {
+  it('apunta a las apps publicadas', () => {
     expect(PRODUCT_LINKS.fstructure).toBe('https://klkmoraa.github.io/fstructure/');
+    expect(PRODUCT_LINKS.fmodel).toBe('https://klkmoraa.github.io/FModel/');
   });
 
-  it('keeps the public Solver 3D URL available to the portal', () => {
-    expect(PRODUCT_LINKS.space3d).toBe('https://github.com/klkmoraa/fusionstructure-space3d');
+  it('enlaza cada brandbook de familia y el canon', () => {
+    expect(BRANDBOOK_LINKS.fstructure).toMatch(/fstructure\/tree\/main\/docs\/brandbook$/);
+    expect(BRANDBOOK_LINKS.fmodel).toMatch(/FModel\/tree\/main\/docs\/brandbook$/);
+    expect(BRAND_CANON_LINK).toBe('https://klkmoraa.github.io/FusionStructureBrand/');
   });
 });

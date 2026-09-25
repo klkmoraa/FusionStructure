@@ -1,46 +1,31 @@
-# FusionStructure
+# FusionStructure · Landing
 
-Landing pública del ecosistema **FusionStructure**.
+Landing pública del ecosistema FusionStructure.
 
-**Sitio público:** https://fusionstructure.vercel.app
+**Sitio:** https://fusionstructure.vercel.app
 
-Este repositorio contiene únicamente la superficie de presentación del ecosistema: identidad principal, propuesta de valor, catálogo de herramientas y enlaces hacia los productos independientes.
+- Presenta los productos que existen hoy, **FStructure** (Análisis) y **FModel** (Modelo), y el catálogo de 25 herramientas en 7 familias, cada una con su estado.
+- Día y Noche; español e inglés.
+- Los productos se enlazan desde `src/foundation/productLinks.ts`; nunca se importan.
 
-## Qué vive aquí
+## Marca
 
-- landing pública;
-- navegación y catálogo del ecosistema;
-- identidad necesaria para presentar la marca;
-- enlaces hacia Solver 2D, Space3D y futuras herramientas;
-- assets visuales exclusivos de la landing.
+El canon vive en [FusionStructureBrand](https://github.com/klkmoraa/FusionStructureBrand) ([sistema de diseño](https://klkmoraa.github.io/FusionStructureBrand/)).
+Esta landing copia de ahí `src/styles/tokens.css`, `public/favicon.svg` y `public/brand/`; un test comprueba que los tokens sean idénticos.
 
-## Qué no vive aquí
-
-- solver 2D;
-- solver 3D;
-- motores de análisis;
-- CAD/BIM;
-- brandbook completo;
-- contratos internos de otros productos.
-
-El brandbook y sus entregables viven en **[fusionstructure-web](https://github.com/klkmoraa/fusionstructure-web)**.
-
-## Desarrollo
+## Trabajo
 
 ```bash
 npm ci
-npm run check
 npm run dev
+npm run check   # lint, tipos, frontera de productos, pruebas y build
 ```
 
-## Arquitectura
+| Ruta | Qué es |
+| --- | --- |
+| `src/landing/` | Landing, catálogo (`catalog.ts`), textos ES/EN (`copy.ts`) y preferencias Día/Noche e idioma. |
+| `src/styles/tokens.css` | Copia exacta de los tokens del canon. |
+| `public/captures/` | Capturas reales de FStructure y FModel en Día y Noche. |
+| `scripts/check-local-foundation.mjs` | Falla si la landing depende de código de un producto. |
 
-La landing no importa código interno de los productos. Los destinos públicos se centralizan en `src/foundation/productLinks.ts` y se consumen únicamente como enlaces.
-
-## Estado
-
-Experimental. La landing describe el ecosistema sin presentar como terminadas capacidades que todavía están planeadas o en desarrollo.
-
-## Licencia
-
-MIT. Consulta [LICENSE](LICENSE).
+Se publica en Vercel, Netlify y en la rama `gh-pages` desde `main`.

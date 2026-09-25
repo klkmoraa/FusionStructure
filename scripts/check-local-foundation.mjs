@@ -9,7 +9,7 @@ const ARCHIVED_FOUNDATION_PACKAGES = new Set([
 ]);
 const WEB_PACKAGES = new Set(['@fusionstructure/web', 'fusionstructure-web']);
 const PRODUCT_SCOPE = '@fusionstructure/';
-const SIBLING_PRODUCT_PACKAGES = new Set(['fstructure', 'fusionstructure-space3d', 'space3d']);
+const SIBLING_PRODUCT_PACKAGES = new Set(['fstructure', 'fmodel', 'fusionstructure-space3d', 'space3d']);
 const DEPENDENCY_SECTIONS = [
   'dependencies',
   'devDependencies',
@@ -20,10 +20,10 @@ const BUNDLED_DEPENDENCY_SECTIONS = ['bundleDependencies', 'bundledDependencies'
 const SOURCE_EXTENSIONS = new Set(['.ts', '.tsx']);
 const TEST_SOURCE_PATTERN = /\.(?:test|spec)\.(?:ts|tsx)$/;
 const FOUNDATION_PATH_PATTERN = /(?:^|\/)\.\.\/(?:foundation|fusionstructure-foundation)(?:\/|$)/i;
-const SIBLING_PRODUCT_PATH_PATTERN = /(?:^|\/)\.\.\/(?:fstructure|fusionstructure-space3d|space3d)(?:\/|$)/i;
+const SIBLING_PRODUCT_PATH_PATTERN = /(?:^|\/)\.\.\/(?:fstructure|fmodel|fusionstructure-space3d|space3d)(?:\/|$)/i;
 const ABSOLUTE_LOCAL_PATH_PATTERN = /^(?:[a-z]:\/|\/)/i;
 const FOUNDATION_DIRECTORY_PATTERN = /(?:^|\/)(?:foundation|fusionstructure-foundation)(?:\/|$)/i;
-const PRODUCT_DIRECTORY_PATTERN = /(?:^|\/)(?:fstructure|space3d|fusionstructure-space3d|fusionstructure-web|web)(?:\/|$)/i;
+const PRODUCT_DIRECTORY_PATTERN = /(?:^|\/)(?:fstructure|fmodel|space3d|fusionstructure-space3d|fusionstructure-web|web)(?:\/|$)/i;
 const SCOPED_PRODUCT_PACKAGE_PATTERN = /@fusionstructure\/[a-z0-9._/-]+/gi;
 const NPM_ALIAS_PATTERN = /^npm:(@[^/@\s]+\/[^/@\s]+|[^@/\s]+)(?:@.*)?$/;
 const SPECIFIER_PATTERNS = [

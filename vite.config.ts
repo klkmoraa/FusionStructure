@@ -6,7 +6,7 @@ export default defineConfig({
   base: './',
   test: {
     include: ['src/**/*.{test,spec}.{ts,tsx}'],
-    exclude: ['**/node_modules/**', '**/dist/**', 'brandbook-site/**'],
+    exclude: ['**/node_modules/**', '**/dist/**'],
     environment: 'node',
   },
 });

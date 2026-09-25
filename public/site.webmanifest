@@ -1,33 +1,15 @@
 {
-  "name": "FusionStructure · Análisis estructural",
+  "name": "FusionStructure",
   "short_name": "FusionStructure",
-  "description": "FStructure, el solver 2D de FusionStructure: modelado, análisis y aprendizaje de estructuras planas.",
+  "description": "Herramientas de ingeniería en el navegador: FStructure y FModel.",
   "lang": "es",
   "start_url": ".",
   "scope": ".",
   "display": "standalone",
-  "orientation": "any",
   "background_color": "#F7F6F1",
-  "theme_color": "#14171A",
+  "theme_color": "#F7F6F1",
   "icons": [
-    {
-      "src": "favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ],
-  "file_handlers": [
-    {
-      "action": "./",
-      "accept": {
-        "application/x-structureco": [
-          ".structureco"
-        ],
-        "application/json": [
-          ".structureco.json"
-        ]
-      }
-    }
+    { "src": "brand/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
   ]
 }

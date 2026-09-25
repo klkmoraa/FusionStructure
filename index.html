@@ -3,14 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta
-      name="description"
-      content="FusionStructure · ecosistema experimental de herramientas para arquitectura, ingeniería civil, estructuras y construcción."
-    />
-    <meta name="theme-color" content="#0B7C7E" />
-    <link rel="icon" href="./favicon.svg" />
-    <title>FusionStructure · Ecosistema AEC</title>
+    <meta name="description" content="FusionStructure: herramientas de ingeniería en el navegador. FStructure para cálculo estructural y FModel para CAD 2D." />
+    <meta name="theme-color" content="#F7F6F1" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14171A" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap" />
+    <title>FusionStructure · Herramientas de ingeniería</title>
+    <script>
+      // Día / Noche antes del primer pintado, para que no parpadee.
+      try {
+        var saved = localStorage.getItem('fs-theme');
+        document.documentElement.dataset.theme = saved === 'dia' || saved === 'noche'
+          ? saved
+          : matchMedia('(prefers-color-scheme: dark)').matches ? 'noche' : 'dia';
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

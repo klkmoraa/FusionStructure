@@ -1,22 +1,20 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
+  "plugins": [
+    "react",
+    "typescript",
+    "oxc"
+  ],
   "ignorePatterns": [
-    "dist/**",
-    "output/**",
-    "FusionStructure/**",
-    "FusionStructure-backup-*/**",
-    "FusionStructure-worktrees/**",
-    "fusionstructure-sites/**",
-    "fusionstructure-sites-worktrees/**",
-    "brandbook-site/**",
-    "fusionstructure-design-review/**",
-    "fusionstructure-palette-lab/**",
-    "FusionStructure-contexto-*/**",
-    "FusionStructure-documentacion-integral-*/**"
+    "dist/**"
   ],
   "rules": {
     "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+    "react/only-export-components": [
+      "warn",
+      {
+        "allowConstantExport": true
+      }
+    ]
   }
 }

@@ -1,8 +1,17 @@
-@import './design-system/tokens.css';
-@import './design-system/fonts.css';
-@import './design-system/material.css';
-@import './design-system/components/ui.css';
+@import './styles/tokens.css';
 
-html, body, #root { min-block-size: 100%; margin: 0; }
-body { min-block-size: 100dvh; background: var(--sc-color-bg-app); }
-button, input, select, textarea { font: inherit; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  min-block-size: 100dvh;
+  margin: 0;
+  background: var(--fs-paper);
+  color: var(--fs-ink);
+  font-family: var(--fs-font-ui);
+  font-size: var(--fs-text-body);
+  line-height: var(--fs-leading-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font: inherit; }
