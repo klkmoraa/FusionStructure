@@ -4,7 +4,7 @@ Landing pública del ecosistema FusionStructure.
 
 **Sitio:** https://klkmoraa.github.io/FusionStructure/
 
-- Presenta los productos que existen hoy, **FStructure** (Análisis) y **FModel** (Modelo), y el catálogo de 25 herramientas en 7 familias, cada una con su estado.
+- Hero con la estructura clay animada, tarjetas ilustradas por herramienta, capturas reales de **FStructure** y **FModel**, el recorrido de continuidad y el catálogo de 25 herramientas en 7 familias, cada una con su estado.
 - Día y Noche; español e inglés.
 - Los productos se enlazan desde `src/foundation/productLinks.ts`; nunca se importan.
 
@@ -26,6 +26,7 @@ npm run check   # lint, tipos, frontera de productos, pruebas y build
 | `src/landing/` | Landing, catálogo (`catalog.ts`), textos ES/EN (`copy.ts`) y preferencias Día/Noche e idioma. |
 | `src/styles/tokens.css` | Copia exacta de los tokens del canon. |
 | `public/captures/` | Capturas reales de FStructure y FModel en Día y Noche. |
+| `public/clay/` | Ilustraciones clay: video y estructura del hero, herramientas (`tools/`) y recorrido (`story/`). |
 | `scripts/check-local-foundation.mjs` | Falla si la landing depende de código de un producto. |
 
 Cada push a `main` pasa `npm run check` y se publica en GitHub Pages (rama `gh-pages`).

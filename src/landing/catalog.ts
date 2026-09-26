@@ -25,6 +25,25 @@ export interface Tool {
   status: ToolStatus;
 }
 
+/** Herramientas con tarjeta ilustrada: imagen clay, qué hace y dónde se abre. */
+export interface Showcase {
+  code: string;
+  image: string | null;
+  summary: Localized;
+  product?: 'fstructure' | 'fmodel';
+}
+
+export const SHOWCASE: readonly Showcase[] = [
+  { code: 'FS-A01', image: 'solver-2d', product: 'fstructure', summary: { es: 'Marcos, vigas y armaduras: modela, resuelve y lee diagramas.', en: 'Frames, beams and trusses: model, solve and read diagrams.' } },
+  { code: 'FS-M01', image: 'cad', product: 'fmodel', summary: { es: 'Dibujo técnico preciso: capas, bloques, presentaciones, DXF y PDF.', en: 'Precise drafting: layers, blocks, layouts, DXF and PDF.' } },
+  { code: 'FS-A02', image: 'solver-3d', product: 'fstructure', summary: { es: 'Pórticos espaciales, modal y espectro de respuesta.', en: 'Space frames, modal and response spectrum.' } },
+  { code: 'FS-A03', image: 'finite-elements', product: 'fstructure', summary: { es: 'Placas en 2D con mallas de Gmsh y salida a VTK.', en: '2D plates with Gmsh meshes and VTK output.' } },
+  { code: 'FS-A04', image: null, product: 'fstructure', summary: { es: 'Concreto por NTC-CDMX, NSR-10 y E.060.', en: 'Concrete per NTC-CDMX, NSR-10 and E.060.' } },
+  { code: 'FS-L01', image: 'classroom', product: 'fstructure', summary: { es: 'Ejemplos guiados: predice antes de ver el resultado.', en: 'Guided examples: predict before you see the result.' } },
+  { code: 'FS-M02', image: 'bim', summary: { es: 'Modelo físico y analítico, relacionados.', en: 'Physical and analytical model, linked.' } },
+  { code: 'FS-P02', image: 'quantities-costs', summary: { es: 'Medir antes de presupuestar.', en: 'Measure before you estimate.' } },
+];
+
 export const FAMILIES: readonly Family[] = [
   { id: 'nucleo', prefix: 'FS', glyph: null, name: { es: 'Núcleo', en: 'Core' }, purpose: { es: 'Proyecto, unidades, versiones y evidencia.', en: 'Project, units, versions and evidence.' } },
   { id: 'analisis', prefix: 'FS-A', glyph: 'solver2d', name: { es: 'Análisis', en: 'Analysis' }, purpose: { es: 'Solvers, comprobaciones y calidad numérica.', en: 'Solvers, checks and numerical quality.' } },

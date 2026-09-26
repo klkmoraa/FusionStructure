@@ -32,16 +32,19 @@ describe('landing', () => {
     expect(within(families).getAllByRole('listitem')).toHaveLength(TOOLS.length);
   });
 
-  it('lista las cuatro herramientas de FStructure con su estado real', () => {
+  it('abre cada herramienta en su app y no promete las planeadas', () => {
     render(<App />);
-    const card = screen.getByRole('heading', { level: 3, name: 'FStructure' }).closest('article')!;
-    const rows = within(card).getAllByRole('listitem').map((row) => row.textContent);
-    expect(rows).toEqual([
-      'FStructure 2DFS-A01Disponible',
-      'Solver 3DFS-A02Experimental',
-      'Elementos finitosFS-A03Experimental',
-      'DiseñoFS-A04Experimental',
-    ]);
+    expect(screen.getByRole('link', { name: 'Abrir FStructure 2D' }).getAttribute('href')).toBe(PRODUCT_LINKS.fstructure);
+    expect(screen.getByRole('link', { name: 'Abrir FModel · CAD 2D' }).getAttribute('href')).toBe(PRODUCT_LINKS.fmodel);
+    expect(screen.getByRole('link', { name: 'Abrir Diseño' }).getAttribute('href')).toBe(PRODUCT_LINKS.fstructure);
+    expect(screen.getAllByText('En preparación')).toHaveLength(2);
+    expect(screen.queryByRole('link', { name: 'Abrir Modelo BIM' })).toBeNull();
+  });
+
+  it('es para usar las herramientas: no enlaza a brandbooks', () => {
+    render(<App />);
+    const hrefs = screen.getAllByRole('link').map((link) => link.getAttribute('href') ?? '');
+    expect(hrefs.some((href) => /brandbook|FusionStructureBrand/i.test(href))).toBe(false);
   });
 
   it('cambia a Noche y a inglés, y lo recuerda', () => {
