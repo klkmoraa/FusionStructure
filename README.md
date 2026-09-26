@@ -2,7 +2,7 @@
 
 Landing pública del ecosistema FusionStructure.
 
-**Sitio:** https://fusionstructure.vercel.app
+**Sitio:** https://klkmoraa.github.io/FusionStructure/
 
 - Presenta los productos que existen hoy, **FStructure** (Análisis) y **FModel** (Modelo), y el catálogo de 25 herramientas en 7 familias, cada una con su estado.
 - Día y Noche; español e inglés.
@@ -28,4 +28,4 @@ npm run check   # lint, tipos, frontera de productos, pruebas y build
 | `public/captures/` | Capturas reales de FStructure y FModel en Día y Noche. |
 | `scripts/check-local-foundation.mjs` | Falla si la landing depende de código de un producto. |
 
-Se publica en Vercel, Netlify y en la rama `gh-pages` desde `main`.
+Cada push a `main` pasa `npm run check` y se publica en GitHub Pages (rama `gh-pages`).
