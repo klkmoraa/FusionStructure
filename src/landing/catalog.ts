@@ -38,7 +38,7 @@ export const SHOWCASE: readonly Showcase[] = [
   { code: 'FS-M01', image: 'cad', product: 'fmodel', summary: { es: 'Dibujo técnico preciso: capas, bloques, presentaciones, DXF y PDF.', en: 'Precise drafting: layers, blocks, layouts, DXF and PDF.' } },
   { code: 'FS-A02', image: 'solver-3d', product: 'fstructure', summary: { es: 'Pórticos espaciales, modal y espectro de respuesta.', en: 'Space frames, modal and response spectrum.' } },
   { code: 'FS-A03', image: 'finite-elements', product: 'fstructure', summary: { es: 'Placas en 2D con mallas de Gmsh y salida a VTK.', en: '2D plates with Gmsh meshes and VTK output.' } },
-  { code: 'FS-A04', image: null, product: 'fstructure', summary: { es: 'Concreto por NTC-CDMX, NSR-10 y E.060.', en: 'Concrete per NTC-CDMX, NSR-10 and E.060.' } },
+  { code: 'FS-A04', image: 'design', product: 'fstructure', summary: { es: 'Concreto por NTC-CDMX, NSR-10 y E.060.', en: 'Concrete per NTC-CDMX, NSR-10 and E.060.' } },
   { code: 'FS-L01', image: 'classroom', product: 'fstructure', summary: { es: 'Ejemplos guiados: predice antes de ver el resultado.', en: 'Guided examples: predict before you see the result.' } },
   { code: 'FS-M02', image: 'bim', summary: { es: 'Modelo físico y analítico, relacionados.', en: 'Physical and analytical model, linked.' } },
   { code: 'FS-P02', image: 'quantities-costs', summary: { es: 'Medir antes de presupuestar.', en: 'Measure before you estimate.' } },

@@ -757,3 +757,6 @@ main {
   .fs-story__grid { grid-template-columns: minmax(0, 1fr); }
   .fs-closing__object { min-block-size: 220px; }
 }
+
+/* El video trae aire alrededor de la estructura: se muestra más grande que la imagen fija. */
+.fs-board__motion { inline-size: min(112%, 800px); max-inline-size: none; }

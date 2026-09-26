@@ -14,12 +14,11 @@ const ARM = 'M17 21h17v5L17 30z';
 const familyColor = (id: FamilyId) => `var(--fs-family-${id})`;
 const toolByCode = new Map(TOOLS.map((tool) => [tool.code, tool]));
 const STORY = [['project', 'nucleo'], ['analysis', 'analisis'], ['workspace', 'modelo'], ['delivery', 'proyecto']] as const;
-/** WebKit (Safari e iOS) no respeta la transparencia de WebM: ahí va la imagen fija. */
-const canPlayAlphaVideo = (): boolean => {
+/** WebKit (Safari e iOS) sólo respeta el alfa en HEVC; Chrome y Firefox, en WebM VP9. */
+const isWebKit = (): boolean => {
   if (typeof navigator === 'undefined') return false;
   const ua = navigator.userAgent;
-  if (/iPhone|iPad|iPod/.test(ua)) return false;
-  return !(/AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua));
+  return /iPhone|iPad|iPod/.test(ua) || (/AppleWebKit/.test(ua) && !/Chrome|Chromium|Edg|Android/.test(ua));
 };
 
 const INSIDE = [['fstructure', 'FStructure', 'analisis'], ['fmodel', 'FModel', 'modelo']] as const;
@@ -168,11 +167,11 @@ export const Landing = () => {
                 <circle className="fs-trace__dot fs-trace__dot--deformed" cx="100" cy="214" r="7" />
                 <circle className="fs-trace__dot fs-trace__dot--shear" cx="640" cy="292" r="7" />
               </svg>
-              {canPlayAlphaVideo() ? (
-                <video className="fs-board__motion" autoPlay loop muted playsInline preload="metadata" poster="./clay/hero-structure.webp" tabIndex={-1}>
-                  <source src="./clay/hero-loop.webm" type="video/webm" />
-                </video>
-              ) : null}
+              <video className="fs-board__motion" autoPlay loop muted playsInline preload="metadata" poster="./clay/hero-structure.webp" tabIndex={-1}>
+                {isWebKit()
+                  ? <source src="./clay/hero-loop.mov" type='video/quicktime; codecs="hvc1"' />
+                  : <source src="./clay/hero-loop.webm" type="video/webm" />}
+              </video>
               <img className="fs-board__still" src="./clay/hero-structure.webp" width={1280} height={853} alt="" />
               <span className="fs-axis fs-axis--x">X</span>
               <span className="fs-axis fs-axis--y">Y</span>
