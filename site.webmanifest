@@ -1,0 +1,15 @@
+{
+  "name": "FusionStructure",
+  "short_name": "FusionStructure",
+  "description": "Herramientas de ingeniería en el navegador: FStructure y FModel.",
+  "lang": "es",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#F7F6F1",
+  "theme_color": "#F7F6F1",
+  "icons": [
+    { "src": "brand/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
